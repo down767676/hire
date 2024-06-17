@@ -1,0 +1,10 @@
+<!-- src/app/components/tab/tab.component.html -->  
+  <!-- src/app/components/tab1/tab1.component.html -->
+<div>
+  <mat-form-field *ngFor="let field of searchFields; let i = index">
+    <input matInput [placeholder]="field" [(ngModel)]="selectedOptions[i]">
+  </mat-form-field>
+  <button mat-raised-button (click)="search()">Search</button>
+
+  <app-dynamic-grid [table_name]="table_name" [api_end_point]="api_end_point" [sp]="sp"></app-dynamic-grid>
+</div>
