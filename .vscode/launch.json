@@ -7,7 +7,12 @@
       "type": "chrome",
       "preLaunchTask": "npm: start",
       "url": "http://localhost:4200/",
-      "webRoot": "${workspaceFolder}"
+      "webRoot": "${workspaceFolder}",
+      "skipFiles": [
+        "node_modules/**/*.js",
+        "node_modules/**/*.map",
+        "<node_internals>/**/*.js"
+      ] 
     },
     {
       "name": "ng serve",

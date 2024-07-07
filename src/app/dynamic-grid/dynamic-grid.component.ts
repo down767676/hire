@@ -1,9 +1,12 @@
-import { Component, OnInit , Input} from '@angular/core';
+import { Component, OnInit , Input, Inject} from '@angular/core';
 import { GenericDataService } from '../services/generic-data.service';
 import { ColDef, GridOptions, GridApi } from 'ag-grid-community';
 import { GridConfigService } from '../grid-config.service';
 import { GridProperties } from '../grid-properties.interface';
 import { GridColumn } from '../grid-properties.interface';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ParamService } from 'src/app/services/param-service.service';
+
 
 
 @Component({
@@ -12,24 +15,29 @@ import { GridColumn } from '../grid-properties.interface';
   styleUrls: ['./dynamic-grid.component.css']
 })
 export class DynamicGridComponent implements OnInit {
-  @Input()  table_name:string;
-  @Input()  api_end_point:string;
-  @Input()  sp:string;
-  columnDefs: ColDef[] = [];
-  rowData: any[] = [];
-  isDataLoaded = false;
-  gridInited = false;
-  defaultColDef = {
+  @Input()  gridOptions:GridOptions;
+  @Input()  rowData:any[] = [];
+  @Input()  columnDefs:ColDef[] = [];
+  @Input()  defaultColDef = {
     editable: true,
     sortable: true,
     filter: true,
     resizable: true
   };
-  
-  gridOptions!: GridOptions;
-  private api!: GridApi;
 
-  constructor(private dataService: GenericDataService, private gridConfigService: GridConfigService) {
+  @Input() table_name: string;
+  @Input() api_end_point: string;
+  @Input() sp: string;
+  @Input() display_on_load: boolean;
+
+ 
+  private isLoaded : Boolean
+  private  isDataLoaded : boolean = false
+  private gridInited: boolean
+  // gridOptions!: GridOptions;
+  public api!: GridApi;
+
+  constructor(private dataService: GenericDataService, protected paramService:ParamService, protected garamService: ParamService, private gridConfigService: GridConfigService) {
     this.gridOptions = {
       onGridReady: (params) => this.onGridReady(params),
       onCellValueChanged: (event) => this.onCellValueChanged(event),
@@ -39,29 +47,68 @@ export class DynamicGridComponent implements OnInit {
     };
   }
 
+  // getAttributes()
+  // {
+  //   this.api_end_point = this.paramService.getApiEndPoint();
+  //   this.sp = this.paramService.getSp();
+    
+  //   this.table_name = this.paramService.getTableName();
+  //   this.display_on_load = this.paramService.getDisplayOnLoad()
+  // }
+
+  setAttributes(params:any)
+  {
+    this.api_end_point = params.get("api_end_point", null)
+    this.sp = params.get("sp", null)
+    this.table_name = params.get("api_entable_named_point", null)
+    this.display_on_load = params.get("api_end_point", null)
+   }
+
+
   ngOnInit(): void {
-    this.loadColumnProperties();
+    if (this.display_on_load)
+    {
+      this.loadGridColAndRows(null);
+    }
+    // this.getAttributes();
   }
 
-  loadData() {
-    // Load data
-    this.dataService.fetchData(this.api_end_point, this.sp, {}).subscribe(data => {
+  searchAndLoad(api_end_point, sp, params)
+  {
+    this.dataService.fetchData(api_end_point, sp, params).subscribe(data => {
       if (data.length > 0) {
-        // this.columnDefs = Object.keys(data[0]).map(key => ({ headerName: key, field: key, editable: true }));
         this.rowData = data;
         this.isDataLoaded = true;
-        // If the grid is already ready, set the data
         if (this.api) {
           this.api.updateGridOptions({ columnDefs: this.columnDefs});
           this.api.updateGridOptions({ rowData: this.rowData});
-          // this.api.setColumnDefs(this.columnDefs);
-          // this.api.setRowData(this.rowData);
         }
       }
     });
+  }  
+
+  loadFromRows(rowData)
+  {
+    if (this.api) {
+      this.rowData = rowData;
+      this.api.updateGridOptions({ columnDefs: this.columnDefs});
+      this.api.updateGridOptions({ rowData: this.rowData});
+    }
+  }  
+
+  loadData(rowData) {
+    if (rowData)
+    {
+      this.loadFromRows(rowData)
+    }
+    else
+    {
+      this.searchAndLoad(this.api_end_point, this.sp, {})
+    }
   }
 
-  loadColumnProperties() {
+  
+  loadGridColAndRows(rows:any) {
     this.gridConfigService.getGridProperties(this.table_name).subscribe((data: GridProperties) => {
       const  columnDefCheckBox :ColDef =     {
         headerCheckboxSelection: true,  // Display checkbox in the header
@@ -96,12 +143,13 @@ export class DynamicGridComponent implements OnInit {
       }
     );
     this.columnDefs.push(columnDefCheckBox)
-    this.loadData()
+    this.loadData(rows)
     }
     );
     }
 
 
+    
   onGridReady(params: any) {
     this.gridInited = true;
     this.api = params.api;

@@ -23,7 +23,16 @@ export class GenericDataService {
     return this.http.get(`${this.apiUrl}/${api_end_point}`, { params: httpParams });
   }
 
-  getTableData(): Observable<any[]> {
+
+
+  fetchDataPost(api_end_point: string, sp: string, params: any): Observable<any> {
+    // Add `sp` to the params object
+    const body = { ...params, sp };
+  
+    // Make the POST request with the body
+    return this.http.post(`${this.apiUrl}/${api_end_point}`, body);
+  }
+    getTableData(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/get_campaign`);
   }
 
