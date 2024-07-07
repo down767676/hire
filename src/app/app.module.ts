@@ -15,6 +15,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { GenericDataService } from './services/generic-data.service';
+import { JobTabComponent } from './components/job-tab/job-tab.component';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { GenericDataService } from './services/generic-data.service';
     AppComponent,
     DynamicGridComponent,
     CandidateTabComponent,
-    BaseTabComponent   
+    BaseTabComponent  ,
+    JobTabComponent 
   ],
   imports: [
     BrowserModule,
