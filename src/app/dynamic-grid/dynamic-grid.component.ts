@@ -1,4 +1,4 @@
-import { Component, OnInit , Input, Inject} from '@angular/core';
+import { Component, OnInit , Input, Inject, numberAttribute} from '@angular/core';
 import { GenericDataService } from '../services/generic-data.service';
 import { ColDef, GridOptions, GridApi } from 'ag-grid-community';
 import { GridConfigService } from '../grid-config.service';
@@ -6,8 +6,9 @@ import { GridProperties } from '../grid-properties.interface';
 import { GridColumn } from '../grid-properties.interface';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ParamService } from 'src/app/services/param-service.service';
+import { MultiSelectDropdownComponent } from '../components/multi-select-dropdown/multi-select-dropdown.component';
 
-
+// ../multi-select-dropdown/multi-select-dropdown.component'
 
 @Component({
   selector: 'app-dynamic-grid',
@@ -30,7 +31,11 @@ export class DynamicGridComponent implements OnInit {
   @Input() sp: string;
   @Input() display_on_load: boolean;
 
- 
+  multiSelectDropdownComponent = null
+
+  components = {
+    'multiSelectDropdownComponent': MultiSelectDropdownComponent
+}; 
   private isLoaded : Boolean
   private  isDataLoaded : boolean = false
   private gridInited: boolean
@@ -38,6 +43,8 @@ export class DynamicGridComponent implements OnInit {
   public api!: GridApi;
 
   constructor(private dataService: GenericDataService, protected paramService:ParamService, protected garamService: ParamService, private gridConfigService: GridConfigService) {
+ 
+
     this.gridOptions = {
       onGridReady: (params) => this.onGridReady(params),
       onCellValueChanged: (event) => this.onCellValueChanged(event),
@@ -132,13 +139,26 @@ export class DynamicGridComponent implements OnInit {
         }else if (col.type === 'date') {
           columnDef.cellEditor = 'agDateCellEditor';
         } 
+          else if (col.type === 'boolean') {
+          columnDef.cellEditor = 'agCheckboxCellEditor';
+          columnDef.cellRenderer= 'agCheckboxCellRenderer';
+        } 
         else if (col.type === 'dropdown') {
           columnDef.cellEditor = 'agSelectCellEditor';
           columnDef.cellEditorParams = {
             values: col.values
           };
         }
-
+        else if (col.type === 'multi-select-dropdown') {
+          columnDef.cellEditor = MultiSelectDropdownComponent;    
+          // columnDef.cellRenderer = "MultiSelectDropdownComponent";
+          // columnDef.cellEditorFramework = "MultiSelectDropdownComponent";
+          columnDef.editable = true
+          columnDef.cellEditorParams = {
+            procName: col.option_sp_name, // Stored procedure name for fetching options
+            codes:['1', '2']
+          };
+        }
         return columnDef;
       }
     );
@@ -149,7 +169,10 @@ export class DynamicGridComponent implements OnInit {
     }
 
 
-    
+    frameworkComponents = {
+      multiSelectDropdownComponent: MultiSelectDropdownComponent
+    };
+
   onGridReady(params: any) {
     this.gridInited = true;
     this.api = params.api;

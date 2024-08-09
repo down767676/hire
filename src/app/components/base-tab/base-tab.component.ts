@@ -28,6 +28,17 @@ export class BaseTabComponent implements OnInit {
   sp: string;
   display_on_load: boolean;
 
+  protected showPleaseWaitCursor:boolean = false;
+
+  
+  showWait():void{
+    this.showPleaseWaitCursor = true;
+  }
+
+  hideWait():void{
+    this.showPleaseWaitCursor = false;
+  }
+
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, protected paramService: ParamService, protected dataService: GenericDataService, protected popupService: PopupService, @Inject(BASE_CLASS_PARAMS) params:any) 
   {

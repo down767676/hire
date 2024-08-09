@@ -7,5 +7,6 @@
   </app-dynamic-grid>
 </div>
 <div style="text-align: center; margin-top: 20px;">
-  <button mat-raised-button color="primary" (click)="onClickSearchCandidates()">Search Candididates</button>
+  <!-- <button mat-raised-button color="primary" (click)="onClickSearchCandidates()" [class.cursor-wait]="showPleaseWaitCursor" [class.cursor-normal]="!showPleaseWaitCursor">Search Candididates</button> -->
+  <button mat-raised-button color="primary" (click)="onClickSearchCandidates()" [class.spinner]="showPleaseWaitCursor" [disabled]="showPleaseWaitCursor">Search Candididates</button>
 </div>

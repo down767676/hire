@@ -1,5 +1,5 @@
 // src/app/components/tab1/tab1.component.ts
-import { Component, Input, ViewChild, Inject } from '@angular/core';
+import { Component, Input, ViewChild, Inject, Output, EventEmitter } from '@angular/core';
 import { BaseTabComponent } from '../base-tab/base-tab.component';
 import { PopupService } from '../../services/popup.service'
 import { ParamService } from 'src/app/services/param-service.service';  
@@ -10,7 +10,8 @@ import { JobApplicationsPopupComponent } from '../job-applications-popup/job-app
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { BASE_CLASS_PARAMS } from '../base-tab/base-tab.tokens';
 import { Injectable } from '@angular/core';
-
+import { CommunicationService } from 'src/app/services/communication.service';
+import { DataSharingService} from 'src/app/services/data-sharing.service'
 
 @Component({
   selector: 'app-jobtab',
@@ -19,16 +20,18 @@ import { Injectable } from '@angular/core';
 })
 export class JobTabComponent extends BaseTabComponent {
 
+
   someMethod(): void {
     console.log('Implemented abstract method');
   }
+
 
   initializeFields(): void {
     this.setParentAttributes({"api_end_point":"get_jobs", "sp":"", "table_name":"job", "display_on_load":true})
   }
   
   // component = JobTabComponent
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, protected paramService: ParamService, protected dataService: GenericDataService, protected popupService: PopupService) {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, protected paramService: ParamService, protected dataService: GenericDataService, protected popupService: PopupService, private dataSharingService: DataSharingService) {
     super(data, paramService, dataService, popupService, {"api_end_point":"get_jobs", "sp":"", "table_name":"job", "display_on_load":true});
   }
 
@@ -61,11 +64,23 @@ export class JobTabComponent extends BaseTabComponent {
     return jobsWithYes;
   }
 
-
+  searchAndSendData(api_end_point, sp, params): void {
+    // const params = this.buildSearchParams();
+    this.showWait();
+      this.dataService.fetchDataPost(api_end_point, sp, params).subscribe(data => {
+      this.dataSharingService.setData(data);
+      this.changeTabEvent.emit(2);
+      this.hideWait();
+    });
+  }
   
+  @Output() changeTabEvent = new EventEmitter<number>();
   onClickSearchCandidates() {
     let params = this.getSearchCandididateParams()
-    this.searchAndOpenPopup("search_candidates", null, params, JobApplicationsPopupComponent)
+    // this.searchAndOpenPopup("search_candidates", null, params, JobApplicationsPopupComponent)
+    this.searchAndSendData("search_candidates", null, params);
+    
+
   }
 
   getSearchCandididateParams(): any {
@@ -75,8 +90,6 @@ export class JobTabComponent extends BaseTabComponent {
   }
 
 
-  onSearch(): void {
-    // Implement search logic if necessary
-    // this.popupService.openPopup(this.component, this.rowData);
-  }
+
+
 }
