@@ -87,6 +87,7 @@ export class JobTabComponent extends BaseTabComponent {
     let job_ids = this.extractCheckedIDs("job_id");
     let params = { "job_ids": job_ids, "minimum_should_match": 1 }
     return params
+    
   }
 
 
