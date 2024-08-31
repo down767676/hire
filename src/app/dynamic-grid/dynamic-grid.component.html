@@ -1,5 +1,27 @@
 <!-- <div class="ag-theme-alpine full-page-grid" style="height: 80vh; width: 100%;"> -->
-<div class="full-page-grid">
+  <div style="display: flex; align-items: center;">
+    <label>Filtered Row Count: {{ filteredRowCount }}</label>
+    <button 
+      (click)="exportToCSV()" 
+      style="margin-left: 20px;"> <!-- Add margin here for spacing -->
+      <i class="fas fa-file-csv"></i> Export to CSV
+    </button>
+    <button (click)="setSelectedToBlank()"
+      style="margin-left: 20px;"> <!-- Add margin here for spacing -->
+      Set Selected to Blank for All Rows
+    </button>
+    <button (click)="setSelectedToYes()" style="margin-right: 10px;">
+      Set Selected to "Yes" for All Rows
+    </button>
+    <mat-form-field appearance="fill" style="margin-right: 20px;">
+      <mat-select  [(ngModel)]="selectedView" (selectionChange)="onViewSelect($event.value)">
+        <mat-option *ngFor="let view of views" [value]="view.file">
+          {{ view.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="full-page-grid">
     <ag-grid-angular style="width: 100%; height: 100%;"
     class="ag-theme-alpine"
     [gridOptions]="gridOptions"
@@ -7,6 +29,7 @@
     [columnDefs]="columnDefs"
     [frameworkComponents]="frameworkComponents"
     [multiSelectDropdownComponent]="multiSelectDropdownComponent"
-    [defaultColDef]="defaultColDef">
+    [defaultColDef]="defaultColDef"
+    (filterChanged)="onFilterChanged()">
   </ag-grid-angular>
 </div>

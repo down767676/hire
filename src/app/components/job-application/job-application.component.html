@@ -1,8 +1,31 @@
+<div style="display: flex; align-items: center; gap: 20px;">
+  <mat-form-field appearance="fill" style="margin-right: 20px;">
+    <mat-label>Source</mat-label>
+    <mat-select [(ngModel)]="selected_source" required>
+      <mat-option *ngFor="let column of source_columns" [value]="column">
+        {{ column }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <app-generic-search [sp]="'sp_SearchJobApplications'" [tableName]="'jobapplication'"
+    [columns]="['mobile', 'jobapplication_id', 'npi_number', 'job_id', 'first_name', 'email', 'taxonomy']"></app-generic-search>
+  <!-- Search button -->
+  <button mat-raised-button color="primary" (click)="onClickSearchField()">Search</button>
+  <button mat-raised-button color="p  imary" (click)="onClickSendText()" [class.spinner]="showPleaseWaitCursor"
+    [disabled]="showPleaseWaitCursor">Text Candididates</button>
+  <mat-form-field appearance="fill" style="margin-right: 20px;">
+    <mat-label>Task</mat-label>
+    <mat-select [(ngModel)]="selectedTask" required>
+      <mat-option *ngFor="let task of tasks" [value]="task.code">
+        {{ task.value }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <button mat-raised-button color="primary" (click)="onClickGo()">Go</button>
+
+</div>
 <div>
-    <app-dynamic-grid
-    [table_name]="table_name"
-    [api_end_point]="api_end_point"
-    [sp]="sp"
+  <app-dynamic-grid [table_name]="table_name" [api_end_point]="api_end_point" [sp]="sp"
     [display_on_load]="display_on_load">
-    </app-dynamic-grid>
-  </div>
+  </app-dynamic-grid>
+</div>

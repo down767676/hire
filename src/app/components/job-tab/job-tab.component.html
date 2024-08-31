@@ -1,12 +1,24 @@
-<div>
-  <app-dynamic-grid
-  [table_name]="table_name"
-  [api_end_point]="api_end_point"
-  [sp]="sp"
-  [display_on_load]="display_on_load">
-  </app-dynamic-grid>
+<div style="display: flex; align-items: center; gap: 20px;">
+  <mat-form-field appearance="fill" style="margin-right: 20px;">
+    <mat-label>Source</mat-label>
+    <mat-select [(ngModel)]="selected_source" required>
+      <mat-option *ngFor="let column of source_columns" [value]="column">
+        {{ column }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <app-generic-search [sp]="'sp_SearchJob'" [tableName]="'job'"
+    [columns]="['job_id', 'jobname', 'nucc_classification', 'company_name', 'title', 'status']"></app-generic-search>
+  <!-- Search button -->
+  <button mat-raised-button color="primary" (click)="onClickSearchField()">Search Database</button>
+  <button mat-raised-button color="primary" style="margin-right: 10px;" (click)="onClickClusterJobs()"
+    [class.spinner]="onClickClusterJobsWaitCursor" [disabled]="onClickClusterJobsWaitCursor">Cluster Jobs</button>
+  <button mat-raised-button color="primary" (click)="onClickSearchCandidates()"
+    [class.spinner]="onClickSearchCandidatesWaitCursor" [disabled]="onClickSearchCandidatesWaitCursor">Search
+    NUCC</button>
 </div>
-<div style="text-align: center; margin-top: 20px;">
-  <!-- <button mat-raised-button color="primary" (click)="onClickSearchCandidates()" [class.cursor-wait]="showPleaseWaitCursor" [class.cursor-normal]="!showPleaseWaitCursor">Search Candididates</button> -->
-  <button mat-raised-button color="primary" (click)="onClickSearchCandidates()" [class.spinner]="showPleaseWaitCursor" [disabled]="showPleaseWaitCursor">Search Candididates</button>
+<div>
+  <app-dynamic-grid [table_name]="table_name" [api_end_point]="api_end_point" [sp]="sp"
+    [display_on_load]="display_on_load">
+  </app-dynamic-grid>
 </div>

@@ -1,18 +1,21 @@
 <!-- <app-dynamic-grid [table_name]="candidate_profile_table_name"></app-dynamic-grid> -->
 <!-- app.component.html -->
-<mat-tab-group #tabs    >
-    <mat-tab label="Jobs">
-        <app-jobtab></app-jobtab>
-    </mat-tab>
-    <mat-tab label="JobApplication">
-        <app-job-application></app-job-application>
-    </mat-tab>
-    <mat-tab label="Taxonomy">
-        <app-taxonomy></app-taxonomy>
-    </mat-tab>
+<div class="main-content">
 
-</mat-tab-group>
-  
+    <mat-tab-group #tabs>
+        <mat-tab label="Jobs">
+            <app-jobtab></app-jobtab>
+        </mat-tab>
+        <mat-tab label="JobApplication">
+            <app-job-application></app-job-application>
+        </mat-tab>
+        <mat-tab label="Taxonomy">
+            <app-taxonomy></app-taxonomy>
+        </mat-tab>
+
+    </mat-tab-group>
+</div>
+
 
 <!-- <mat-tab-group #tabs    >
     <mat-tab label="Candidates">

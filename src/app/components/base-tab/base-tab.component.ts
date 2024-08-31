@@ -5,13 +5,14 @@ import { PopupService } from '../../services/popup.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ParamService } from 'src/app/services/param-service.service';
 import { BASE_CLASS_PARAMS } from './base-tab.tokens'; // Adjust the path as necessary
-
+import { GenericSearchComponent } from '../generic-search/generic-search.component'
 @Component({
   selector: 'app-base-tab',
   templateUrl: './base-tab.component.html',
   styleUrls: ['./base-tab.component.css']
 })
 export class BaseTabComponent implements OnInit {
+  @ViewChild(GenericSearchComponent) searchComponent!: GenericSearchComponent;
   @ViewChild(DynamicGridComponent) agGrid: DynamicGridComponent;
   selectedRows = []
   selectedOptions = []
@@ -22,39 +23,62 @@ export class BaseTabComponent implements OnInit {
     { field: 'model' },
     { field: 'price' }];
 
-
+  
   table_name: string;
   api_end_point: string;
   sp: string;
   display_on_load: boolean;
-
-  protected showPleaseWaitCursor:boolean = false;
-
+  selected_source: string;
   
-  showWait():void{
-    this.showPleaseWaitCursor = true;
+
+  showWait(cursor): boolean {
+    cursor = true;
+    return cursor;
   }
 
-  hideWait():void{
-    this.showPleaseWaitCursor = false;
+  hideWait(cursor): boolean {
+    cursor = false;
+    return cursor;
   }
 
+  onClickSearchField() {
+    // let params = this.getSearchNPIParams()
+    // this.onClickClusterJobsWaitCursor = this.showWait(this.onClickClusterJobsWaitCursor);
+    this.searchComponent.getSearchResults("zenexpartners.com", this.selected_source).subscribe(data => {
+      this.showGrid(data)
+      // this.onClickClusterJobsWaitCursor = this.hideWait(this.onClic,kClusterJobsWaitCursor);
+    });
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, protected paramService: ParamService, protected dataService: GenericDataService, protected popupService: PopupService, @Inject(BASE_CLASS_PARAMS) params:any) 
-  {
+  }
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, protected paramService: ParamService, protected dataService: GenericDataService, protected popupService: PopupService, @Inject(BASE_CLASS_PARAMS) params: any) {
     this.api_end_point = params['api_end_point'];
     this.sp = params['sp'];
     this.table_name = params['table_name'];
     this.display_on_load = params['display_on_load'];
 
-   }
+  }
 
   extractCheckedIDs(id): any {
-    let data = this.getCheckedRows();
+    // let data = this.getCheckedRows();
     return this.extractIds(id);
   }
 
 
+  isValid(s): boolean {
+    return s !== null && s.trim() !== '';
+  }
+
+  getSelectedIds(col_name): number[] {
+    const selectedIds: number[] = [];
+
+    this.agGrid.api.forEachNode((row) => {
+      if (row.data.selected === 'yes') {
+        selectedIds.push(row.data[col_name]);
+      }
+    });
+
+    return selectedIds;
+  }
   getCheckedRows(): any {
     this.selectedRows = this.agGrid.api.getSelectedNodes()
       .filter(node => node.isSelected())
@@ -136,8 +160,13 @@ export class BaseTabComponent implements OnInit {
     console.log('Base Class email logic');
   }
 
-  sendText(): void {
-    // Add additional logic for sending text
-    console.log('Base Class text logic');
+  showGrid(data) {
+    this.data = data;
+    this.agGrid.loadGridColAndRows(data)
   }
+
+  // sendText(): void {
+  //   // Add additional logic for sending text
+  //   console.log('Base Class text logic');
+  // }
 }

@@ -1,3 +1,4 @@
+import { MatTableModule } from '@angular/material/table';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA  } from '@angular/core';
 import { AppComponent } from './app.component';
@@ -11,9 +12,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { MatTabsModule } from '@angular/material/tabs';
 import { GenericDataService } from './services/generic-data.service';
+import { SearchService } from './services/search.service';
 import { PopupService } from './services/popup.service'
 import { JobApplicationsPopupComponent } from './components/job-applications-popup/job-applications-popup.component';
 import { JobApplicationComponent } from './components/job-application/job-application.component';
+import {GenericSearchComponent} from './components/generic-search/generic-search.component'
 import {TaxonomyComponent} from './components/taxonomy/taxonomy.component' 
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from '@angular/material/input';
@@ -38,7 +41,8 @@ import { MultiSelectDropdownComponent } from './components/multi-select-dropdown
     JobApplicationComponent,
     TaxonomyComponent,
    BaseTabComponent,
-   MultiSelectDropdownComponent
+   MultiSelectDropdownComponent,
+   GenericSearchComponent
   ],
   imports: [
     BrowserModule,
@@ -46,6 +50,7 @@ import { MultiSelectDropdownComponent } from './components/multi-select-dropdown
     HttpClientModule,
     FormsModule,
     MatTabsModule,
+    MatTableModule,
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
@@ -56,7 +61,7 @@ import { MultiSelectDropdownComponent } from './components/multi-select-dropdown
     MatCheckboxModule
   ],
   exports: [DynamicGridComponent],
-  providers: [GenericDataService, PopupService ,DataSharingService,
+  providers: [GenericDataService, PopupService ,DataSharingService,SearchService,
      { provide: MAT_DIALOG_DATA, useValue: {} }, 
      { provide: MatDialogRef, useValue: {} },
      { provide: BASE_CLASS_PARAMS, useValue: { }}],

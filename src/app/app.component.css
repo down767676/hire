@@ -8,4 +8,24 @@
     border-radius: 0; /* Remove any border radius */
   }
   
+  /* html, body, app-root {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+  } */
   
+  .main-content {
+    height: calc(100vh - 200px); /* If your header/footer is 50px, adjust accordingly */
+    overflow-y: auto;
+  }
+  
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    /* overflow: hidden; */
+  }
+  /* .main-content {
+    height: 100%;
+    overflow-y: auto;
+  }   */

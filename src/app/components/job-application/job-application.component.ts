@@ -15,12 +15,23 @@ import { DataSharingService } from 'src/app/services/data-sharing.service';
 })
 export class JobApplicationComponent extends BaseTabComponent {
 
+  public showPleaseWaitCursor:boolean = false
   searchFields = ['field1', 'field2'];
   selectedOptions = ['', ''];
   api_end_point = "search_candidates";
   sp = "";
   table_name = "jobapplication";
   display_on_load = false
+  public source_columns = ["all"];
+  selectedTask:String;
+  public tasks = [
+    {"code":"NotTexted.7", "value":"Not Texted (Created in last 7 days)"},
+    {"code":"NotTexted.15", "value":"Not Texted (Created in last 15 days)"},
+    {"code":"NotTexted.30", "value":"Not Texted (Created in last 30 days)"},
+    {"code":"NotTexted.60", "value":"Not Texted (Created in last 60 days)"},
+    {"code":"NotTexted.90", "value":"Not Texted (Created in last 90 days)"},
+    {"code":"NotTexted.90", "value":"Not Texted (Created in last 365 days)"}
+  ]
 
   someMethod(): void {
     console.log('Implemented abstract method');
@@ -45,18 +56,36 @@ export class JobApplicationComponent extends BaseTabComponent {
     let params = { "job_ids": job_ids, "minimum_should_match": 1 }
   }
 
+  getSendTextParams(): any {
+    let ids = this.getMobileSelectedIds();
+    let params = { "jobapplication_ids": ids, "source": "npi",  "mode":"Test" }
+    return params
+  }
+
+  getMobileSelectedIds(): number [] {
+    const selectedIds: number[] = [];
+
+    this.agGrid.api.forEachNode((row) => {
+      if (row.data.selected === 'yes' && row.data["mobile"] && !(row.data["mobile"].trim() === '')){
+            selectedIds.push(row.data['jobapplication_id']);
+      }
+    });
+    return selectedIds;
+  }
+  
   sendEmail() {
     super.sendEmail();
     // Add additional logic for sending email
     console.log('Additional email logic');
   }
 
-  sendText() {
-    super.sendText();
-    // Add additional logic for sending text
-    console.log('Additional text logic');
-  }
-
+  sendText(params):void {
+      // const params = this.buildSearchParams();
+      this.showPleaseWaitCursor = this.showWait(this.showPleaseWaitCursor);
+      this.dataService.fetchDataPost('send_batch', null, params).subscribe(data => {
+        this.showPleaseWaitCursor = this.hideWait(this.showPleaseWaitCursor);
+      });
+    }
 
   ngOnInit() {
     this.dataSharingService.data$.subscribe(data => {
@@ -65,10 +94,25 @@ export class JobApplicationComponent extends BaseTabComponent {
     });
   }
 
-  showGrid(data) {
-    // Implement your method logic here
-    this.data = data;
-    console.log('Method called from FirstTabComponent');
-    this.agGrid.loadGridColAndRows(data)
+    onClickSendText() {
+      let params = this.getSendTextParams()
+    // let params = this.getSearchCandididateParams()
+    // let params = this.getSearchNPIParams()
+    // this.searchAndOpenPopup("search_candidates", null, params, JobApplicationsPopupComponent)
+    this.sendText(params);
+  }
+
+  onClickGo() {
+  this.go(this.selectedTask);
+  }
+
+  go(selectedTask)
+  {
+    if (this.isValid(selectedTask))
+    {
+      this.dataService.fetchDataPost('jobapplications', null, {'task':selectedTask}).subscribe(data => {
+        this.showGrid(data) ;    
+    })
+    } 
   }
 }
