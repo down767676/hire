@@ -1,6 +1,7 @@
 import { Observable } from 'rxjs';
-import { Component, Input, OnInit } from '@angular/core';
-import { SearchService } from  'src/app/services/search.service'
+import { Input, OnInit } from '@angular/core';
+import { SearchService } from 'src/app/services/search.service'
+import { Component, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-generic-search',
@@ -10,11 +11,14 @@ export class GenericSearchComponent implements OnInit {
   @Input() columns: string[] = [];  // List of searchable columns
   @Input() tableName: string = '';  // Table name to pass to the service
   @Input() sp: string = '';  // Table name to pass to the service
+
+  @Output() triggerParentMethod = new EventEmitter<void>();
+
   selectedColumn: string = '';
   searchValue: string = '';
   results: any[] = [];
-  
-  constructor(private searchService: SearchService) {}
+
+  constructor(private searchService: SearchService) { }
 
   ngOnInit(): void {
     if (this.columns.length > 0) {
@@ -22,21 +26,15 @@ export class GenericSearchComponent implements OnInit {
     }
   }
 
-  getSearchResults(customer_account, source): Observable<any[]> {   
-    let params = {"customer_account":customer_account, "source":source, "table_name":this.tableName, "sp":this.sp, "column":this.selectedColumn, "value":this.searchValue} 
+  getSearchResults(customer_account, source): Observable<any[]> {
+    let params = { "customer_account": customer_account, "source": source, "table_name": this.tableName, "sp": this.sp, "column": this.selectedColumn, "value": this.searchValue }
     return this.searchService.search(params)
 
-}
+  }
+
+  onClickSearchField() {
+    this.triggerParentMethod.emit(); // Emit event to call parent method
+  }
 
 
-  // onSearch(): void {
-  //   if (this.tableName && this.selectedColumn && this.searchValue) {
-  //     this.searchService.search(this.tableName, this.selectedColumn, this.searchValue)
-  //       .subscribe(data => {
-  //         this.results = data;
-  //       }, error => {
-  //         console.error('Search error:', error);
-  //       });
-  //   }
-  // }
 }

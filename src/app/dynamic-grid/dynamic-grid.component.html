@@ -16,7 +16,7 @@
     </button>
 
     <!-- Dropdown -->
-    <mat-form-field appearance="fill" fxFlex="20%" class="same-height" style="height: 48px; padding: 0 16px;">
+    <mat-form-field appearance="fill" fxFlex="20%" style="border:none;" class="same-height" >
       <mat-select [(ngModel)]="selectedView" (selectionChange)="onViewSelect($event.value)">
         <mat-option *ngFor="let view of views" [value]="view.file">
           {{ view.name }}

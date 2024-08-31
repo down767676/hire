@@ -22,7 +22,9 @@ export class BaseTabComponent implements OnInit {
     { field: 'make' },
     { field: 'model' },
     { field: 'price' }];
-
+    onChildEvent() {
+      this.onClickSearchField();
+    }
   
   table_name: string;
   api_end_point: string;
@@ -40,6 +42,7 @@ export class BaseTabComponent implements OnInit {
     cursor = false;
     return cursor;
   }
+
 
   onClickSearchField() {
     // let params = this.getSearchNPIParams()

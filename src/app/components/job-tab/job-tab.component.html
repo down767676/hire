@@ -1,4 +1,4 @@
-<div fxLayout="column" fxLayoutGap="20px">
+<div fxLayout="column" fxLayoutGap="20px" style="margin: bottom 0px !important">
   <!-- Controls in a single row -->
   <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px" class="same-height-row">
     <!-- Dropdown -->
@@ -11,15 +11,12 @@
       </mat-select>
     </mat-form-field>
 
-    <!-- Generic Search Component -->
-    <app-generic-search fxFlex="30%" [sp]="'sp_SearchJob'" [tableName]="'job'"
-      [columns]="['job_id', 'jobname', 'nucc_classification', 'company_name', 'title', 'status']">
-    </app-generic-search>
+    <!-- Grouped Elements: Generic Search Component and Search Database Button -->
+        <app-generic-search (triggerParentMethod)="onChildEvent()" fxFlex="30%" [sp]="'sp_SearchJob'" [tableName]="'job'"
+        [columns]="['job_id', 'jobname', 'nucc_classification', 'company_name', 'title', 'status']">
+      </app-generic-search>
 
-    <!-- Buttons -->
-    <button mat-raised-button color="primary" (click)="onClickSearchField()" class="same-height">
-      Search Database
-    </button>
+    <!-- Additional Buttons -->
     <button mat-raised-button color="primary" (click)="onClickClusterJobs()"
       [class.spinner]="onClickClusterJobsWaitCursor" [disabled]="onClickClusterJobsWaitCursor" class="same-height">
       Cluster Jobs

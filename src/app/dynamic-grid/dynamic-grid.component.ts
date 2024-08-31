@@ -1,3 +1,4 @@
+import { formatDate } from '@angular/common';
 import { Component, OnInit, Input, Inject, numberAttribute } from '@angular/core';
 import { GenericDataService } from '../services/generic-data.service';
 import { ColDef, GridOptions, GridApi } from 'ag-grid-community';
@@ -163,6 +164,11 @@ loadGridViews()
   loadGridColAndRows(rows: any){
     this.loadGridColAndRowsHelper(rows, this.table_name, true);
   }
+
+  dateFormatter(params) {
+    return formatDate(params.value, 'MM-dd-yyyy', 'en-US');
+  }
+
   loadGridColAndRowsHelper(rows: any, view_name:string,loadData:boolean) {
     if (view_name == null){
       view_name =this.table_name;
@@ -193,6 +199,7 @@ loadGridViews()
           columnDef.cellEditor = 'agNumberCellEditor';
         } else if (col.type === 'date') {
           columnDef.cellEditor = 'agDateCellEditor';
+          columnDef.valueFormatter =  this.dateFormatter
         }
         else if (col.type === 'boolean') {
           columnDef.cellEditor = 'agCheckboxCellEditor';
