@@ -1,3 +1,4 @@
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatTableModule } from '@angular/material/table';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA  } from '@angular/core';
@@ -42,7 +43,7 @@ import { MultiSelectDropdownComponent } from './components/multi-select-dropdown
     TaxonomyComponent,
    BaseTabComponent,
    MultiSelectDropdownComponent,
-   GenericSearchComponent
+   GenericSearchComponent,
   ],
   imports: [
     BrowserModule,
@@ -58,7 +59,8 @@ import { MultiSelectDropdownComponent } from './components/multi-select-dropdown
     AgGridModule,
     BrowserAnimationsModule,
     MatDialogModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    FlexLayoutModule
   ],
   exports: [DynamicGridComponent],
   providers: [GenericDataService, PopupService ,DataSharingService,SearchService,

@@ -29,3 +29,92 @@
     height: 100%;
     overflow-y: auto;
   }   */
+
+
+  /* Set a consistent height for all elements */
+.same-height-row {
+  height: 48px; /* Desired height */
+}
+
+.same-height {
+  height: 48px; /* Force elements to be the same height */
+  display: flex;
+  align-items: center;
+}
+
+/* Override the default height and padding of mat-form-field */
+.mat-form-field-appearance-fill .mat-form-field-flex {
+  height: 48px; /* Set the height of the input container */
+  padding: 0; /* Remove any padding */
+  align-items: center;
+}
+
+.mat-select-trigger {
+  height: 48px; /* Ensure the select trigger matches the height */
+  padding: 0; /* Remove padding inside the select */
+  display: flex;
+  align-items: center;
+  line-height: 48px; /* Vertically align the text */
+}
+
+/* Override the height and padding of the input */
+.mat-input-element, .mat-form-field-infix {
+  height: 48px !important; /* Set height */
+  line-height: 48px !important; /* Ensure text is centered */
+  padding: 0 0 0 0 !important; /* Remove padding */
+  display: flex;
+  align-items: center;
+}
+
+/* Ensure buttons have the same height */
+button.same-height {
+  height: 48px; /* Set height */
+  padding: 0 16px; /* Adjust horizontal padding as needed */
+  display: flex;
+  align-items: center;
+}
+
+/* Ensure buttons hav e the same height */
+button.same-height {
+  height: 48px !important; /* Set height */
+  padding: 0 16px; /* Adjust horizontal padding as needed */
+  display: flex;
+  align-items: center;
+}
+
+button.grey-button {
+  background-color: grey; /* Set background color to grey */
+  color: white; /* Ensure text color is white for contrast */
+  border: none; /* Remove border for a clean look */
+  cursor: pointer; /* Change cursor to pointer for better UX */
+}
+
+.grey-button:hover {
+  background-color: darkgrey; /* Slightly darker grey on hover */
+}
+
+/* Ensure the mat-form-field is aligned with the buttons */
+.same-height .mat-form-field-wrapper {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 0;
+}
+
+.same-height .mat-select-trigger {
+  display: flex;
+  align-items: center;
+  height: 48px;
+  padding: 0 !important;
+  line-height: 48px; /* Vertically center the text */
+}
+
+/* Ensure the mat-form-field itself takes up the full height */
+.same-height.mat-form-field-appearance-fill .mat-form-field-flex {
+  height: 48px;
+  display: flex;
+  align-items: center;
+}
+
+
+
