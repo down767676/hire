@@ -1,0 +1,9 @@
+
+.custom-dropdown .mat-select-trigger {
+    width: 200%!important /* Adjust this value as needed, here it's set to 4x for clarity */
+  }
+  
+  .custom-dropdown .mat-select-panel {
+    width: 200%!important /* Adjust to twice the default width */
+  }
+  

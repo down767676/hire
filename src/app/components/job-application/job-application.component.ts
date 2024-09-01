@@ -1,4 +1,5 @@
-import { Component, Input, Inject } from '@angular/core';
+import { MatSelectChange } from '@angular/material/select';
+import { Component, Input, ViewChild, Inject, Output, EventEmitter } from '@angular/core';
 import { BaseTabComponent } from '../base-tab/base-tab.component';
 import { PopupService } from '../../services/popup.service'
 import { GenericDataService } from 'src/app/services/generic-data.service';
@@ -25,12 +26,21 @@ export class JobApplicationComponent extends BaseTabComponent {
   public source_columns = ["all"];
   selectedTask:String;
   public tasks = [
-    {"code":"NotTexted.7", "value":"Not Texted (Created in last 7 days)"},
-    {"code":"NotTexted.15", "value":"Not Texted (Created in last 15 days)"},
-    {"code":"NotTexted.30", "value":"Not Texted (Created in last 30 days)"},
-    {"code":"NotTexted.60", "value":"Not Texted (Created in last 60 days)"},
-    {"code":"NotTexted.90", "value":"Not Texted (Created in last 90 days)"},
-    {"code":"NotTexted.90", "value":"Not Texted (Created in last 365 days)"}
+    {"code":"NotTexted.3", "value":"Not Texted (Searched in last 3 days)"},
+    {"code":"NotTexted.7", "value":"Not Texted (Searched in last 7 days)"},
+    {"code":"NotTexted.15", "value":"Not Texted (Searched in last 15 days)"},
+    {"code":"NotTexted.30", "value":"Not Texted (Searched in last 30 days)"},
+    {"code":"NotTexted.60", "value":"Not Texted (Searched in last 60 days)"},
+    {"code":"NotTexted.90", "value":"Not Texted (Searched in last 90 days)"},
+    {"code":"NotTexted.365", "value":"Not Texted (Searched in last 365 days)"},
+    {"code":"Texted.3", "value":"Texted in last 3 days"},
+    {"code":"Texted.7", "value":"Texted in last 7 days"},
+    {"code":"Texted.15", "value":"Texted in last 15 days"},
+    {"code":"Texted.30", "value":"Texted in last 30 days"},
+    {"code":"Texted.60", "value":"Texted in last 60 days"},
+    {"code":"Texted.90", "value":"Texted in last 90 days"},
+    {"code":"Texted.365", "value":"Texted in last 365 days"}
+
   ]
 
   someMethod(): void {
@@ -102,7 +112,7 @@ export class JobApplicationComponent extends BaseTabComponent {
     this.sendText(params);
   }
 
-  onClickGo() {
+  onTaskChange(event: MatSelectChange) {
   this.go(this.selectedTask);
   }
 

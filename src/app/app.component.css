@@ -124,3 +124,12 @@ button.grey-button {
   border-radius: 4px; /* Slightly round the corners */
   background-color: #48e7ca; /* Light background color to differentiate the group */
 }
+
+
+.custom-dropdown .mat-select-trigger {
+  width: 200%; /* Adjust this value as needed, here it's set to 4x for clarity */
+}
+
+.custom-dropdown .mat-select-panel {
+  width: 200%; /* Adjust to twice the default width */
+}
