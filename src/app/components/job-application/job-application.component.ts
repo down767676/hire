@@ -40,6 +40,13 @@ export class JobApplicationComponent extends BaseTabComponent {
     {"code":"Texted.60", "value":"Texted in last 60 days"},
     {"code":"Texted.90", "value":"Texted in last 90 days"},
     {"code":"Texted.365", "value":"Texted in last 365 days"}
+    {"code":"Responded.3", "value":"Responded in last 3 days"},
+    {"code":"Responded.7", "value":"Responded in last 7 days"},
+    {"code":"Responded.15", "value":"Responded in last 15 days"},
+    {"code":"Responded.30", "value":"Responded in last 30 days"},
+    {"code":"Responded.60", "value":"Responded in last 60 days"},
+    {"code":"Responded.90", "value":"Responded in last 90 days"},
+    {"code":"Responded.365", "value":"Responded in last 365 days"}
 
   ]
 
