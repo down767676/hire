@@ -69,6 +69,30 @@ export class DynamicGridComponent implements OnInit {
   //   this.display_on_load = this.paramService.getDisplayOnLoad()
   // }
 
+
+  dateComparator(date1: string, date2: string): number {
+    // Attempt to parse the dates
+    const dateObj1 = Date.parse(date1);
+    const dateObj2 = Date.parse(date2);
+  
+    // Handle invalid dates
+    if (isNaN(dateObj1) || isNaN(dateObj2)) {
+      console.error('Invalid date format:', date1, date2);
+      return 0;  // Treat invalid dates as equal
+    }
+  
+    // Compare the timestamps
+    if (dateObj1 < dateObj2) {
+      return -1;
+    }
+    if (dateObj1 > dateObj2) {
+      return 1;
+    }
+    return 0;
+  }
+  
+  
+
   setAttributes(params: any) {
     this.api_end_point = params.get("api_end_point", null)
     this.sp = params.get("sp", null)
@@ -169,6 +193,7 @@ loadGridViews()
     return formatDate(params.value, 'MM-dd-yyyy', 'en-US');
   }
 
+  
   loadGridColAndRowsHelper(rows: any, view_name:string,loadData:boolean) {
     if (view_name == null){
       view_name =this.table_name;
@@ -198,8 +223,10 @@ loadGridViews()
         } else if (col.type === 'number') {
           columnDef.cellEditor = 'agNumberCellEditor';
         } else if (col.type === 'date') {
+          columnDef.comparator = this.dateComparator;
           columnDef.cellEditor = 'agDateCellEditor';
-          columnDef.valueFormatter =  this.dateFormatter
+          columnDef.valueFormatter =  this.dateFormatter;
+          columnDef.filter = 'agDateColumnFilter';
         }
         else if (col.type === 'boolean') {
           columnDef.cellEditor = 'agCheckboxCellEditor';
