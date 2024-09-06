@@ -76,11 +76,19 @@ export class DynamicGridComponent implements OnInit {
     const dateObj2 = Date.parse(date2);
   
     // Handle invalid dates
-    if (isNaN(dateObj1) || isNaN(dateObj2)) {
+    if (isNaN(dateObj1) && isNaN(dateObj2)) {
       console.error('Invalid date format:', date1, date2);
-      return 0;  // Treat invalid dates as equal
+      return 0  // Treat invalid dates as equal
     }
-  
+else if (isNaN(dateObj1) && !isNaN(dateObj2)) {
+  console.error('Invalid date format:', date1, date2);
+  return 1  // Treat invalid dates as equal
+}
+else if (!isNaN(dateObj1) && isNaN(dateObj2)) {
+  console.error('Invalid date format:', date1, date2);
+  return -1  // Treat invalid dates as equal
+}
+
     // Compare the timestamps
     if (dateObj1 < dateObj2) {
       return -1;
