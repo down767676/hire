@@ -220,11 +220,11 @@ loadGridViews()
           headerName: col.headerName,
           field: col.field,
           width: col.width,
-          editable: col.editable
+          editable: col.editable,
         };
 
         if (col.table) {
-          columnDef["table"] = col.table
+          columnDef["_table"] = col.table
         }
         if (col.type === 'text') {
           columnDef.cellEditor = 'agTextCellEditor';
@@ -324,9 +324,9 @@ loadGridViews()
     const { data, colDef, newValue } = event;
     let t = null
     let tval = null
-    if (colDef["table"]) {
-      t = colDef["table"];
-      tval = data[colDef["table"] + "_id"]
+    if (colDef["_table"]) {
+      t = colDef["_table"];
+      tval = data[colDef["_table"] + "_id"]
     }
     this.dataService.updateData(data[this.table_name + "_id"], colDef.field, newValue, this.table_name, t, tval).subscribe();
   }
