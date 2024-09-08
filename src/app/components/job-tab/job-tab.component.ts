@@ -37,13 +37,13 @@ export class JobTabComponent extends BaseTabComponent {
 
 
   initializeFields(): void {
-    this.setParentAttributes({ "api_end_point": "get_jobs", "sp": "", "table_name": "job", "display_on_load": true })
+    this.setParentAttributes({ "api_end_point": "get_ceipal_jobs", "sp": "", "table_name": "job", "display_on_load": true })
 
   }
 
   // component = JobT abComponent
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, protected paramService: ParamService, protected dataService: GenericDataService, protected popupService: PopupService, private dataSharingService: DataSharingService) {
-    super(data, paramService, dataService, popupService, { "api_end_point": "get_jobs", "sp": "", "table_name": "job", "display_on_load": true });
+    super(data, paramService, dataService, popupService, { "api_end_point": "get_ceipal_jobs", "sp": "", "table_name": "job", "display_on_load": true });
   }
 
 
@@ -95,7 +95,7 @@ export class JobTabComponent extends BaseTabComponent {
 
   onClickGetCeipalJobs() {
     this.onClickSearchCeipalJobsWaitCursor = this.showWait(this.onClickSearchCeipalJobsWaitCursor);
-    this.dataService.fetchDataPost('ceipal_jobs', null, { "days": "30" }).subscribe(data => {
+    this.dataService.fetchDataPost('upsert_ceipal_jobs', null, { "days": "30" }).subscribe(data => {
       this.onClickSearchCeipalJobsWaitCursor = this.hideWait(this.onClickSearchCeipalJobsWaitCursor);
     })
   }
