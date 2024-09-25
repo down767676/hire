@@ -19,6 +19,7 @@ import { JobApplicationsPopupComponent } from './components/job-applications-pop
 import { JobApplicationComponent } from './components/job-application/job-application.component';
 import {GenericSearchComponent} from './components/generic-search/generic-search.component'
 import {TaxonomyComponent} from './components/taxonomy/taxonomy.component' 
+import { StatusReportTabComponent } from './components/status-report-tab/status-report-tab.component';
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -30,10 +31,11 @@ import { BASE_CLASS_PARAMS } from './components/base-tab/base-tab.tokens'; // Ad
 import {DataSharingService} from './services/data-sharing.service'
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MultiSelectDropdownComponent } from './components/multi-select-dropdown/multi-select-dropdown.component';
-
+import {DialogComponent} from './components/dialog/dialog.component'
 
 @NgModule({
   declarations: [
+    DialogComponent,
     AppComponent,
     DynamicGridComponent,
     CandidateTabComponent,
@@ -44,6 +46,7 @@ import { MultiSelectDropdownComponent } from './components/multi-select-dropdown
    BaseTabComponent,
    MultiSelectDropdownComponent,
    GenericSearchComponent,
+   StatusReportTabComponent,
   ],
   imports: [
     BrowserModule,

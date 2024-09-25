@@ -24,7 +24,10 @@ export class JobApplicationComponent extends BaseTabComponent {
   table_name = "jobapplication";
   display_on_load = false
   public source_columns = ["all"];
-  selectedTask:String;
+  public selectedView: string = null
+  public selected_source = this.source_columns[0]
+
+  selectedTask:String = "TalkTo.30"
   public tasks = [
     {"code":"NotTexted.3", "value":"Not Texted (Searched in last 3 days)"},
     {"code":"NotTexted.7", "value":"Not Texted (Searched in last 7 days)"},
@@ -62,8 +65,12 @@ export class JobApplicationComponent extends BaseTabComponent {
     console.log('Implemented abstract method');
   }
 
+  // initializeFields(): void {
+  //   this.setParentAttributes({ "api_end_point": "get_campaign", "sp": "", "table_name": "jobapplication", "display_on_load": true })
+  // }
   initializeFields(): void {
-    this.setParentAttributes({ "api_end_point": "get_campaign", "sp": "", "table_name": "jobapplication", "display_on_load": true })
+    this.setParentAttributes({ "api_end_point": this.api_end_point, "sp": "", "table_name": "jobapplication", "display_on_load": true })
+
   }
 
   initializeFieldsForDialog(): void {
@@ -129,6 +136,14 @@ export class JobApplicationComponent extends BaseTabComponent {
 
   onTaskChange(event: MatSelectChange) {
   this.go(this.selectedTask);
+  }
+
+  ngAfterViewInit(): void {
+    this.dataService.fetchDataPost('jobapplications', null, {'task':this.selectedTask}).subscribe(data => {
+      this.showGrid(data) ;    
+  })
+
+    // this.agGrid.loadGridColAndRows(this.data)
   }
 
   go(selectedTask)

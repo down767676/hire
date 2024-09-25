@@ -1,5 +1,5 @@
 import { formatDate } from '@angular/common';
-import { Component, OnInit, Input, Inject, numberAttribute } from '@angular/core';
+import { Component, OnInit, Input, Inject, numberAttribute, ViewEncapsulation } from '@angular/core';
 import { GenericDataService } from '../services/generic-data.service';
 import { ColDef, GridOptions, GridApi } from 'ag-grid-community';
 import { GridConfigService } from '../grid-config.service';
@@ -16,7 +16,8 @@ import { MultiSelectDropdownComponent } from '../components/multi-select-dropdow
 @Component({
   selector: 'app-dynamic-grid',
   templateUrl: './dynamic-grid.component.html',
-  styleUrls: ['./dynamic-grid.component.css']
+  styleUrls: ['./dynamic-grid.component.css'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class DynamicGridComponent implements OnInit {
   @Input() gridOptions: GridOptions;
@@ -74,20 +75,20 @@ export class DynamicGridComponent implements OnInit {
     // Attempt to parse the dates
     const dateObj1 = Date.parse(date1);
     const dateObj2 = Date.parse(date2);
-  
+
     // Handle invalid dates
     if (isNaN(dateObj1) && isNaN(dateObj2)) {
       console.error('Invalid date format:', date1, date2);
       return 0  // Treat invalid dates as equal
     }
-else if (isNaN(dateObj1) && !isNaN(dateObj2)) {
-  console.error('Invalid date format:', date1, date2);
-  return 1  // Treat invalid dates as equal
-}
-else if (!isNaN(dateObj1) && isNaN(dateObj2)) {
-  console.error('Invalid date format:', date1, date2);
-  return -1  // Treat invalid dates as equal
-}
+    else if (isNaN(dateObj1) && !isNaN(dateObj2)) {
+      console.error('Invalid date format:', date1, date2);
+      return 1  // Treat invalid dates as equal
+    }
+    else if (!isNaN(dateObj1) && isNaN(dateObj2)) {
+      console.error('Invalid date format:', date1, date2);
+      return -1  // Treat invalid dates as equal
+    }
 
     // Compare the timestamps
     if (dateObj1 < dateObj2) {
@@ -98,8 +99,8 @@ else if (!isNaN(dateObj1) && isNaN(dateObj2)) {
     }
     return 0;
   }
-  
-  
+
+
 
   setAttributes(params: any) {
     this.api_end_point = params.get("api_end_point", null)
@@ -108,14 +109,13 @@ else if (!isNaN(dateObj1) && isNaN(dateObj2)) {
     this.display_on_load = params.get("api_end_point", null)
   }
 
-loadGridViews()
-{
-  this.gridConfigService.getGridViews(this.table_name).subscribe(data => {
-    this.views = data["views"];
-    this.selectedView = this.views[0].file
-  });
+  loadGridViews() {
+    this.gridConfigService.getGridViews(this.table_name).subscribe(data => {
+      this.views = data["views"];
+      this.selectedView = this.views[0].file
+    });
 
-}
+  }
   ngOnInit(): void {
     if (this.display_on_load) {
       this.loadGridColAndRows(null);
@@ -193,18 +193,22 @@ loadGridViews()
     }
   }
 
-  loadGridColAndRows(rows: any){
+  loadGridColAndRows(rows: any) {
     this.loadGridColAndRowsHelper(rows, this.table_name, true);
   }
 
   dateFormatter(params) {
+    if (!params.value)
+    {
+      return null;
+    } 
     return formatDate(params.value, 'MM-dd-yyyy', 'en-US');
   }
 
-  
-  loadGridColAndRowsHelper(rows: any, view_name:string,loadData:boolean) {
-    if (view_name == null){
-      view_name =this.table_name;
+
+  loadGridColAndRowsHelper(rows: any, view_name: string, loadData: boolean) {
+    if (view_name == null) {
+      view_name = this.table_name;
     }
     this.gridConfigService.getGridProperties(view_name).subscribe((data: GridProperties) => {
       let cb = false
@@ -233,7 +237,7 @@ loadGridViews()
         } else if (col.type === 'date') {
           columnDef.comparator = this.dateComparator;
           columnDef.cellEditor = 'agDateCellEditor';
-          columnDef.valueFormatter =  this.dateFormatter;
+          columnDef.valueFormatter = this.dateFormatter;
           columnDef.filter = 'agDateColumnFilter';
         }
         else if (col.type === 'boolean') {
@@ -266,8 +270,7 @@ loadGridViews()
       if (cb) {
         this.columnDefs.push(columnDefCheckBox)
       }
-      if (loadData)
-      {
+      if (loadData) {
         this.loadData(rows)
       }
     }
@@ -307,7 +310,7 @@ loadGridViews()
         this.table_name,
         row[this.table_name + "_id"]
       ).subscribe();
-      
+
     });
 
     console.log('Updated rowData:', this.rowData);
@@ -323,10 +326,10 @@ loadGridViews()
   setSelectedToValue_2(selectedValue: string) {
     this.api.forEachNodeAfterFilter((node) => {
       const job = node.data;
-      
+
       // Set the selected field to the desired value for filtered rows
       job.selected = selectedValue;
-  
+
       // Call the service to update the database
       this.dataService.updateData(
         job[this.table_name + "_id"],
@@ -336,17 +339,17 @@ loadGridViews()
         this.table_name,
         job[this.table_name + "_id"]
       ).subscribe();
-    
-        // Apply the updated row data to the grid using applyTransaction
-        const result = this.api.applyTransaction({ update: this.rowData });
 
-        // Force the grid to refresh the cells
-        this.api.refreshCells({ force: true });
-        console.log('Transaction Result:', result);
-    
+      // Apply the updated row data to the grid using applyTransaction
+      const result = this.api.applyTransaction({ update: this.rowData });
+
+      // Force the grid to refresh the cells
+      this.api.refreshCells({ force: true });
+      console.log('Transaction Result:', result);
+
     });
   }
-  
+
   onGridReady(params: any) {
     this.gridInited = true;
     this.api = params.api;

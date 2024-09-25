@@ -1,6 +1,6 @@
-<div fxLayout="column" fxLayoutGap="20px" style="margin: bottom 0px !important">
+<div fxLayout="column" fxLayoutGap="4px" style="height: 92vh; overflow: hidden;">
   <!-- Controls in a single row -->
-  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px" class="same-height-row">
+  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutap="20px" class="same-height-row">
     <!-- Dropdown -->
     <mat-form-field appearance="fill" fxFlex="20%" class="same-height">
       <mat-label>Source</mat-label>
@@ -12,31 +12,43 @@
     </mat-form-field>
 
     <!-- Grouped Elements: Generic Search Component and Search Database Button -->
-        <app-generic-search (triggerParentMethod)="onChildEvent()" fxFlex="30%" [sp]="'sp_SearchJob'" [tableName]="'job'"
-        [columns]="['job_id', 'jobname', 'nucc_classification', 'company_name', 'title', 'status']">
-      </app-generic-search>
+    <app-generic-search (triggerParentMethod)="onChildEvent()" fxFlex="30%" [sp]="'sp_SearchJob'" [tableName]="'job'"
+      [columns]="['job_id', 'jobname', 'nucc_classification', 'company_name', 'title', 'status']">
+    </app-generic-search>
 
-    <!-- Additional Buttons -->
-    <button mat-raised-button color="primary" (click)="onClickClusterJobs()"
-      [class.spinner]="onClickClusterJobsWaitCursor" [disabled]="onClickClusterJobsWaitCursor" class="same-height">
-      Cluster Jobs
-    </button>
-    <button mat-raised-button color="primary" (click)="onClickSearchCandidates()"
-      [class.spinner]="onClickSearchCandidatesWaitCursor" [disabled]="onClickSearchCandidatesWaitCursor"
-      class="same-height">
-      Search Web
-    </button>
-    <button mat-raised-button color="primary" (click)="onClickGetCeipalJobs()"
-      [class.spinner]="onClickSearchCeipalJobsWaitCursor" [disabled]="onClickSearchCeipalJobsWaitCursor"
-      class="same-height">
-      Get Ceipal Jobs
-    </button>
   </div>
 
   <!-- Grid -->
-  <div>
+  <div style="overflow-y: auto;">
     <app-dynamic-grid [table_name]="table_name" [api_end_point]="api_end_point" [sp]="sp"
       [display_on_load]="display_on_load">
     </app-dynamic-grid>
+  </div>
+
+  <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px" class="same-height-row" style="flex-shrink: 0;">
+    <!-- Additional Buttons -->
+    <button mat-raised-button color="primary" (click)="onClickGetCeipalJobs()"
+      [class.spinner]="onClickSearchCeipalJobsWaitCursor" [disabled]="onClickSearchCeipalJobsWaitCursor"
+      class="same-height">
+      Update Ceipal Jobs
+    </button>
+    <!-- <button mat-raised-button color="primary" (click)="onClickSearchCandidates()"
+      [class.spinner]="onClickSearchCandidatesWaitCursor" [disabled]="onClickSearchCandidatesWaitCursor"
+      class="same-height">
+      Search Web Registry
+    </button> -->
+    <button mat-raised-button color="primary" (click)="onClickSearchCandidates()" class="same-height">
+      Search Web Registry
+    </button>
+    
+    <button mat-raised-button color="primary" (click)="onClickRefreshJobs()"
+      [class.spinner]="onClickRefreshJobsWaitCursor" [disabled]="onClickRefreshJobsWaitCursor" class="same-height">
+      Refresh Grid
+    </button>
+    <button mat-raised-button color="primary" (click)="onClickClusterJobs()"
+    [class.spinner]="onClickClusterJobsWaitCursor" [disabled]="onClickClusterJobsWaitCursor" class="same-height">
+    Cluster Jobs
+  </button>
+
   </div>
 </div>

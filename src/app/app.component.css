@@ -33,13 +33,26 @@
 
   /* Set a consistent height for all elements */
 .same-height-row {
-  height: 48px; /* Desired height */
+  height: 24px; /* Desired height */
 }
 
 .same-height {
   height: 48px; /* Force elements to be the same height */
   display: flex;
   align-items: center;
+}
+
+.same-height-length {
+  height: 48px;
+  width: 800px!important;
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto; /* Prevent flexbox from overriding width */
+}
+
+
+.my-form-field .mat-form-field-wrapper {
+  margin-bottom: -1.25em;
 }
 
 /* Override the default height and padding of mat-form-field */

@@ -12,6 +12,8 @@ import { BASE_CLASS_PARAMS } from '../base-tab/base-tab.tokens';
 import { Injectable } from '@angular/core';
 import { CommunicationService } from 'src/app/services/communication.service';
 import { DataSharingService } from 'src/app/services/data-sharing.service'
+import { MatDialog } from '@angular/material/dialog';
+import { DialogComponent } from '../dialog/dialog.component'; // Adjust the path based on your setup
 
 @Component({
   selector: 'app-jobtab',
@@ -24,6 +26,7 @@ export class JobTabComponent extends BaseTabComponent {
   public onClickSearchCeipalJobsWaitCursor: boolean = false;
 
   public onClickClusterJobsWaitCursor: boolean = false;
+  public onClickRefreshJobsWaitCursor: boolean = false;
   public source_columns = ["ceipal"];
 
   public selectedView: string = null
@@ -42,38 +45,9 @@ export class JobTabComponent extends BaseTabComponent {
   }
 
   // component = JobT abComponent
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, protected paramService: ParamService, protected dataService: GenericDataService, protected popupService: PopupService, private dataSharingService: DataSharingService) {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, protected paramService: ParamService, protected dataService: GenericDataService, protected popupService: PopupService, private dataSharingService: DataSharingService, public dialog: MatDialog) {
     super(data, paramService, dataService, popupService, { "api_end_point": "get_ceipal_jobs", "sp": "", "table_name": "job", "display_on_load": true });
   }
-
-
-  // // Method to get all rows with 'search' column set to 'yes'
-  // getIDsWithSearchYes() {
-  //   const rowsWithSearchYes = [];
-  //   const jobsWithYes = [];
-  //   this.agGrid.api.forEachNode((node) => {
-  //     if (node.data.search === 'yes') {
-  //       rowsWithSearchYes.push(node.data);
-  //       jobsWithYes.push(node.data.job_id);
-  //     }
-  //   });
-  //   console.log(jobsWithYes);
-  //   return jobsWithYes;
-  // }
-
-  // // Method to get all rows with 'search' column set to 'yes'
-  // getCheckedIDsWithSearchYes() {
-  //   const rowsWithSearchYes = [];
-  //   const jobsWithYes = [];
-  //   this.agGrid.api.forEachNode((node) => {
-  //     if (node.data.search === 'yes') {
-  //       rowsWithSearchYes.push(node.data);
-  //       jobsWithYes.push(node.data.job_id);
-  //     }
-  //   });
-  //   console.log(jobsWithYes);
-  //   return jobsWithYes;
-  // }
 
   searchAndSendData(api_end_point, sp, params): void {
     // const params = this.buildSearchParams();
@@ -85,12 +59,23 @@ export class JobTabComponent extends BaseTabComponent {
     });
   }
 
+  searchAndSendDataFireAndForget(api_end_point, sp, params): void {
+    this.dataService.fetchDataPost(api_end_point, sp, params).subscribe(data => {
+      this.dataSharingService.setData(data);
+    });
+  }
+
   @Output() changeTabEvent = new EventEmitter<number>();
   onClickSearchCandidates() {
-    // let params = this.getSearchCandididateParams()
-    let params = this.getSearchNPIParams()
-    // this.searchAndOpenPopup("search_candidates", null, params, JobApplicationsPopupComponent)
-    this.searchAndSendData("search_candidates", null, params);
+
+    // Open dialog
+    const dialogRef = this.dialog.open(DialogComponent);
+    dialogRef.afterClosed().subscribe(() => {
+      // let params = this.getSearchCandididateParams()
+      let params = this.getSearchNPIParams()
+      // this.searchAndOpenPopup("search_candidates", null, params, JobApplicationsPopupComponent)
+      this.searchAndSendDataFireAndForget("search_candidates", null, params);
+    });
   }
 
   onClickGetCeipalJobs() {
@@ -109,6 +94,17 @@ export class JobTabComponent extends BaseTabComponent {
       this.onClickClusterJobsWaitCursor = this.hideWait(this.onClickClusterJobsWaitCursor);
     });
   }
+
+  onClickRefreshJobs() {
+    // let params = this.getSearchCandididateParams()
+    let params = this.getSearchNPIParams()
+    this.onClickRefreshJobsWaitCursor = this.showWait(this.onClickRefreshJobsWaitCursor);
+    this.dataService.fetchDataPost('get_ceipal_jobs', null, params).subscribe(data => {
+      this.showGrid(data)
+      this.onClickRefreshJobsWaitCursor = this.hideWait(this.onClickRefreshJobsWaitCursor);
+    });
+  }
+
 
 
 

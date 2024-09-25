@@ -1,6 +1,6 @@
-<div fxLayout="column" fxLayoutGap="20px">
+<div fxLayout="column" fxLayoutGap="2px">
   <!-- Controls in a single row -->
-  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px" class="same-height-row">
+  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="4px" class="same-height-row" style="flex-shrink: 0;">
     <!-- Label -->
     <label class="same-height">Filtered Row Count: {{ filteredRowCount }}</label>
 
@@ -9,20 +9,28 @@
       <i class="fas fa-file-csv"></i> Export to CSV
     </button>
     <button (click)="setSelectedToBlank()" class="grey-button" style="height: 48px; padding: 0 16px;">
-      Set Selected to Blank for All Rows
+      Clear Selected
     </button>
     <button (click)="setSelectedToYes()" class="grey-button" style="height: 48px; padding: 0 16px;">
-      Set Selected to "Yes" for All Rows
+      Set Selected
     </button>
 
+    <label class="same-height" style="padding-left:25px">View:</label>
+
+    <mat-select [(ngModel)]="selectedView" (selectionChange)="onViewSelect($event.value)" style="width: 400px; height: 48px; background-color: lightgray;">
+      <mat-option *ngFor="let view of views" [value]="view.file">
+        {{ view.name }}
+      </mat-option>
+    </mat-select>
+
     <!-- Dropdown -->
-    <mat-form-field appearance="fill" fxFlex="20%" style="border:none;" class="same-height" >
-      <mat-select [(ngModel)]="selectedView" (selectionChange)="onViewSelect($event.value)">
+    <!-- <mat-form-field appearance="fill" style="border:none;" >
+      <mat-select [(ngModel)]="selectedView" (selectionChange)="onViewSelect($event.value)" style="width: 200px; height: 48px; background-color: lightgray;">
         <mat-option *ngFor="let view of views" [value]="view.file">
           {{ view.name }}
         </mat-option>
       </mat-select>
-    </mat-form-field>
+    </mat-form-field> -->
   </div>
 
   <!-- Grid -->
