@@ -98,10 +98,10 @@ export class JobApplicationComponent extends BaseTabComponent {
     const selectedIds: number[] = [];
 
     this.agGrid.api.forEachNode((row) => {
-      if (row.data.selected === 'yes' && row.data["mobile"] && !(row.data["mobile"].trim() === '')){
+      if (row.data.selected === 'yes'){
             selectedIds.push(row.data['jobapplication_id']);
       }
-    });
+    })
     return selectedIds;
   }
   
