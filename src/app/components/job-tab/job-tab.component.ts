@@ -7,12 +7,12 @@ import { DataService } from 'src/app/data.service';
 import { GenericDataService } from 'src/app/services/generic-data.service';
 import { MatButtonModule } from '@angular/material/button';
 import { JobApplicationsPopupComponent } from '../job-applications-popup/job-applications-popup.component';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { BASE_CLASS_PARAMS } from '../base-tab/base-tab.tokens';
 import { Injectable } from '@angular/core';
 import { CommunicationService } from 'src/app/services/communication.service';
 import { DataSharingService } from 'src/app/services/data-sharing.service'
 import { MatDialog } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { DialogComponent } from '../dialog/dialog.component'; // Adjust the path based on your setup
 @Component({
   selector: 'app-jobtab',
@@ -76,17 +76,26 @@ export class JobTabComponent extends BaseTabComponent {
 
   @Output() changeTabEvent = new EventEmitter<number>();
   onClickSearchCandidates() {
-
-    // Open dialog
-    const dialogRef = this.dialog.open(DialogComponent);
-    dialogRef.afterClosed().subscribe(() => {
-      // let params = this.getSearchCandididateParams()
-      let params = this.getSearchNPIParams()
-      // this.searchAndOpenPopup("search_candidates", null, params, JobApplicationsPopupComponent)
-      this.searchAndSendDataFireAndForget("search_candidates", null, params);
+    // Open dialog with title and content
+    const dialogRef = this.dialog.open(DialogComponent, {
+      data: {
+        title: 'Search Web Registry',
+        content: 'Your search will be complete in 10-60 minutes depending on the number of jobs searched. The first job should be searched in less than 10 minutes. You can keep checking by: 1) Clicking the Refresh Grid Button, 2) Changing the view to Searches, 3) Checking the Total Found column for each job.',
+      },
+    });
+  
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        // OK button was clicked
+        let params = this.getSearchNPIParams();
+        this.searchAndSendDataFireAndForget("search_candidates", null, params);
+      } else {
+        // Cancel button was clicked
+        console.log('User canceled the action');
+      }
     });
   }
-
+    
   onClickGetCeipalJobs() {
     this.onClickSearchCeipalJobsWaitCursor = this.showWait(this.onClickSearchCeipalJobsWaitCursor);
     this.dataService.fetchDataPost('upsert_ceipal_jobs', null, { "days": "30" }).subscribe(data => {
