@@ -14,7 +14,6 @@ import { CommunicationService } from 'src/app/services/communication.service';
 import { DataSharingService } from 'src/app/services/data-sharing.service'
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '../dialog/dialog.component'; // Adjust the path based on your setup
-
 @Component({
   selector: 'app-jobtab',
   templateUrl: './job-tab.component.html',
@@ -38,6 +37,16 @@ export class JobTabComponent extends BaseTabComponent {
     console.log('Implemented abstract method');
   }
 
+  showJobView(selectedViewName: string)
+  {
+    this.showView(selectedViewName)
+  }
+
+  ngOnInit() {
+    this.communicationService.callJobTabShowView$.subscribe((selectedView:any) => {
+      this.showJobView(selectedView);
+    });
+  }
 
   initializeFields(): void {
     this.setParentAttributes({ "api_end_point": "get_ceipal_jobs", "sp": "", "table_name": "job", "display_on_load": true })
@@ -45,7 +54,7 @@ export class JobTabComponent extends BaseTabComponent {
   }
 
   // component = JobT abComponent
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, protected paramService: ParamService, protected dataService: GenericDataService, protected popupService: PopupService, private dataSharingService: DataSharingService, public dialog: MatDialog) {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, protected paramService: ParamService, protected dataService: GenericDataService, protected popupService: PopupService, private dataSharingService: DataSharingService, public dialog: MatDialog, private communicationService: CommunicationService) {
     super(data, paramService, dataService, popupService, { "api_end_point": "get_ceipal_jobs", "sp": "", "table_name": "job", "display_on_load": true });
   }
 

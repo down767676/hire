@@ -5,19 +5,20 @@
     <label class="same-height">Filtered Row Count: {{ filteredRowCount }}</label>
 
     <!-- Buttons with grey background and inline height -->
-    <button (click)="exportToCSV()" class="grey-button" style="height: 48px; padding: 0 16px;">
+    <button (click)="exportToCSV()" class="small-grey-button" style="padding: 0 16px;">
       <i class="fas fa-file-csv"></i> Export to CSV
     </button>
-    <button (click)="setSelectedToBlank()" class="grey-button" style="height: 48px; padding: 0 16px;">
+    <button (click)="setSelectedToBlank()" class="small-grey-button" style="padding: 0 16px;">
       Clear Selected
     </button>
-    <button (click)="setSelectedToYes()" class="grey-button" style="height: 48px; padding: 0 16px;">
+    <button (click)="setSelectedToYes()"  class="small-grey-button" style="padding: 0 16px;">
       Set Selected
     </button>
+    <button (click)="clearFilters()" class="small-grey-button" style="padding: 0 16px;">Clear All Filters</button>
 
     <label class="same-height" style="padding-left:25px">View:</label>
 
-    <mat-select [(ngModel)]="selectedView" (selectionChange)="onViewSelect($event.value)" style="width: 400px; height: 48px; background-color: lightgray;">
+    <mat-select [(ngModel)]="selectedView" (selectionChange)="onViewSelect($event.value)" style="width: 400px; font-size: 16px;height: 26px; background-color: rgb(230, 226, 226);">
       <mat-option *ngFor="let view of views" [value]="view.file">
         {{ view.name }}
       </mat-option>

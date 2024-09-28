@@ -404,6 +404,9 @@ export class DynamicGridComponent implements OnInit {
     this.setSelectedToValue_2("yes")
   }
 
+  clearFilters() {
+    this.api.setFilterModel(null);
+  }
   setSelectedToBlank() {
     this.setSelectedToValue_2('')
   }

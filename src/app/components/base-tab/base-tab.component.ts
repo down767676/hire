@@ -168,6 +168,10 @@ export class BaseTabComponent implements OnInit {
     this.agGrid.loadGridColAndRows(data)
   }
 
+  showView(selectedViewName: string)
+  {
+    this.agGrid.onViewSelect(selectedViewName)
+  }
   // sendText(): void {
   //   // Add additional logic for sending text
   //   console.log('Base Class text logic');
