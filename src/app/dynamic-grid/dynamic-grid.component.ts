@@ -1,5 +1,5 @@
 import { formatDate } from '@angular/common';
-import { Component, OnInit, Input, Inject, numberAttribute, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Input, Inject, numberAttribute, ViewEncapsulation, Output, EventEmitter } from '@angular/core';
 import { GenericDataService } from '../services/generic-data.service';
 import { ColDef, GridOptions, GridApi } from 'ag-grid-community';
 import { GridConfigService } from '../grid-config.service';
@@ -34,8 +34,11 @@ export class DynamicGridComponent implements OnInit {
   @Input() api_end_point: string;
   @Input() sp: string;
   @Input() display_on_load: boolean;
-  selectedView = null;
+  @Output() notify = new EventEmitter<void>();
 
+  selectedView = null;
+  showPinnedRow = false
+  pinnedBottomRowData = []
   multiSelectDropdownComponent = null
   public filteredRowCount: number = 0;
   components = {
@@ -100,7 +103,11 @@ export class DynamicGridComponent implements OnInit {
     return 0;
   }
 
-
+  pinRow(pinnedBottomRowData :any[])
+  {
+    this.showPinnedRow = true;
+    this.pinnedBottomRowData = pinnedBottomRowData;
+  }
 
   setAttributes(params: any) {
     this.api_end_point = params.get("api_end_point", null)
@@ -134,6 +141,8 @@ export class DynamicGridComponent implements OnInit {
           this.api.updateGridOptions({ rowData: this.rowData });
           this.updateFilteredRowCount();
         }
+        this.notify.emit();
+
       }
     });
   }
@@ -168,6 +177,7 @@ export class DynamicGridComponent implements OnInit {
   loadData(rowData) {
     if (rowData) {
       this.loadFromRows(rowData)
+      this.notify.emit();
     }
     else {
       this.searchAndLoad(this.api_end_point, this.sp, {})

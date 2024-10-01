@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input, Inject } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, Inject, AfterViewInit } from '@angular/core';
 import { GenericDataService } from 'src/app/services/generic-data.service';
 import { DynamicGridComponent } from '../../dynamic-grid/dynamic-grid.component';
 import { PopupService } from '../../services/popup.service';
@@ -96,7 +96,7 @@ export class BaseTabComponent implements OnInit {
     console.log('JSON Job IDs:', jobIdsArray);
     return jobIdsArray;
   }
-
+  
   setParentAttributes(params: any): void {
 
     this.api_end_point = params['api_end_point'];
@@ -119,16 +119,7 @@ export class BaseTabComponent implements OnInit {
   ngOnInit(): void {
     // this.initializeFields()
   }
-
-
-  ngAfterViewInit(): void {
-    // this.initializeFields();
-    // if (this.display_on_load)
-    // {
-    //   this.agGrid.loadGridColAndRows(this.data)
-    // }
-  }
-
+  
   initializeFields(): void {
   }
 
@@ -163,9 +154,14 @@ export class BaseTabComponent implements OnInit {
     console.log('Base Class email logic');
   }
 
+  protected pinRow(pinnedBottomRowData :any[])
+  {
+    this.agGrid.pinRow(pinnedBottomRowData)
+  }
+
   showGrid(data) {
     this.data = data;
-    this.agGrid.loadGridColAndRows(data)
+    this.agGrid.loadGridColAndRows(data);
   }
 
   showView(selectedViewName: string)

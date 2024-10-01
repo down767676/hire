@@ -31,13 +31,20 @@ export class JobApplicationComponent extends BaseTabComponent {
 
   selectedTask: String = "TalkTo.30"
   public tasks = [
-    { "code": "NotTexted.3", "value": "Not Texted (Searched in last 3 days)" },
-    { "code": "NotTexted.7", "value": "Not Texted (Searched in last 7 days)" },
-    { "code": "NotTexted.15", "value": "Not Texted (Searched in last 15 days)" },
-    { "code": "NotTexted.30", "value": "Not Texted (Searched in last 30 days)" },
-    { "code": "NotTexted.60", "value": "Not Texted (Searched in last 60 days)" },
-    { "code": "NotTexted.90", "value": "Not Texted (Searched in last 90 days)" },
-    { "code": "NotTexted.365", "value": "Not Texted (Searched in last 365 days)" },
+    { "code": "NotTextedCount.100", "value": "Not Texted (Last 100)" },
+    { "code": "NotTextedCount.200", "value": "Not Texted (Last 200)" },
+    { "code": "NotTextedCount.300", "value": "Not Texted (Last 300)" },
+    { "code": "NotTextedCount.400", "value": "Not Texted (Last 400)" },
+    { "code": "NotTextedCount.500", "value": "Not Texted (Last 500)" },
+    { "code": "NotTextedDays.1", "value": "Not Texted (Searched in last 1 days)" },
+    { "code": "NotTextedDays.2", "value": "Not Texted (Searched in last 2 days)" },
+    { "code": "NotTextedDays.3", "value": "Not Texted (Searched in last 3 days)" },
+    { "code": "NotTextedDays.7", "value": "Not Texted (Searched in last 7 days)" },
+    { "code": "NotTextedDays.15", "value": "Not Texted (Searched in last 15 days)" },
+    { "code": "NotTextedDays.30", "value": "Not Texted (Searched in last 30 days)" },
+    { "code": "NotTextedDays.60", "value": "Not Texted (Searched in last 60 days)" },
+    { "code": "NotTextedDays.90", "value": "Not Texted (Searched in last 90 days)" },
+    { "code": "NotTextedDays.365", "value": "Not Texted (Searched in last 365 days)" },
     { "code": "Texted.3", "value": "Texted in last 3 days" },
     { "code": "Texted.7", "value": "Texted in last 7 days" },
     { "code": "Texted.15", "value": "Texted in last 15 days" },
@@ -119,7 +126,10 @@ export class JobApplicationComponent extends BaseTabComponent {
     // this.dataService.fetchDataPost('send_batch', null, params).subscribe(data => {
     //   this.showPleaseWaitCursor = this.hideWait(this.showPleaseWaitCursor);
     // });
-    this.dataService.fetchDataPost('send_batch', null, params);
+    // this.dataService.fetchDataPost('send_batch', null, params);
+      this.dataService.fetchDataPost('send_batch', null, params).subscribe(data => {
+    });
+
   }
 
   ngOnInit() {

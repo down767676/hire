@@ -1,7 +1,7 @@
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatTableModule } from '@angular/material/table';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA  } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { AppComponent } from './app.component';
 import { DynamicGridComponent } from './dynamic-grid/dynamic-grid.component';
 import { AgGridModule } from 'ag-grid-angular';
@@ -17,36 +17,37 @@ import { SearchService } from './services/search.service';
 import { PopupService } from './services/popup.service'
 import { JobApplicationsPopupComponent } from './components/job-applications-popup/job-applications-popup.component';
 import { JobApplicationComponent } from './components/job-application/job-application.component';
-import {GenericSearchComponent} from './components/generic-search/generic-search.component'
-import {TaxonomyComponent} from './components/taxonomy/taxonomy.component' 
+import { GenericSearchComponent } from './components/generic-search/generic-search.component'
+import { TaxonomyComponent } from './components/taxonomy/taxonomy.component'
 import { StatusReportTabComponent } from './components/status-report-tab/status-report-tab.component';
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule  } from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { JobTabComponent } from './components/job-tab/job-tab.component';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { BASE_CLASS_PARAMS } from './components/base-tab/base-tab.tokens'; // Adjust the path as necessary
-import {DataSharingService} from './services/data-sharing.service'
+import { DataSharingService } from './services/data-sharing.service'
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MultiSelectDropdownComponent } from './components/multi-select-dropdown/multi-select-dropdown.component';
-import {DialogComponent} from './components/dialog/dialog.component'
-
+import { DialogComponent } from './components/dialog/dialog.component'
+import { LogTabComponent } from './components/log-tab/log-tab.component'
 @NgModule({
   declarations: [
     DialogComponent,
     AppComponent,
     DynamicGridComponent,
     CandidateTabComponent,
-    JobApplicationsPopupComponent ,
+    JobApplicationsPopupComponent,
     JobTabComponent,
     JobApplicationComponent,
     TaxonomyComponent,
-   BaseTabComponent,
-   MultiSelectDropdownComponent,
-   GenericSearchComponent,
-   StatusReportTabComponent,
+    BaseTabComponent,
+    MultiSelectDropdownComponent,
+    GenericSearchComponent,
+    StatusReportTabComponent,
+    LogTabComponent
   ],
   imports: [
     BrowserModule,
@@ -66,10 +67,10 @@ import {DialogComponent} from './components/dialog/dialog.component'
     FlexLayoutModule
   ],
   exports: [DynamicGridComponent],
-  providers: [GenericDataService, PopupService ,DataSharingService,SearchService,
-     { provide: MAT_DIALOG_DATA, useValue: {} }, 
-     { provide: MatDialogRef, useValue: {} },
-     { provide: BASE_CLASS_PARAMS, useValue: { }}],
+  providers: [GenericDataService, PopupService, DataSharingService, SearchService,
+    { provide: MAT_DIALOG_DATA, useValue: {} },
+    { provide: MatDialogRef, useValue: {} },
+    { provide: BASE_CLASS_PARAMS, useValue: {} }],
   // providers: [DataService, PopupService],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA] // Add this line
