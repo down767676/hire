@@ -10,7 +10,7 @@
     </mat-form-field>
     <app-generic-search (triggerParentMethod)="onChildEvent()" [sp]="'sp_SearchJobApplications'"
       [tableName]="'jobapplication'"
-      [columns]="['mobile', 'jobapplication_id', 'npi_number', 'job_id', 'first_name', 'email', 'taxonomy']"></app-generic-search>
+      [columns]="['status', 'mobile', 'jobapplication_id', 'npi_number', 'job_id', 'first_name', 'email', 'taxonomy']"></app-generic-search>
     <mat-form-field appearance="fill" style="margin-right: 20px; width: 25%!important;">
       <mat-label>Task</mat-label>
       <mat-select [(ngModel)]="selectedTask" required (selectionChange)="onTaskChange($event)">
