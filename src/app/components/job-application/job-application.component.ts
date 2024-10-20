@@ -10,7 +10,7 @@ import { Injectable } from '@angular/core';
 import { DataSharingService } from 'src/app/services/data-sharing.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '../dialog/dialog.component'; // Adjust the path based on your setup
-
+import { MessageDialogComponent } from '../app-message-dialog/app-message-dialog.component'
 @Component({
   selector: 'app-job-application',
   templateUrl: './job-application.component.html',
@@ -92,6 +92,42 @@ export class JobApplicationComponent extends BaseTabComponent {
 
   }
 
+  onSendMessage() {
+    var ids = this.getMobileSelectedIds()
+
+    if (ids.length > 1) {
+      alert('Error: More than one row has the value "yes"');
+      return;
+    } else if (ids.length === 0) {
+      alert('No row with "yes" selected');
+      return;
+    }
+
+    const dialogRef = this.dialog.open(MessageDialogComponent, {
+      width: '300px'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+
+        if (result) {
+        var row = this.getFirstSelectedRow()
+        const message = result.message;
+        const jsonData = {
+          first_name: row.data.first_name,
+          last_name: row.data.last_name,
+          mobile: row.data.mobile,
+          jobapplication_id: row.data.jobapplication_id,
+          message: message
+        };
+
+        // Send JSON to Python service
+        this.dataService.fetchDataPost('send_text', null, jsonData).subscribe(data => {
+        });
+
+      }
+    });
+  }
+
   getSearchParams(): any {
     let job_ids = this.extractCheckedIDs("job_id");
     let params = { "job_ids": job_ids, "minimum_should_match": 1 }
@@ -114,6 +150,16 @@ export class JobApplicationComponent extends BaseTabComponent {
     return selectedIds;
   }
 
+  getFirstSelectedRow(): any {
+    var retRow = null;
+    this.agGrid.api.forEachNode((row) => {
+      if (row.data.selected === 'yes') {
+        retRow =  row;
+      }
+    })
+    return retRow;
+  }
+
   sendEmail() {
     super.sendEmail();
     // Add additional logic for sending email
@@ -127,7 +173,7 @@ export class JobApplicationComponent extends BaseTabComponent {
     //   this.showPleaseWaitCursor = this.hideWait(this.showPleaseWaitCursor);
     // });
     // this.dataService.fetchDataPost('send_batch', null, params);
-      this.dataService.fetchDataPost('send_batch', null, params).subscribe(data => {
+    this.dataService.fetchDataPost('send_batch', null, params).subscribe(data => {
     });
 
   }

@@ -33,9 +33,11 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MultiSelectDropdownComponent } from './components/multi-select-dropdown/multi-select-dropdown.component';
 import { DialogComponent } from './components/dialog/dialog.component'
 import { LogTabComponent } from './components/log-tab/log-tab.component'
+import { MessageDialogComponent} from './components/app-message-dialog/app-message-dialog.component';
 @NgModule({
   declarations: [
     DialogComponent,
+    MessageDialogComponent,
     AppComponent,
     DynamicGridComponent,
     CandidateTabComponent,
