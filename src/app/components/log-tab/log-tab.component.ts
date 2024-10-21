@@ -21,7 +21,6 @@ export class LogTabComponent extends BaseTabComponent {
       this.showGrid(data)
     });
 
-
   }
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, paramService: ParamService, protected dataService: GenericDataService, protected popupService: PopupService, private dataSharingService: DataSharingService, private communicationService:CommunicationService) {
     super(data, paramService, dataService, popupService, { "api_end_point": "show_log", "sp": "", "table_name": "dblog", "display_on_load": true });

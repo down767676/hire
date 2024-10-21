@@ -19,6 +19,8 @@ import { MessageDialogComponent } from '../app-message-dialog/app-message-dialog
 export class JobApplicationComponent extends BaseTabComponent {
 
   public showPleaseWaitCursor: boolean = false
+  selectedMessageType: string = '';
+
   searchFields = ['field1', 'field2'];
   selectedOptions = ['', ''];
   api_end_point = "search_candidates";
@@ -117,7 +119,8 @@ export class JobApplicationComponent extends BaseTabComponent {
           last_name: row.data.last_name,
           mobile: row.data.mobile,
           jobapplication_id: row.data.jobapplication_id,
-          message: message
+          message: message,
+          scenario:this.selectedMessageType
         };
 
         // Send JSON to Python service
