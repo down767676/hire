@@ -164,6 +164,11 @@ export class BaseTabComponent implements OnInit {
     this.agGrid.loadGridColAndRows(data);
   }
 
+
+  setSelectedToBlank()
+  {
+    this.agGrid.setSelectedToBlank();
+  }
   showView(selectedViewName: string)
   {
     this.agGrid.onViewSelect(selectedViewName)

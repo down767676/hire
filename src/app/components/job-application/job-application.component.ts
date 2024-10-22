@@ -33,6 +33,13 @@ export class JobApplicationComponent extends BaseTabComponent {
 
   selectedTask: String = "TalkTo.30"
   public tasks = [
+    { "code": "TalkTo.3", "value": "Talk To in last 3 days" },
+    { "code": "TalkTo.7", "value": "Talk To in last 7 days" },
+    { "code": "TalkTo.15", "value": "Talk To in last 15 days" },
+    { "code": "TalkTo.30", "value": "Talk To in last 30 days" },
+    { "code": "TalkTo.60", "value": "Talk To in last 60 days" },
+    { "code": "TalkTo.90", "value": "Talk To in last 90 days" },
+    { "code": "TalkTo.365", "value": "Talk To in last 365 days" },
     { "code": "NotTextedCount.100", "value": "Not Texted (Last 100)" },
     { "code": "NotTextedCount.200", "value": "Not Texted (Last 200)" },
     { "code": "NotTextedCount.300", "value": "Not Texted (Last 300)" },
@@ -47,6 +54,8 @@ export class JobApplicationComponent extends BaseTabComponent {
     { "code": "NotTextedDays.60", "value": "Not Texted (Searched in last 60 days)" },
     { "code": "NotTextedDays.90", "value": "Not Texted (Searched in last 90 days)" },
     { "code": "NotTextedDays.365", "value": "Not Texted (Searched in last 365 days)" },
+    { "code": "Texted.1", "value": "Texted in last 3 days" },
+    { "code": "Texted.2", "value": "Texted in last 3 days" },
     { "code": "Texted.3", "value": "Texted in last 3 days" },
     { "code": "Texted.7", "value": "Texted in last 7 days" },
     { "code": "Texted.15", "value": "Texted in last 15 days" },
@@ -60,14 +69,7 @@ export class JobApplicationComponent extends BaseTabComponent {
     { "code": "Responded.30", "value": "Responded in last 30 days" },
     { "code": "Responded.60", "value": "Responded in last 60 days" },
     { "code": "Responded.90", "value": "Responded in last 90 days" },
-    { "code": "Responded.365", "value": "Responded in last 365 days" },
-    { "code": "TalkTo.3", "value": "Talk To in last 3 days" },
-    { "code": "TalkTo.7", "value": "Talk To in last 7 days" },
-    { "code": "TalkTo.15", "value": "Talk To in last 15 days" },
-    { "code": "TalkTo.30", "value": "Talk To in last 30 days" },
-    { "code": "TalkTo.60", "value": "Talk To in last 60 days" },
-    { "code": "TalkTo.90", "value": "Talk To in last 90 days" },
-    { "code": "TalkTo.365", "value": "Talk To in last 365 days" }
+    { "code": "Responded.365", "value": "Responded in last 365 days" }
 
 
   ]
@@ -125,6 +127,7 @@ export class JobApplicationComponent extends BaseTabComponent {
 
         // Send JSON to Python service
         this.dataService.fetchDataPost('send_text', null, jsonData).subscribe(data => {
+          this.setSelectedToBlank();
         });
 
       }
