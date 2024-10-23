@@ -103,6 +103,12 @@ export class JobTabComponent extends BaseTabComponent {
     })
   }
 
+  onClickPostToCeipal()
+  {
+    this.dataService.fetchDataPost('post_jobs_to_ceipal', null, { }).subscribe(data => {
+    })
+  }
+
   onClickClusterJobs() {
     // let params = this.getSearchCandididateParams()
     let params = this.getSearchNPIParams()
@@ -140,6 +146,45 @@ export class JobTabComponent extends BaseTabComponent {
     return params
   }
 
+  copyNuccClassificationToFilteredRows() {
+    let selectedRowWithYes = null;
+    let countOfYes = 0;
+
+    // Iterate over all nodes after the filter is applied
+    this.agGrid.api.forEachNodeAfterFilter(node => {
+        if (node.data.copy_from === 'yes') {
+            countOfYes++;
+            selectedRowWithYes = node;
+        }
+    });
+
+    // If there is more than one 'yes', show an alert and do not copy
+    if (countOfYes > 1) {
+        alert("More than one row with 'selected' set to 'yes'. Cannot proceed.");
+        return;
+    }
+
+    // If no row with 'selected' = 'yes', do nothing
+    if (countOfYes === 0) {
+        alert("No row with 'copy_from' set to 'yes'.");
+        return;
+    }
+
+    // Get the nucc_classification value from the row with 'selected' = 'yes'
+    const nuccClassificationToCopy = selectedRowWithYes.data.nucc_classification;
+
+    // Copy the nucc_classification to other filtered rows where it is blank
+    this.agGrid.api.forEachNodeAfterFilter(node => {
+        if (node !== selectedRowWithYes && !node.data.nucc_classification) {
+            node.setDataValue('nucc_classification', nuccClassificationToCopy);
+        }
+    });
+
+    selectedRowWithYes.setDataValue('copy_from', null)
+
+    // Refresh the grid to show the updated data
+    this.agGrid.api.refreshCells();
+}
 
 
 }

@@ -27,6 +27,9 @@
 
   <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px" class="same-height-row" style="flex-shrink: 0;">
     <!-- Additional Buttons -->
+    <button mat-raised-button color="primary" (click)="onClickPostToCeipal()" class="same-height">
+      Post Jobs to Ceipal
+    </button>
     <button mat-raised-button color="primary" (click)="onClickGetCeipalJobs()"
       [class.spinner]="onClickSearchCeipalJobsWaitCursor" [disabled]="onClickSearchCeipalJobsWaitCursor"
       class="same-height">
@@ -43,6 +46,9 @@
     <button mat-raised-button color="primary" (click)="onClickClusterJobs()"
       [class.spinner]="onClickClusterJobsWaitCursor" [disabled]="onClickClusterJobsWaitCursor" class="same-height">
       Cluster Jobs
+    </button>
+    <button mat-raised-button color="primary" (click)="copyNuccClassificationToFilteredRows()" class="same-height">
+      Copy NUCC
     </button>
 
   </div>
