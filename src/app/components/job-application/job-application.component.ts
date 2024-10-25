@@ -33,6 +33,8 @@ export class JobApplicationComponent extends BaseTabComponent {
 
   selectedTask: String = "TalkTo.30"
   public tasks = [
+    { "code": "TalkTo.1", "value": "Talk To in last 1 days" },
+    { "code": "TalkTo.2", "value": "Talk To in last 2 days" },
     { "code": "TalkTo.3", "value": "Talk To in last 3 days" },
     { "code": "TalkTo.7", "value": "Talk To in last 7 days" },
     { "code": "TalkTo.15", "value": "Talk To in last 15 days" },
@@ -45,6 +47,12 @@ export class JobApplicationComponent extends BaseTabComponent {
     { "code": "NotTextedCount.300", "value": "Not Texted (Last 300)" },
     { "code": "NotTextedCount.400", "value": "Not Texted (Last 400)" },
     { "code": "NotTextedCount.500", "value": "Not Texted (Last 500)" },
+    { "code": "NotTextedCount.1000", "value": "Not Texted (Last 1000)" },
+    { "code": "NotTextedCount.2000", "value": "Not Texted (Last 2000)" },
+    { "code": "NotTextedCount.3000", "value": "Not Texted (Last 3000)" },
+    { "code": "NotTextedCount.4000", "value": "Not Texted (Last 4000)" },
+    { "code": "NotTextedCount.6000", "value": "Not Texted (Last 6000)" },
+    { "code": "NotTextedCount.10000", "value": "Not Texted (Last 10000)" },
     { "code": "NotTextedDays.1", "value": "Not Texted (Searched in last 1 days)" },
     { "code": "NotTextedDays.2", "value": "Not Texted (Searched in last 2 days)" },
     { "code": "NotTextedDays.3", "value": "Not Texted (Searched in last 3 days)" },
@@ -113,7 +121,12 @@ export class JobApplicationComponent extends BaseTabComponent {
 
     dialogRef.afterClosed().subscribe(result => {
 
-        if (result) {
+      if (result) {
+        if (this.selectedMessageType == null || this.selectedMessageType == '')
+        {
+          alert ("Message type must be selected.")
+          return
+        }
         var row = this.getFirstSelectedRow()
         const message = result.message;
         const jsonData = {
@@ -122,7 +135,7 @@ export class JobApplicationComponent extends BaseTabComponent {
           mobile: row.data.mobile,
           jobapplication_id: row.data.jobapplication_id,
           message: message,
-          scenario:this.selectedMessageType
+          scenario: this.selectedMessageType
         };
 
         // Send JSON to Python service
@@ -160,7 +173,7 @@ export class JobApplicationComponent extends BaseTabComponent {
     var retRow = null;
     this.agGrid.api.forEachNode((row) => {
       if (row.data.selected === 'yes') {
-        retRow =  row;
+        retRow = row;
       }
     })
     return retRow;
