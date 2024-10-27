@@ -140,7 +140,7 @@ export class JobTabComponent extends BaseTabComponent {
   }
 
 
-  getSearchNPIParams(): any {
+    getSearchNPIParams(): any {
     let job_ids = this.getSelectedIds("job_id");
     let params = { "job_ids": job_ids, "source": "npi", "search_by": "zip_code", "mode": "Production" }
     return params
