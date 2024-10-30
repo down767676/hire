@@ -34,6 +34,7 @@ import { MultiSelectDropdownComponent } from './components/multi-select-dropdown
 import { DialogComponent } from './components/dialog/dialog.component'
 import { LogTabComponent } from './components/log-tab/log-tab.component'
 import { MessageDialogComponent} from './components/app-message-dialog/app-message-dialog.component';
+import { ConversationDialogComponent } from './components/conversation-dialog/conversation-dialog.component';
 @NgModule({
   declarations: [
     DialogComponent,
@@ -49,7 +50,8 @@ import { MessageDialogComponent} from './components/app-message-dialog/app-messa
     MultiSelectDropdownComponent,
     GenericSearchComponent,
     StatusReportTabComponent,
-    LogTabComponent
+    LogTabComponent,
+    ConversationDialogComponent,
   ],
   imports: [
     BrowserModule,

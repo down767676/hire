@@ -1,3 +1,4 @@
+import { ConversationDialogComponent } from '../../components/conversation-dialog/conversation-dialog.component'
 import { MatSelectChange } from '@angular/material/select';
 import { Component, Input, ViewChild, Inject, Output, EventEmitter } from '@angular/core';
 import { BaseTabComponent } from '../base-tab/base-tab.component';
@@ -104,6 +105,7 @@ export class JobApplicationComponent extends BaseTabComponent {
 
   }
 
+  
   onSendMessage() {
     var ids = this.getMobileSelectedIds()
 
@@ -158,6 +160,18 @@ export class JobApplicationComponent extends BaseTabComponent {
     return params
   }
 
+  getSelectedColVal(name): string
+  {
+    let value = null;
+
+    this.agGrid.api.forEachNode((row) => {
+      if (row.data.selected === 'yes') {
+        value = (row.data[name]);
+      }
+    })
+    return value;
+  }
+  
   getMobileSelectedIds(): number[] {
     const selectedIds: number[] = [];
 
@@ -237,6 +251,27 @@ export class JobApplicationComponent extends BaseTabComponent {
 
     // this.agGrid.loadGridColAndRows(this.data)
   }
+
+  showConversation() {
+    var ids = this.getMobileSelectedIds()
+
+    if (ids.length > 1) {
+      alert('Error: More than one row has the value "yes"');
+      return;
+    } else if (ids.length === 0) {
+      alert('No row with "yes" selected');
+      return;
+    }
+    const conversation_history = this.getSelectedColVal('conversation_history')
+    if (conversation_history) {
+      this.dialog.open(ConversationDialogComponent, {
+        data: { conversationHistory: conversation_history },
+        width: '500px'  // Adjust the width as needed
+      });
+    } else {
+      alert("No data found");
+    }
+  }  
 
   go(selectedTask) {
     if (this.isValid(selectedTask)) {
