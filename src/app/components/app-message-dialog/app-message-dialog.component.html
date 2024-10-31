@@ -1,0 +1,10 @@
+<h1 mat-dialog-title>Enter Message</h1>
+<div mat-dialog-content>
+  <mat-form-field class="full-width">
+    <textarea matInput [(ngModel)]="message" placeholder="Message" rows="5"></textarea>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-button (click)="onOk()">Ok</button>
+</div>
