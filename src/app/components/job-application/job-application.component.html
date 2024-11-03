@@ -45,10 +45,12 @@
         <mat-option [value]="'text_before_calling'">Heads Up Before Calling</mat-option>
         <mat-option [value]="'left_a_voice_mail'">Left a Voice Mail</mat-option>
         <mat-option [value]="'thanks_for_letting_me_know'">Thanks for Letting Me Know</mat-option>
+        <mat-option [value]="'contact_dhanusha'">Contact Dhanusha</mat-option>
       </mat-select>
     </mat-form-field>
     <button mat-raised-button color="primary" (click)="onSendMessage()">Send Message</button>
-    <button mat-button (click)="showConversation()">Show Conversation History</button>
+    <button mat-raised-button color="primary" (click)="showConversation()">Show Conversation History</button>
+    <button mat-raised-button color="primary" (click)="showJobsByDistance()">Show Jobs By</button>
 
   </div>
 </div>

@@ -117,37 +117,50 @@ export class JobApplicationComponent extends BaseTabComponent {
       return;
     }
 
-    const dialogRef = this.dialog.open(MessageDialogComponent, {
-      width: '300px'
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-
-      if (result) {
-        if (this.selectedMessageType == null || this.selectedMessageType == '')
-        {
-          alert ("Message type must be selected.")
-          return
-        }
-        var row = this.getFirstSelectedRow()
-        const message = result.message;
-        const jsonData = {
-          first_name: row.data.first_name,
-          last_name: row.data.last_name,
-          mobile: row.data.mobile,
-          jobapplication_id: row.data.jobapplication_id,
-          message: message,
-          scenario: this.selectedMessageType
-        };
-
-        // Send JSON to Python service
-        this.dataService.fetchDataPost('send_text', null, jsonData).subscribe(data => {
-          this.setSelectedToBlank();
-        });
-
+    var row = this.getFirstSelectedRow()
+    if (this.selectedMessageType == null || this.selectedMessageType == '')
+      {
+        alert ("Message type must be selected.")
+        return
       }
+
+    const jsonData = {
+      jobapplication_id: row.data.jobapplication_id,
+      scenario: this.selectedMessageType
+    };
+    const jobapplication_id=row.data.jobapplication_id;
+    // Send JSON to Python service
+    this.dataService.fetchDataPost('get_message', null, jsonData).subscribe(data => {
+      const dialogRef = this.dialog.open(MessageDialogComponent, {
+        width: '80%',  // Adjust width as needed (e.g., '600px', '80vw')
+        height: '80%', // Adjust height as needed (e.g., '600px', '80vh')
+        data: { message: data }  // Pass the initial text here
+      });
+  
+      dialogRef.afterClosed().subscribe(result => {
+  
+        if (result) {
+  
+          var row = this.getFirstSelectedRow()
+          const message = result;
+          const jsonData = {
+            jobapplication_id: jobapplication_id,
+            message: message
+          };
+  
+          // Send JSON to Python service
+          this.dataService.fetchDataPost('send_text', null, jsonData).subscribe(data => {
+            this.setSelectedToBlank();
+          });
+  
+        }
+      });
+  
+      this.setSelectedToBlank();
     });
-  }
+
+    
+    }
 
   getSearchParams(): any {
     let job_ids = this.extractCheckedIDs("job_id");
@@ -251,6 +264,31 @@ export class JobApplicationComponent extends BaseTabComponent {
 
     // this.agGrid.loadGridColAndRows(this.data)
   }
+
+  
+  showJobsByDistance() {
+    var ids = this.getMobileSelectedIds()
+
+    if (ids.length > 1) {
+      alert('Error: More than one row has the value "yes"');
+      return;
+    } else if (ids.length === 0) {
+      alert('No row with "yes" selected');
+      return;
+    }
+    this.dataService.fetchDataPost('get_jobs_by_distance_str', null, { 'jobapplication_id': ids[0] }).subscribe(data => {
+      if (data) {
+        this.dialog.open(ConversationDialogComponent, {
+          data: { conversationHistory: data },
+          width: '500px'  // Adjust the width as needed
+        });
+      } else {
+        alert("No data found");
+      }
+        
+    })
+  }  
+
 
   showConversation() {
     var ids = this.getMobileSelectedIds()

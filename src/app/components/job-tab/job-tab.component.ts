@@ -129,7 +129,14 @@ export class JobTabComponent extends BaseTabComponent {
     });
   }
 
+  
+  matchMissingClassification()
+  {
 
+    this.dataService.fetchDataPost('update_nucc_classification', null, {}).subscribe(data => {
+    });
+
+  }
 
 
   getSearchCandididateParams(): any {

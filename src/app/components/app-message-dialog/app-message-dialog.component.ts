@@ -1,20 +1,24 @@
-import { Component } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
-
+import { Component,Inject } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 @Component({
   selector: 'app-message-dialog',
   templateUrl: './app-message-dialog.component.html'
 })
 export class MessageDialogComponent {
-  public message: string;
+  message: string;
 
-  constructor(public dialogRef: MatDialogRef<MessageDialogComponent>) {}
+  constructor(
+    public dialogRef: MatDialogRef<MessageDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: { message: string }
+  ) {
+    this.message = data.message;  // Initialize the message with the passed data
+  }
 
   onCancel(): void {
     this.dialogRef.close();
   }
 
   onOk(): void {
-    this.dialogRef.close({ message: this.message });
+    this.dialogRef.close(this.message);  // Return the message when the dialog is closed
   }
 }
