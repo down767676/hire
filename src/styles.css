@@ -42,3 +42,9 @@
     resize: vertical;  /* Allows users to resize vertically */
   }
   
+  ::ng-deep .mat-dialog-container {
+    width: 90vw !important;
+    max-width: 90vw !important;
+    height: 80vh !important; /* Adjust the height as needed */
+  }
+  

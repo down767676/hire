@@ -157,23 +157,23 @@ export class DynamicGridComponent implements OnInit {
 
 
   // Function to iterate through rowData and set the 'id' column to incrementing values
-  setIncrementalIds() {
-    let counter = 1; // Starting value for the ID column
+  // setIncrementalIds() {
+  //   let counter = 1; // Starting value for the ID column
 
-    // Iterate through rowData and set the 'id' column
-    this.rowData.forEach((row, index) => {
-      row.id = counter++;  // Increment the ID value
-    });
+  //   // Iterate through rowData and set the 'id' column
+  //   this.rowData.forEach((row, index) => {
+  //     row.id = counter++;  // Increment the ID value
+  //   });
 
-    console.log('Updated rowData:', this.rowData);
+  //   console.log('Updated rowData:', this.rowData);
 
-    // Apply the updated row data to the grid using applyTransaction
-    const result = this.api.applyTransaction({ update: this.rowData });
+  //   // Apply the updated row data to the grid using applyTransaction
+  //   const result = this.api.applyTransaction({ update: this.rowData });
 
-    // Force the grid to refresh the cells
-    this.api.refreshCells({ force: true });
-    console.log('Transaction Result:', result);
-  }
+  //   // Force the grid to refresh the cells
+  //   this.api.refreshCells({ force: true });
+  //   console.log('Transaction Result:', result);
+  // }
   loadData(rowData) {
     if (rowData) {
       this.loadFromRows(rowData)
@@ -312,14 +312,14 @@ export class DynamicGridComponent implements OnInit {
       row.id = counter++;  // Increment the ID value
       row.selected = val;
       // Call the service to update the database
-      this.dataService.updateData(
-        row[this.table_name + "_id"],
-        "selected",
-        val,
-        this.table_name,
-        this.table_name,
-        row[this.table_name + "_id"]
-      ).subscribe();
+    //   this.dataService.updateData(
+    //     row[this.table_name + "_id"],
+    //     "selected",
+    //     val,
+    //     this.table_name,
+    //     this.table_name,
+    //     row[this.table_name + "_id"]
+    //   ).subscribe();
 
     });
 
@@ -341,14 +341,14 @@ export class DynamicGridComponent implements OnInit {
       job.selected = selectedValue;
 
       // Call the service to update the database
-      this.dataService.updateData(
-        job[this.table_name + "_id"],
-        "selected",
-        selectedValue,
-        this.table_name,
-        this.table_name,
-        job[this.table_name + "_id"]
-      ).subscribe();
+      // this.dataService.updateData(
+      //   job[this.table_name + "_id"],
+      //   "selected",
+      //   selectedValue,
+      //   this.table_name,
+      //   this.table_name,
+      //   job[this.table_name + "_id"]
+      // ).subscribe();
 
       // Apply the updated row data to the grid using applyTransaction
       const result = this.api.applyTransaction({ update: this.rowData });

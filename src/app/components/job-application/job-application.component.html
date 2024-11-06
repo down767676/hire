@@ -30,14 +30,15 @@
   </div>
 
   <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px" class="same-height-row" style="flex-shrink: 0;">
-    <button mat-raised-button color="primary" (click)="onClickSendText()" [class.spinner]="showPleaseWaitCursor"
-      [disabled]="showPleaseWaitCursor" style="margin-right:100px">Text Candidates</button>
-
+    <button mat-raised-button (click)="onClickSendText()" [class.spinner]="showPleaseWaitCursor"
+    [disabled]="showPleaseWaitCursor" style="margin-right:100px; background-color: red; color: white;">
+    Text Candidates
+  </button>
+  
     <mat-form-field appearance="fill">
       <mat-label>Select Message Type</mat-label>
       <mat-select [(ngModel)]="selectedMessageType">
-        <mat-option [value]="'wysiwyg'">WYSIWYG</mat-option>
-        <mat-option [value]="'provided_message'">Type Message</mat-option>
+        <mat-option [value]="'wysiwyg'">Blank Message</mat-option>
         <mat-option [value]="'job_information'">Send Job Information</mat-option>
         <mat-option [value]="'check_later_time'">Check Availability</mat-option>
         <mat-option [value]="'check_still_interested'">Answer any Questions</mat-option>
@@ -45,12 +46,15 @@
         <mat-option [value]="'text_before_calling'">Heads Up Before Calling</mat-option>
         <mat-option [value]="'left_a_voice_mail'">Left a Voice Mail</mat-option>
         <mat-option [value]="'thanks_for_letting_me_know'">Thanks for Letting Me Know</mat-option>
-        <mat-option [value]="'contact_dhanusha'">Contact Dhanusha</mat-option>
+        <mat-option [value]="'let_dhanusha_know'">Dhanusha To Contact</mat-option>
       </mat-select>
     </mat-form-field>
-    <button mat-raised-button color="primary" (click)="onSendMessage()">Send Message</button>
-    <button mat-raised-button color="primary" (click)="showConversation()">Show Conversation History</button>
-    <button mat-raised-button color="primary" (click)="showJobsByDistance()">Show Jobs By</button>
+    <button mat-raised-button color="primary" (click)="onCreateMessage()">Create Text Message</button>
+    <button mat-raised-button color="primary" (click)="onClickRefreshJobApplications()">Refresh Grid</button>
+    
+    <button mat-raised-button color="primary" (click)="showConversation()">Conversation History</button>
+    <button mat-raised-button color="primary" (click)="showJobsByDistance()">Matching Jobs - Candidate</button>
+    <button mat-raised-button color="primary" (click)="showMatchedJobsDetailed()">Matchng Jobs - Recruiter</button>
 
   </div>
 </div>

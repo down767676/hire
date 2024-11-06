@@ -106,7 +106,7 @@ export class JobApplicationComponent extends BaseTabComponent {
   }
 
   
-  onSendMessage() {
+  onCreateMessage() {
     var ids = this.getMobileSelectedIds()
 
     if (ids.length > 1) {
@@ -132,9 +132,10 @@ export class JobApplicationComponent extends BaseTabComponent {
     // Send JSON to Python service
     this.dataService.fetchDataPost('get_message', null, jsonData).subscribe(data => {
       const dialogRef = this.dialog.open(MessageDialogComponent, {
-        width: '80%',  // Adjust width as needed (e.g., '600px', '80vw')
-        height: '80%', // Adjust height as needed (e.g., '600px', '80vh')
-        data: { message: data }  // Pass the initial text here
+        width: '70vw', // Adjust as needed
+        maxWidth: '70vw', // Prevents it from shrinking below this width
+        height: '70vh', // Adjust as needed for height        
+      data: { message: data }  // Pass the initial text here
       });
   
       dialogRef.afterClosed().subscribe(result => {
@@ -150,13 +151,13 @@ export class JobApplicationComponent extends BaseTabComponent {
   
           // Send JSON to Python service
           this.dataService.fetchDataPost('send_text', null, jsonData).subscribe(data => {
-            this.setSelectedToBlank();
+            // this.setSelectedToBlank();
           });
   
         }
       });
   
-      this.setSelectedToBlank();
+      // this.setSelectedToBlank();
     });
 
     
@@ -266,7 +267,25 @@ export class JobApplicationComponent extends BaseTabComponent {
   }
 
   
-  showJobsByDistance() {
+
+  showMatchedJobsDetailed() 
+  {
+    this.showJobsByDistance_sub('recruiter')
+  }
+
+  onClickRefreshJobApplications() {
+    // let params = this.getSearchCandididateParams()
+    this.go(this.selectedTask);
+    }
+
+  
+
+  showJobsByDistance() 
+  {
+    this.showJobsByDistance_sub('candidate')
+  }
+
+  showJobsByDistance_sub(level) {
     var ids = this.getMobileSelectedIds()
 
     if (ids.length > 1) {
@@ -276,11 +295,13 @@ export class JobApplicationComponent extends BaseTabComponent {
       alert('No row with "yes" selected');
       return;
     }
-    this.dataService.fetchDataPost('get_jobs_by_distance_str', null, { 'jobapplication_id': ids[0] }).subscribe(data => {
+    this.dataService.fetchDataPost('get_jobs_by_distance_str', null, { 'jobapplication_id': ids[0], 'level':level }).subscribe(data => {
       if (data) {
         this.dialog.open(ConversationDialogComponent, {
           data: { conversationHistory: data },
-          width: '500px'  // Adjust the width as needed
+          width: '70vw', // Adjust as needed
+          maxWidth: '70vw', // Prevents it from shrinking below this width
+          height: '70vh', // Adjust as needed for height        
         });
       } else {
         alert("No data found");
@@ -304,8 +325,10 @@ export class JobApplicationComponent extends BaseTabComponent {
     if (conversation_history) {
       this.dialog.open(ConversationDialogComponent, {
         data: { conversationHistory: conversation_history },
-        width: '500px'  // Adjust the width as needed
-      });
+        width: '70vw', // Adjust as needed
+        maxWidth: '70vw', // Prevents it from shrinking below this width
+        height: '70vh', // Adjust as needed for height        
+    });
     } else {
       alert("No data found");
     }
