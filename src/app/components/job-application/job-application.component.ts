@@ -105,7 +105,7 @@ export class JobApplicationComponent extends BaseTabComponent {
 
   }
 
-  
+
   onCreateMessage() {
     var ids = this.getMobileSelectedIds()
 
@@ -118,50 +118,49 @@ export class JobApplicationComponent extends BaseTabComponent {
     }
 
     var row = this.getFirstSelectedRow()
-    if (this.selectedMessageType == null || this.selectedMessageType == '')
-      {
-        alert ("Message type must be selected.")
-        return
-      }
+    if (this.selectedMessageType == null || this.selectedMessageType == '') {
+      alert("Message type must be selected.")
+      return
+    }
 
     const jsonData = {
       jobapplication_id: row.data.jobapplication_id,
       scenario: this.selectedMessageType
     };
-    const jobapplication_id=row.data.jobapplication_id;
+    const jobapplication_id = row.data.jobapplication_id;
     // Send JSON to Python service
     this.dataService.fetchDataPost('get_message', null, jsonData).subscribe(data => {
       const dialogRef = this.dialog.open(MessageDialogComponent, {
         width: '70vw', // Adjust as needed
         maxWidth: '70vw', // Prevents it from shrinking below this width
         height: '70vh', // Adjust as needed for height        
-      data: { message: data }  // Pass the initial text here
+        data: { message: data }  // Pass the initial text here
       });
-  
+
       dialogRef.afterClosed().subscribe(result => {
-  
+
         if (result) {
-  
+
           var row = this.getFirstSelectedRow()
           const message = result;
           const jsonData = {
             jobapplication_id: jobapplication_id,
             message: message
           };
-  
+
           // Send JSON to Python service
           this.dataService.fetchDataPost('send_text', null, jsonData).subscribe(data => {
             // this.setSelectedToBlank();
           });
-  
+
         }
       });
-  
+
       // this.setSelectedToBlank();
     });
 
-    
-    }
+
+  }
 
   getSearchParams(): any {
     let job_ids = this.extractCheckedIDs("job_id");
@@ -174,8 +173,7 @@ export class JobApplicationComponent extends BaseTabComponent {
     return params
   }
 
-  getSelectedColVal(name): string
-  {
+  getSelectedColVal(name): string {
     let value = null;
 
     this.agGrid.api.forEachNode((row) => {
@@ -185,7 +183,7 @@ export class JobApplicationComponent extends BaseTabComponent {
     })
     return value;
   }
-  
+
   getMobileSelectedIds(): number[] {
     const selectedIds: number[] = [];
 
@@ -266,22 +264,20 @@ export class JobApplicationComponent extends BaseTabComponent {
     // this.agGrid.loadGridColAndRows(this.data)
   }
 
-  
 
-  showMatchedJobsDetailed() 
-  {
+
+  showMatchedJobsDetailed() {
     this.showJobsByDistance_sub('recruiter')
   }
 
   onClickRefreshJobApplications() {
     // let params = this.getSearchCandididateParams()
     this.go(this.selectedTask);
-    }
+  }
 
-  
 
-  showJobsByDistance() 
-  {
+
+  showJobsByDistance() {
     this.showJobsByDistance_sub('candidate')
   }
 
@@ -295,7 +291,7 @@ export class JobApplicationComponent extends BaseTabComponent {
       alert('No row with "yes" selected');
       return;
     }
-    this.dataService.fetchDataPost('get_jobs_by_distance_str', null, { 'jobapplication_id': ids[0], 'level':level }).subscribe(data => {
+    this.dataService.fetchDataPost('get_jobs_by_distance_str', null, { 'jobapplication_id': ids[0], 'level': level }).subscribe(data => {
       if (data) {
         this.dialog.open(ConversationDialogComponent, {
           data: { conversationHistory: data },
@@ -306,9 +302,9 @@ export class JobApplicationComponent extends BaseTabComponent {
       } else {
         alert("No data found");
       }
-        
+
     })
-  }  
+  }
 
 
   showConversation() {
@@ -328,11 +324,11 @@ export class JobApplicationComponent extends BaseTabComponent {
         width: '70vw', // Adjust as needed
         maxWidth: '70vw', // Prevents it from shrinking below this width
         height: '70vh', // Adjust as needed for height        
-    });
+      });
     } else {
       alert("No data found");
     }
-  }  
+  }
 
   go(selectedTask) {
     if (this.isValid(selectedTask)) {
