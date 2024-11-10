@@ -13,14 +13,14 @@
 
     <!-- Grouped Elements: Generic Search Component and Search Database Button -->
     <app-generic-search (triggerParentMethod)="onChildEvent()" fxFlex="30%" [sp]="'sp_SearchJob'" [tableName]="'job'"
-      [columns]="['jobname', 'job_id',  'nucc_classification', 'company_name', 'title', 'status']">
+      [columns]="['jobname', 'job_id',  'nucc_classification', 'company_name', 'title', 'status'] ">
     </app-generic-search>
   </div>
 
   <!-- Grid -->
   <div style="overflow-y: auto;">
     <app-dynamic-grid [table_name]="table_name" [api_end_point]="api_end_point" [sp]="sp"
-      [display_on_load]="display_on_load">
+      [display_on_load]="display_on_load" >
     </app-dynamic-grid>
   </div>
 
@@ -42,17 +42,17 @@
       [class.spinner]="onClickRefreshJobsWaitCursor" [disabled]="onClickRefreshJobsWaitCursor" class="same-height">
       Refresh Grid
     </button>
+    <button mat-raised-button color="primary" (click)="showJobsByDistance()"  class="same-height">Matching Jobs - Candidate</button>
     <button mat-raised-button color="warn" (click)="onClickClusterJobs()"
     [class.spinner]="onClickClusterJobsWaitCursor" [disabled]="onClickClusterJobsWaitCursor" class="same-height">
     Cluster Jobs
   </button>
-    <button mat-raised-button color="primary" (click)="copyNuccClassificationToFilteredRows()" class="same-height">
-      Copy NUCC From Selected
+    <button mat-raised-button color="warn" (click)="copyNuccClassificationToFilteredRows()" class="same-height">
+      Copy Classification From Selected
     </button>
-    <button mat-raised-button color="primary" (click)="matchMissingClassification()" class="same-height">
+    <button mat-raised-button color="warn" (click)="matchMissingClassification()" class="same-height">
       Match Missing Classification
     </button> 
-    <button mat-raised-button color="primary" (click)="showJobsByDistance()"  class="same-height">Matching Jobs - Candidate</button>
 
   </div>
 </div>

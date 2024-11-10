@@ -30,12 +30,30 @@ export class DynamicGridComponent implements OnInit {
     resizable: true
   };
 
+  @Input() clearOtherRowsOnSelect: boolean = false;
+  @Input() updateSelectedColumn: boolean = false;
   @Input() table_name: string;
   @Input() api_end_point: string;
   @Input() sp: string;
   @Input() display_on_load: boolean;
   @Output() notify = new EventEmitter<void>();
 
+  onCellEditingStopped(event: any) {
+    // Check if the parameter to clear other rows is enabled
+    if (
+      this.clearOtherRowsOnSelect &&
+      event.column.getColId() === 'selected' &&
+      event.node.data.selected === 'yes'
+    ) {
+      this.api.forEachNode((node: any) => {
+        // Only clear other rows, not the one that triggered the event
+        if (node.rowIndex !== event.node.rowIndex) {
+          node.setDataValue('selected', null);
+        }
+      });
+    }
+  }
+  
   selectedView = null;
   showPinnedRow = false
   pinnedBottomRowData = []
@@ -51,12 +69,14 @@ export class DynamicGridComponent implements OnInit {
   public api!: GridApi;
   public views: any;
 
+
   constructor(private dataService: GenericDataService, protected paramService: ParamService, protected garamService: ParamService, private gridConfigService: GridConfigService) {
 
 
     this.gridOptions = {
       onGridReady: (params) => this.onGridReady(params),
       onCellValueChanged: (event) => this.onCellValueChanged(event),
+      onCellEditingStopped: this.onCellEditingStopped.bind(this),
       rowSelection: 'multiple',  // Enable multiple row selection
       rowMultiSelectWithClick: true, // Allow multiple row selection with click
       onFilterChanged: () => this.updateFilteredRowCount()
@@ -64,6 +84,22 @@ export class DynamicGridComponent implements OnInit {
     };
   }
 
+  clearOnCellValueChanged(event: any) {
+      // Check if the parameter to clear other rows is enabled, and the `selected` column was changed to 'yes'
+      if (
+        this.clearOtherRowsOnSelect &&
+        event.column.getColId() === 'selected' &&
+        event.newValue === 'yes'
+      ) {
+        this.api.forEachNode((node: any) => {
+          // Only clear other rows, not the one that triggered the event
+          if (node.rowIndex !== event.node.rowIndex) {
+            node.setDataValue('selected', null);
+          }
+        });
+      }
+    }
+    
   // getAttributes()
   // {
   //   this.api_end_point = this.paramService.getApiEndPoint();
@@ -371,6 +407,10 @@ export class DynamicGridComponent implements OnInit {
   }
 
   onCellValueChanged(event: any) {
+    if (this.updateSelectedColumn == false && event.column.getColId() === 'selected')
+    {
+      return;
+    }
     const { data, colDef, newValue } = event;
     let t = null
     let tval = null
