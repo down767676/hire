@@ -4,8 +4,6 @@ import { PopupService } from '../../services/popup.service'
 import { GenericDataService } from 'src/app/services/generic-data.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ParamService } from 'src/app/services/param-service.service';
-import { BASE_CLASS_PARAMS } from '../base-tab/base-tab.tokens';
-import { Injectable } from '@angular/core';
 import { DataSharingService } from 'src/app/services/data-sharing.service';
 import { CommunicationService } from 'src/app/services/communication.service';
 

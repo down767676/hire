@@ -15,7 +15,19 @@
     <app-generic-search (triggerParentMethod)="onChildEvent()" fxFlex="30%" [sp]="'sp_SearchJob'" [tableName]="'job'"
       [columns]="['jobname', 'job_id',  'nucc_classification', 'company_name', 'title', 'status'] ">
     </app-generic-search>
+
+    <mat-form-field appearance="fill" style="margin-right: 20px; width: 25%!important;">
+      <mat-label>Task</mat-label>
+      <mat-select [(ngModel)]="selectedTask" required (selectionChange)="onTaskChange($event)">
+        <mat-option *ngFor="let task of tasks" [value]="task.code">
+          {{ task.value }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  
   </div>
+
+
 
   <!-- Grid -->
   <div style="overflow-y: auto;">

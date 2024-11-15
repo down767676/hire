@@ -10,6 +10,8 @@ import { DataSharingService } from 'src/app/services/data-sharing.service'
 import { MatDialog } from '@angular/material/dialog';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { DialogComponent } from '../dialog/dialog.component'; // Adjust the path based on your setup
+import { MatSelectChange } from '@angular/material/select';
+
 @Component({
   selector: 'app-jobtab',
   templateUrl: './job-tab.component.html',
@@ -28,6 +30,39 @@ export class JobTabComponent extends BaseTabComponent {
   public selected_source = this.source_columns[0]
 
 
+  selectedTask: String = "All.30"
+  public tasks = [
+    { "code": "All.1", "value": "All Jobs in last 1 days" },
+    { "code": "All.2", "value": "All Jobs in last 2 days" },
+    { "code": "All.3", "value": "All Jobs in last 3 days" },
+    { "code": "All.4", "value": "All Jobs in last 4 days" },
+    { "code": "All.5", "value": "All Jobs in last 5 days" },
+    { "code": "All.6", "value": "All Jobs in last 6 days" },
+    { "code": "All.7", "value": "All Jobs in last 7 days" },
+    { "code": "All.10", "value": "All Jobs in last 10 days" },
+    { "code": "All.12", "value": "All Jobs in last 12 days" },
+    { "code": "All.15", "value": "All Jobs in last 15 days" },
+    { "code": "All.30", "value": "All Jobs in last 30 days" },
+    { "code": "All.60", "value": "All Jobs in last 60 days" },
+    { "code": "All.90", "value": "All Jobs in last 90 days" },
+    { "code": "All.365", "value": "All Jobs in last 365 days" },
+    { "code": "Texted.1", "value": "Texted in last 1 days" },
+    { "code": "Texted.2", "value": "Texted in last 2 days" },
+    { "code": "Texted.3", "value": "Texted in last 3 days" },
+    { "code": "Texted.4", "value": "Texted in last 4 days" },
+    { "code": "Texted.5", "value": "Texted in last 5 days" },
+    { "code": "Texted.6", "value": "Texted in last 6 days" },
+    { "code": "Texted.7", "value": "Texted in last 7 days" },
+    { "code": "Texted.10", "value": "Texted in last 10 days" },
+    { "code": "Texted.12", "value": "Texted in last 12 days" },
+    { "code": "Texted.15", "value": "Texted in last 15 days" },
+    { "code": "Texted.30", "value": "Texted in last 30 days" },
+    { "code": "Texted.60", "value": "Texted in last 60 days" },
+    { "code": "Texted.90", "value": "Texted in last 90 days" },
+    { "code": "Texted.365", "value": "Texted in last 365 days" },
+    { "code": "TextPipeline.0", "value": "Text Pipeline" },
+
+  ]
 
   someMethod(): void {
     console.log('Implemented abstract method');
@@ -204,6 +239,17 @@ export class JobTabComponent extends BaseTabComponent {
     return selectedIds;
   }
 
+  onTaskChange(event: MatSelectChange) {
+    this.go(this.selectedTask);
+  }
+
+  go(selectedTask) {
+    if (this.isValid(selectedTask)) {
+      this.dataService.fetchDataPost('get_job_statistics', null, { 'task': selectedTask }).subscribe(data => {
+        this.showGrid(data);
+      })
+    }
+  }
   showJobsByDistance_sub(level) {
     var ids = this.getMobileSelectedIds()
 
