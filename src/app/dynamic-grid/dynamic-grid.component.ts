@@ -159,6 +159,12 @@ export class DynamicGridComponent implements OnInit {
     });
 
   }
+
+  public setSelectedView(selectedViewName)
+  {
+    this.selectedView = selectedViewName;
+    this.onViewSelect(this.selectedView)
+  }
   ngOnInit(): void {
     if (this.display_on_load) {
       this.loadGridColAndRows(null);
@@ -274,7 +280,7 @@ export class DynamicGridComponent implements OnInit {
         };
 
         if (col.table) {
-          columnDef["_table"] = col.table
+          columnDef["table"] = col.table
         }
         if (col.type === 'text') {
           columnDef.cellEditor = 'agTextCellEditor';
@@ -315,9 +321,19 @@ export class DynamicGridComponent implements OnInit {
 
       if (cb) {
         this.columnDefs.push(columnDefCheckBox)
+        // this.api.setColumnDefs(this.columnDefs)
+        if (this.api){
+          this.api.setGridOption('columnDefs', this.columnDefs)
+
+        }
+
       }
       if (loadData) {
         this.loadData(rows)
+        // this.api.setRowData(rows)
+        // if (this.api){
+        //   this.api.setGridOption('rowData', rows)
+        // }
       }
     }
     );
@@ -414,9 +430,9 @@ export class DynamicGridComponent implements OnInit {
     const { data, colDef, newValue } = event;
     let t = null
     let tval = null
-    if (colDef["_table"]) {
-      t = colDef["_table"];
-      tval = data[colDef["_table"] + "_id"]
+    if (colDef["table"]) {
+      t = colDef["table"];
+      tval = data[colDef["table"] + "_id"]
     }
     this.dataService.updateData(data[this.table_name + "_id"], colDef.field, newValue, this.table_name, t, tval).subscribe();
   }

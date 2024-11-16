@@ -29,38 +29,43 @@ export class JobTabComponent extends BaseTabComponent {
   public selectedView: string = null
   public selected_source = this.source_columns[0]
 
+  dropdownMapping = {
+    'Option1': ['SubOption1.1', 'SubOption1.2'],
+    'Option2': ['SubOption2.1', 'SubOption2.2'],
+    'Option3': ['SubOption3.1', 'SubOption3.2']
+  };
 
   selectedTask: String = "All.30"
   public tasks = [
-    { "code": "All.1", "value": "All Jobs in last 1 days" },
-    { "code": "All.2", "value": "All Jobs in last 2 days" },
-    { "code": "All.3", "value": "All Jobs in last 3 days" },
-    { "code": "All.4", "value": "All Jobs in last 4 days" },
-    { "code": "All.5", "value": "All Jobs in last 5 days" },
-    { "code": "All.6", "value": "All Jobs in last 6 days" },
-    { "code": "All.7", "value": "All Jobs in last 7 days" },
-    { "code": "All.10", "value": "All Jobs in last 10 days" },
-    { "code": "All.12", "value": "All Jobs in last 12 days" },
-    { "code": "All.15", "value": "All Jobs in last 15 days" },
-    { "code": "All.30", "value": "All Jobs in last 30 days" },
-    { "code": "All.60", "value": "All Jobs in last 60 days" },
-    { "code": "All.90", "value": "All Jobs in last 90 days" },
-    { "code": "All.365", "value": "All Jobs in last 365 days" },
-    { "code": "Texted.1", "value": "Texted in last 1 days" },
-    { "code": "Texted.2", "value": "Texted in last 2 days" },
-    { "code": "Texted.3", "value": "Texted in last 3 days" },
-    { "code": "Texted.4", "value": "Texted in last 4 days" },
-    { "code": "Texted.5", "value": "Texted in last 5 days" },
-    { "code": "Texted.6", "value": "Texted in last 6 days" },
-    { "code": "Texted.7", "value": "Texted in last 7 days" },
-    { "code": "Texted.10", "value": "Texted in last 10 days" },
-    { "code": "Texted.12", "value": "Texted in last 12 days" },
-    { "code": "Texted.15", "value": "Texted in last 15 days" },
-    { "code": "Texted.30", "value": "Texted in last 30 days" },
-    { "code": "Texted.60", "value": "Texted in last 60 days" },
-    { "code": "Texted.90", "value": "Texted in last 90 days" },
-    { "code": "Texted.365", "value": "Texted in last 365 days" },
-    { "code": "TextPipeline.0", "value": "Text Pipeline" },
+    { "code": "All.1", "value": "All Jobs in last 1 days", "map":"job"},
+    { "code": "All.2", "value": "All Jobs in last 2 days", "map":"job"},
+    { "code": "All.3", "value": "All Jobs in last 3 days" , "map":"job"},
+    { "code": "All.4", "value": "All Jobs in last 4 days", "map":"job" },
+    { "code": "All.5", "value": "All Jobs in last 5 days", "map":"job" },
+    { "code": "All.6", "value": "All Jobs in last 6 days", "map":"job" },
+    { "code": "All.7", "value": "All Jobs in last 7 days", "map":"job" },
+    { "code": "All.10", "value": "All Jobs in last 10 days", "map":"job" },
+    { "code": "All.12", "value": "All Jobs in last 12 days", "map":"job" },
+    { "code": "All.15", "value": "All Jobs in last 15 days", "map":"job" },
+    { "code": "All.30", "value": "All Jobs in last 30 days", "map":"job" },
+    { "code": "All.60", "value": "All Jobs in last 60 days", "map":"job" },
+    { "code": "All.90", "value": "All Jobs in last 90 days", "map":"job" },
+    { "code": "All.365", "value": "All Jobs in last 365 days", "map":"job_text_history" },
+    { "code": "Texted.1", "value": "Texted in last 1 days", "map":"job_text_history" },
+    { "code": "Texted.2", "value": "Texted in last 2 days", "map":"job_text_history" },
+    { "code": "Texted.3", "value": "Texted in last 3 days", "map":"job_text_history" },
+    { "code": "Texted.4", "value": "Texted in last 4 days", "map":"job_text_history" },
+    { "code": "Texted.5", "value": "Texted in last 5 days", "map":"job_text_history" },
+    { "code": "Texted.6", "value": "Texted in last 6 days", "map":"job_text_history" },
+    { "code": "Texted.7", "value": "Texted in last 7 days", "map":"job_text_history" },
+    { "code": "Texted.10", "value": "Texted in last 10 days", "map":"job_text_history" },
+    { "code": "Texted.12", "value": "Texted in last 12 days", "map":"job_text_history" },
+    { "code": "Texted.15", "value": "Texted in last 15 days", "map":"job_text_history" },
+    { "code": "Texted.30", "value": "Texted in last 30 days", "map":"job_text_history" },
+    { "code": "Texted.60", "value": "Texted in last 60 days", "map":"job_text_history" },
+    { "code": "Texted.90", "value": "Texted in last 90 days", "map":"job_text_history" },
+    { "code": "Texted.365", "value": "Texted in last 365 days", "map":"job_text_history" },
+    { "code": "TextPipeline.0", "value": "Text Pipeline", "map":"job_text_pipeline" },
 
   ]
 
@@ -244,9 +249,17 @@ export class JobTabComponent extends BaseTabComponent {
   }
 
   go(selectedTask) {
+    const task = this.tasks.find(task => task.code === this.selectedTask);
+    let secondaryDropdownValue = task ? task.map : '';
+
     if (this.isValid(selectedTask)) {
+      this.onClickRefreshJobsWaitCursor = this.showWait(this.onClickRefreshJobsWaitCursor);
+
       this.dataService.fetchDataPost('get_job_statistics', null, { 'task': selectedTask }).subscribe(data => {
         this.showGrid(data);
+        this.onClickRefreshJobsWaitCursor = this.hideWait(this.onClickRefreshJobsWaitCursor);
+        this.agGrid.setSelectedView(secondaryDropdownValue)
+
       })
     }
   }
@@ -274,4 +287,6 @@ export class JobTabComponent extends BaseTabComponent {
         
     })
   }
+
+
 }

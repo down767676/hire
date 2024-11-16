@@ -13,10 +13,16 @@ import { CommunicationService } from 'src/app/services/communication.service';
   styleUrl: './log-tab.component.css'
 })
 export class LogTabComponent extends BaseTabComponent {
+  public refreshCursor: boolean = false
+
   onClickRefreshLog()
   {
+    this.refreshCursor = this.showWait(this.refreshCursor);
+
     this.dataService.fetchDataPost('show_log', null, {}).subscribe(data => {
       this.showGrid(data)
+      this.refreshCursor = this.hideWait(this.refreshCursor);
+
     });
 
   }

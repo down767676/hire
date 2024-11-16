@@ -12,8 +12,8 @@ import { GenericSearchComponent } from '../generic-search/generic-search.compone
   styleUrls: ['./base-tab.component.css']
 })
 export class BaseTabComponent implements OnInit {
-  @ViewChild(GenericSearchComponent) searchComponent!: GenericSearchComponent;
-  @ViewChild(DynamicGridComponent) agGrid: DynamicGridComponent;
+  @ViewChild(GenericSearchComponent) public searchComponent!: GenericSearchComponent;
+  @ViewChild(DynamicGridComponent) public agGrid: DynamicGridComponent;
   selectedRows = []
   selectedOptions = []
   searchFields = []

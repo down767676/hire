@@ -1,10 +1,16 @@
 <div>
-    <app-dynamic-grid
-    [table_name]="table_name"
-    [api_end_point]="api_end_point"
-    [sp]="sp"
-    [display_on_load]="display_on_load"
-    (notify)="onChildNotify()">    
+  <div>
+    <app-dynamic-grid [table_name]="table_name" [api_end_point]="api_end_point" [sp]="sp"
+      [display_on_load]="display_on_load" (notify)="onChildNotify()">
     </app-dynamic-grid>
   </div>
+  <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px" class="same-height-row" style="flex-shrink: 0;">
+    <!-- Updated Buttons -->
 
+    <button mat-raised-button color="primary" [class.spinner]="refreshCursor"
+    [disabled]="refreshCursor" (click)="onClickRefreshStats()"
+      class="same-height">
+      Refresh Stats
+    </button>
+  </div>
+</div>

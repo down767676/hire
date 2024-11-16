@@ -19,7 +19,10 @@ import { MessageDialogComponent } from '../app-message-dialog/app-message-dialog
 })
 export class JobApplicationComponent extends BaseTabComponent {
 
-  public showPleaseWaitCursor: boolean = false
+  public conversationCursor: boolean = false
+  public refreshCursor: boolean = false
+  public matchingCursor: boolean = false
+  public matchingRecruiterCursor: boolean = false
   selectedMessageType: string = '';
 
   searchFields = ['field1', 'field2'];
@@ -229,9 +232,9 @@ export class JobApplicationComponent extends BaseTabComponent {
 
   sendText(params): void {
     // const params = this.buildSearchParams();
-    // this.showPleaseWaitCursor = this.showWait(this.showPleaseWaitCursor);
+    // this.refreshCursor = this.showWait(this.refreshCursor);
     // this.dataService.fetchDataPost('send_batch', null, params).subscribe(data => {
-    //   this.showPleaseWaitCursor = this.hideWait(this.showPleaseWaitCursor);
+    //   this.refreshCursor = this.hideWait(this.refreshCursor);
     // });
     // this.dataService.fetchDataPost('send_batch', null, params);
     this.dataService.fetchDataPost('send_batch', null, params).subscribe(data => {
@@ -283,6 +286,8 @@ export class JobApplicationComponent extends BaseTabComponent {
 
 
   showMatchedJobsDetailed() {
+    this.matchingRecruiterCursor = this.showWait(this.matchingRecruiterCursor);
+
     this.showJobsByDistance_sub('recruiter')
   }
 
@@ -294,10 +299,13 @@ export class JobApplicationComponent extends BaseTabComponent {
 
 
   showJobsByDistance() {
+    this.matchingCursor = this.showWait(this.matchingCursor);
+
     this.showJobsByDistance_sub('candidate')
   }
 
   showJobsByDistance_sub(level) {
+
     var ids = this.getMobileSelectedIds()
 
     if (ids.length > 1) {
@@ -308,6 +316,8 @@ export class JobApplicationComponent extends BaseTabComponent {
       return;
     }
     this.dataService.fetchDataPost('get_jobs_by_distance_str', null, { 'jobapplication_id': ids[0], 'level': level }).subscribe(data => {
+      this.matchingCursor = this.hideWait(this.matchingCursor);
+      this.matchingRecruiterCursor = this.hideWait(this.matchingRecruiterCursor);
       if (data) {
         this.dialog.open(ConversationDialogComponent, {
           data: { conversationHistory: data },
@@ -324,6 +334,8 @@ export class JobApplicationComponent extends BaseTabComponent {
 
 
   showConversation() {
+    this.refreshCursor = this.showWait(this.conversationCursor);
+
     var ids = this.getMobileSelectedIds()
 
     if (ids.length > 1) {
@@ -333,7 +345,11 @@ export class JobApplicationComponent extends BaseTabComponent {
       alert('No row with "yes" selected');
       return;
     }
-    const conversation_history = this.getSelectedColVal('conversation_history')
+    const jobapplication_id = this.getSelectedColVal('jobapplication_id')
+    this.dataService.fetchDataPost('get_job_application', null, { 'jobapplication_id': jobapplication_id  }).subscribe(data => {
+      const conversation_history  = data[0]['conversation_history']
+    // const conversation_history = this.getSelectedColVal('conversation_history')
+    this.refreshCursor = this.hideWait(this.conversationCursor);
     if (conversation_history) {
       this.dialog.open(ConversationDialogComponent, {
         data: { conversationHistory: conversation_history },
@@ -344,12 +360,16 @@ export class JobApplicationComponent extends BaseTabComponent {
     } else {
       alert("No data found");
     }
+    })
+
   }
 
   go(selectedTask) {
     if (this.isValid(selectedTask)) {
+      this.refreshCursor = this.showWait(this.refreshCursor);
       this.dataService.fetchDataPost('jobapplications', null, { 'task': selectedTask }).subscribe(data => {
         this.showGrid(data);
+        this.refreshCursor = this.hideWait(this.refreshCursor);
       })
     }
   }

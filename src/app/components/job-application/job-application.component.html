@@ -23,18 +23,18 @@
     <!-- <button mat-raised-button color="primary" (click)="onClickGo()">Go</button> -->
 
   </div>
-  <div>
-    <app-dynamic-grid [table_name]="table_name" [api_end_point]="api_end_point" [sp]="sp"
+
+    <div style="overflow-y: auto;">
+      <app-dynamic-grid [table_name]="table_name" [api_end_point]="api_end_point" [sp]="sp"
       [display_on_load]="display_on_load" [clearOtherRowsOnSelect]="true">
     </app-dynamic-grid>
   </div>
 
   <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px" class="same-height-row" style="flex-shrink: 0;">
-    <button mat-raised-button (click)="onClickSendText()" [class.spinner]="showPleaseWaitCursor"
-    [disabled]="showPleaseWaitCursor" style="margin-right:100px; background-color: red; color: white;">
-    Text Candidates
-  </button>
-  
+    <button mat-raised-button (click)="onClickSendText()" style="margin-right:100px; background-color: red; color: white;">
+      Text Candidates
+    </button>
+
     <mat-form-field appearance="fill">
       <mat-label>Select Message Type</mat-label>
       <mat-select [(ngModel)]="selectedMessageType">
@@ -50,11 +50,15 @@
       </mat-select>
     </mat-form-field>
     <button mat-raised-button color="primary" (click)="onCreateMessage()">Create Text Message</button>
-    <button mat-raised-button color="primary" (click)="onClickRefreshJobApplications()">Refresh Grid</button>
-    
-    <button mat-raised-button color="primary" (click)="showConversation()">Conversation History</button>
-    <button mat-raised-button color="primary" (click)="showJobsByDistance()">Matching Jobs - Candidate</button>
-    <button mat-raised-button color="primary" (click)="showMatchedJobsDetailed()">Matchng Jobs - Recruiter</button>
+    <button mat-raised-button color="primary" [class.spinner]="refreshCursor"
+    [disabled]="refreshCursor" (click)="onClickRefreshJobApplications()">Refresh Grid</button>
+
+    <button mat-raised-button color="primary" [class.spinner]="conversationCursor"
+    [disabled]="conversationCursor" (click)="showConversation()">Conversation History</button>
+    <button mat-raised-button [class.spinner]="matchingCursor"
+    [disabled]="matchingCursor" color="primary" (click)="showJobsByDistance()">Matching Jobs - Candidate</button>
+    <button mat-raised-button [class.spinner]="matchingRecruiterCursor"
+    [disabled]="matchingRecruiterCursor" color="primary" (click)="showMatchedJobsDetailed()">Matchng Jobs - Recruiter</button>
 
   </div>
 </div>

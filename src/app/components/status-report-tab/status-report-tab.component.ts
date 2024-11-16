@@ -17,6 +17,8 @@ import { DataSharingService } from 'src/app/services/data-sharing.service';
 })
 export class StatusReportTabComponent extends BaseTabComponent {
 
+  public refreshCursor: boolean = false
+  
   someMethod(): void {
     console.log('Implemented abstract method');
   }
@@ -32,17 +34,17 @@ export class StatusReportTabComponent extends BaseTabComponent {
     const totalPresented = this.agGrid.rowData.reduce((sum, current) => sum + current.Presented, 0);
     const totalPlaced = this.agGrid.rowData.reduce((sum, current) => sum + current.Placed, 0);
 
-    const RespondedPercent = this.pct(totalResponded/totalTexted)
-    const TalkToPercent = this.pct(totalTalkTo/totalResponded)
-    const RejectedPercent = this.pct(totalRejected/totalResponded)
-    const ToPresentPercent = this.pct(totalToPresent/totalResponded)
-    const WaitingPercent = this.pct(totalWaiting/totalResponded)
-    const PresentedPrecented = this.pct(totalPresented/totalResponded)
-    const PlacedPercent = this.pct(totalPlaced/totalResponded)
+    const RespondedPercent = this.pct(totalResponded / totalTexted)
+    const TalkToPercent = this.pct(totalTalkTo / totalResponded)
+    const RejectedPercent = this.pct(totalRejected / totalResponded)
+    const ToPresentPercent = this.pct(totalToPresent / totalResponded)
+    const WaitingPercent = this.pct(totalWaiting / totalResponded)
+    const PresentedPrecented = this.pct(totalPresented / totalResponded)
+    const PlacedPercent = this.pct(totalPlaced / totalResponded)
 
     this.pinnedRowData = [
-      { title: 'Total', Texted: totalTexted, Responded: totalResponded, TalkTo: totalTalkTo, Rejected: totalRejected, Waiting:totalWaiting, ToPresent: totalToPresent, Presented: totalPresented, Placed: totalPlaced },
-      {title: '%', Responded:RespondedPercent , TalkTo: TalkToPercent, Rejected:RejectedPercent,ToPresent:ToPresentPercent,Presented:PresentedPrecented, Waiting:WaitingPercent, Placed:PlacedPercent }
+      { title: 'Total', Texted: totalTexted, Responded: totalResponded, TalkTo: totalTalkTo, Rejected: totalRejected, Waiting: totalWaiting, ToPresent: totalToPresent, Presented: totalPresented, Placed: totalPlaced },
+      { title: '%', Responded: RespondedPercent, TalkTo: TalkToPercent, Rejected: RejectedPercent, ToPresent: ToPresentPercent, Presented: PresentedPrecented, Waiting: WaitingPercent, Placed: PlacedPercent }
     ];
     this.pinRow(this.pinnedRowData)
 
@@ -56,7 +58,7 @@ export class StatusReportTabComponent extends BaseTabComponent {
 
   pct(value: number): number {
     return parseFloat((value * 100).toFixed(2));
-}
+  }
 
 
   onChildNotify() {
@@ -71,4 +73,12 @@ export class StatusReportTabComponent extends BaseTabComponent {
     super(data, paramService, dataService, popupService, { "api_end_point": "get_sourcing_status_report", "sp": "", "table_name": "dynamic", "display_on_load": true });
   }
 
+  onClickRefreshStats() {
+    this.refreshCursor = this.showWait(this.refreshCursor);
+    this.dataService.fetchDataPost('get_sourcing_status_report', null, {}).subscribe(data => {
+      this.showGrid(data)
+      this.refreshCursor = this.hideWait(this.refreshCursor);
+
+    })
+  }
 }
