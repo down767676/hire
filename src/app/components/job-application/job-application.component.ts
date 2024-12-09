@@ -31,12 +31,26 @@ export class JobApplicationComponent extends BaseTabComponent {
   sp = "";
   table_name = "jobapplication";
   display_on_load = false
-  public source_columns = ["all"];
+  public source_columns = ["all","npi","ceipal"];
   public selectedView: string = null
   public selected_source = this.source_columns[0]
 
   selectedTask: String = "TalkTo.1"
   public tasks = [
+    { "code": "LicensedApplicants.1", "value": "Licensed Applicants in last 1 days" },
+    { "code": "LicensedApplicants.2", "value": "Licensed Applicants in last 2 days" },
+    { "code": "LicensedApplicants.3", "value": "Licensed Applicants in last 3 days" },
+    { "code": "LicensedApplicants.4", "value": "Licensed Applicants in last 4 days" },
+    { "code": "LicensedApplicants.5", "value": "Licensed Applicants in last 5 days" },
+    { "code": "LicensedApplicants.6", "value": "Licensed Applicants in last 6 days" },
+    { "code": "LicensedApplicants.7", "value": "Licensed Applicants in last 7 days" },
+    { "code": "LicensedApplicants.10", "value": "Licensed Applicants in last 10 days" },
+    { "code": "LicensedApplicants.12", "value": "Licensed Applicants in last 12 days" },
+    { "code": "LicensedApplicants.15", "value": "Licensed Applicants in last 15 days" },
+    { "code": "LicensedApplicants.30", "value": "Licensed Applicants in last 30 days" },
+    { "code": "LicensedApplicants.60", "value": "Licensed Applicants in last 60 days" },
+    { "code": "LicensedApplicants.90", "value": "Licensed Applicants in last 90 days" },
+    { "code": "LicensedApplicants.365", "value": "Licensed Applicants in last 365 days" },
     { "code": "TalkTo.1", "value": "Talk To in last 1 days" },
     { "code": "TalkTo.2", "value": "Talk To in last 2 days" },
     { "code": "TalkTo.3", "value": "Talk To in last 3 days" },
@@ -276,7 +290,7 @@ export class JobApplicationComponent extends BaseTabComponent {
   }
 
   ngAfterViewInit(): void {
-    this.dataService.fetchDataPost('jobapplications', null, { 'task': this.selectedTask }).subscribe(data => {
+    this.dataService.fetchDataPost('jobapplications', null, { 'task': this.selectedTask,'source':this.selected_source }).subscribe(data => {
       this.showGrid(data);
     })
 
