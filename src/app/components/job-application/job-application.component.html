@@ -38,6 +38,7 @@
     <mat-form-field appearance="fill">
       <mat-label>Select Message Type</mat-label>
       <mat-select [(ngModel)]="selectedMessageType">
+        <mat-option [value]="'thanks_for_scheduling'">Thanks for Scheduling</mat-option>
         <mat-option [value]="'wysiwyg'">Blank Message</mat-option>
         <mat-option [value]="'job_information'">Send Job Information</mat-option>
         <mat-option [value]="'check_later_time'">Check Availability</mat-option>
