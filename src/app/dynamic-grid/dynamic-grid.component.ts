@@ -10,6 +10,9 @@ import { GridColumn } from '../grid-properties.interface';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ParamService } from 'src/app/services/param-service.service';
 import { MultiSelectDropdownComponent } from '../components/multi-select-dropdown/multi-select-dropdown.component';
+import { ViewChild } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { AgGridAngular } from 'ag-grid-angular';
 
 // ../multi-select-dropdown/multi-select-dropdown.component'
 
@@ -53,7 +56,7 @@ export class DynamicGridComponent implements OnInit {
       });
     }
   }
-  
+
   selectedView = null;
   showPinnedRow = false
   pinnedBottomRowData = []
@@ -70,7 +73,7 @@ export class DynamicGridComponent implements OnInit {
   public views: any;
 
 
-  constructor(private dataService: GenericDataService, protected paramService: ParamService, protected garamService: ParamService, private gridConfigService: GridConfigService) {
+  constructor(private http: HttpClient, private dataService: GenericDataService, protected paramService: ParamService, protected garamService: ParamService, private gridConfigService: GridConfigService) {
 
 
     this.gridOptions = {
@@ -85,21 +88,21 @@ export class DynamicGridComponent implements OnInit {
   }
 
   clearOnCellValueChanged(event: any) {
-      // Check if the parameter to clear other rows is enabled, and the `selected` column was changed to 'yes'
-      if (
-        this.clearOtherRowsOnSelect &&
-        event.column.getColId() === 'selected' &&
-        event.newValue === 'yes'
-      ) {
-        this.api.forEachNode((node: any) => {
-          // Only clear other rows, not the one that triggered the event
-          if (node.rowIndex !== event.node.rowIndex) {
-            node.setDataValue('selected', null);
-          }
-        });
-      }
+    // Check if the parameter to clear other rows is enabled, and the `selected` column was changed to 'yes'
+    if (
+      this.clearOtherRowsOnSelect &&
+      event.column.getColId() === 'selected' &&
+      event.newValue === 'yes'
+    ) {
+      this.api.forEachNode((node: any) => {
+        // Only clear other rows, not the one that triggered the event
+        if (node.rowIndex !== event.node.rowIndex) {
+          node.setDataValue('selected', null);
+        }
+      });
     }
-    
+  }
+
   // getAttributes()
   // {
   //   this.api_end_point = this.paramService.getApiEndPoint();
@@ -139,8 +142,7 @@ export class DynamicGridComponent implements OnInit {
     return 0;
   }
 
-  pinRow(pinnedBottomRowData :any[])
-  {
+  pinRow(pinnedBottomRowData: any[]) {
     this.showPinnedRow = true;
     this.pinnedBottomRowData = pinnedBottomRowData;
   }
@@ -160,8 +162,7 @@ export class DynamicGridComponent implements OnInit {
 
   }
 
-  public setSelectedView(selectedViewName)
-  {
+  public setSelectedView(selectedViewName) {
     this.selectedView = selectedViewName;
     this.onViewSelect(this.selectedView)
   }
@@ -250,10 +251,9 @@ export class DynamicGridComponent implements OnInit {
   }
 
   dateFormatter(params) {
-    if (!params.value)
-    {
+    if (!params.value) {
       return null;
-    } 
+    }
     return formatDate(params.value, 'MM-dd-yyyy', 'en-US');
   }
 
@@ -322,7 +322,7 @@ export class DynamicGridComponent implements OnInit {
       if (cb) {
         this.columnDefs.push(columnDefCheckBox)
         // this.api.setColumnDefs(this.columnDefs)
-        if (this.api){
+        if (this.api) {
           this.api.setGridOption('columnDefs', this.columnDefs)
 
         }
@@ -364,14 +364,14 @@ export class DynamicGridComponent implements OnInit {
       row.id = counter++;  // Increment the ID value
       row.selected = val;
       // Call the service to update the database
-    //   this.dataService.updateData(
-    //     row[this.table_name + "_id"],
-    //     "selected",
-    //     val,
-    //     this.table_name,
-    //     this.table_name,
-    //     row[this.table_name + "_id"]
-    //   ).subscribe();
+      //   this.dataService.updateData(
+      //     row[this.table_name + "_id"],
+      //     "selected",
+      //     val,
+      //     this.table_name,
+      //     this.table_name,
+      //     row[this.table_name + "_id"]
+      //   ).subscribe();
 
     });
 
@@ -423,8 +423,7 @@ export class DynamicGridComponent implements OnInit {
   }
 
   onCellValueChanged(event: any) {
-    if (this.updateSelectedColumn == false && event.column.getColId() === 'selected')
-    {
+    if (this.updateSelectedColumn == false && event.column.getColId() === 'selected') {
       return;
     }
     const { data, colDef, newValue } = event;
@@ -476,6 +475,41 @@ export class DynamicGridComponent implements OnInit {
   setSelectedToBlank() {
     this.setSelectedToValue_2('')
   }
+
+  // Function to Add a New Row
+  addRow() {
+    if (!this.table_name) {
+      console.error('Table name is required.');
+      return;
+    }
+
+    // Identify the column to update: table_name + "_id"
+    const idColumnName = `${this.table_name}_id`;
+
+    // Check if the id column exists in column definitions
+    const columnExists = this.columnDefs.some((col) => col.field === idColumnName);
+
+    if (!columnExists) {
+      console.error(`Column '${idColumnName}' does not exist in the grid.`);
+      return;
+    }
+
+    this.dataService.fetchDataPost('insert_row', null, { table_name: this.table_name }).subscribe(response => {
+      if (response && response.table_id) {
+        // Create a new row with the table_id in the correct column
+        const newRow: any = { [idColumnName]: response.table_id };
+
+        // Add the new row to AG-Grid
+        this.rowData = [...this.rowData, newRow];
+      }
+    },
+      (error) => {
+        console.error('Error adding row:', error);
+      }
+    )
+  }
+
+
   // Function to set the "selected" column to blank for all rows
   // setSelectedToBlank() {
 
