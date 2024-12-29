@@ -66,7 +66,7 @@ export class JobTabComponent extends BaseTabComponent {
     { "code": "Texted.90", "value": "Texted in last 90 days", "map":"job_text_history" },
     { "code": "Texted.365", "value": "Texted in last 365 days", "map":"job_text_history" },
     { "code": "TextPipeline.0", "value": "Text Pipeline", "map":"job_text_pipeline" },
-
+    { "code": "TextPipeline.1", "value": "Nearby Job Text Pipeline", "map":"job_text_pipeline" },
   ]
 
   someMethod(): void {
