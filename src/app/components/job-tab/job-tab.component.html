@@ -46,14 +46,19 @@
       class="same-height">
       Get New Jobs from Ceipal
     </button>
-    <button mat-raised-button color="warn" (click)="onClickSearchCandidates()" class="same-height">
+    <!-- <button mat-raised-button color="warn" (click)="onClickSearchCandidates()" class="same-height">
       Search Web Registry
+    </button> -->
+    <button mat-raised-button color="warn" (click)="onClickSmartSearch()" class="same-height">
+      Search Job
     </button>
 
     <button mat-raised-button color="primary" (click)="onClickRefreshJobs()"
       [class.spinner]="onClickRefreshJobsWaitCursor" [disabled]="onClickRefreshJobsWaitCursor" class="same-height">
       Refresh Grid
     </button>
+    <app-file-upload [buttonLabel]="'Upload Aya Jobs'" (csvParsed)="handleCsvData($event)"></app-file-upload>
+
     <button mat-raised-button color="primary" (click)="showJobsByDistance()" class="same-height">Matching Jobs -
       Candidate</button>
     <button mat-raised-button color="warn" (click)="onClickClusterJobs()" [class.spinner]="onClickClusterJobsWaitCursor"
@@ -66,6 +71,10 @@
     <button mat-raised-button color="warn" (click)="matchMissingClassification()" class="same-height">
       Match Missing Classification
     </button>
+    
+
+
+
 
   </div>
 </div>

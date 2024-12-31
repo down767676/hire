@@ -35,6 +35,7 @@ import { DialogComponent } from './components/dialog/dialog.component'
 import { LogTabComponent } from './components/log-tab/log-tab.component'
 import { MessageDialogComponent} from './components/app-message-dialog/app-message-dialog.component';
 import { ConversationDialogComponent } from './components/conversation-dialog/conversation-dialog.component';
+import {FileUploadComponent} from './components/file-upload/file-upload.component'
 @NgModule({
   declarations: [
     DialogComponent,
@@ -52,6 +53,7 @@ import { ConversationDialogComponent } from './components/conversation-dialog/co
     StatusReportTabComponent,
     LogTabComponent,
     ConversationDialogComponent,
+    FileUploadComponent
   ],
   imports: [
     BrowserModule,

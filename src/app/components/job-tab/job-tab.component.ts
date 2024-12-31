@@ -11,6 +11,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { DialogComponent } from '../dialog/dialog.component'; // Adjust the path based on your setup
 import { MatSelectChange } from '@angular/material/select';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment'
 
 @Component({
   selector: 'app-jobtab',
@@ -18,6 +20,9 @@ import { MatSelectChange } from '@angular/material/select';
   styleUrls: ['../base-tab/base-tab.component.css']
 })
 export class JobTabComponent extends BaseTabComponent {
+
+  private apiUrl = environment.apiUrl;
+  jobs_receiver_url = `${this.apiUrl}/receive_jobs`;
 
   public onClickSearchCandidatesWaitCursor: boolean = false;
   public onClickSearchCeipalJobsWaitCursor: boolean = false;
@@ -69,6 +74,36 @@ export class JobTabComponent extends BaseTabComponent {
     { "code": "TextPipeline.1", "value": "Nearby Job Text Pipeline", "map":"job_text_pipeline" },
   ]
 
+
+  // Handle the emitted JSON and modify it
+  handleCsvData(csvData: any): void {
+    console.log('Received JSON:', csvData);
+
+    const payload = {}
+    payload['source'] = 'aya'
+    payload['jobs'] = csvData
+    // // Modify the JSON (e.g., add a timestamp)
+    // csvData.timestamp = new Date().toISOString();
+
+    // // Add or modify fields as needed
+    // csvData.metadata = { processedBy: 'Parent Component' }; // Add metadata
+
+    // Send the modified JSON to the backend
+    this.sendToBackend(payload);
+  }
+
+  // Send the JSON to the backend
+  private sendToBackend(data: any): void {
+    this.http.post(this.jobs_receiver_url, data).subscribe({
+      next: (response) => {
+        console.log('Data sent successfully:', response);
+      },
+      error: (error) => {
+        console.error('Error sending data:', error);
+      }
+    });
+  }
+
   someMethod(): void {
     console.log('Implemented abstract method');
   }
@@ -89,7 +124,7 @@ export class JobTabComponent extends BaseTabComponent {
   }
 
   // component = JobT abComponent
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, protected paramService: ParamService, protected dataService: GenericDataService, protected popupService: PopupService, private dataSharingService: DataSharingService, public dialog: MatDialog, private communicationService: CommunicationService) {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, protected paramService: ParamService, protected dataService: GenericDataService, protected popupService: PopupService, private dataSharingService: DataSharingService, public dialog: MatDialog, private communicationService: CommunicationService, private http: HttpClient) {
     super(data, paramService, dataService, popupService, { "api_end_point": "get_ceipal_jobs", "sp": "", "table_name": "job", "display_on_load": true });
   }
 
@@ -138,6 +173,27 @@ export class JobTabComponent extends BaseTabComponent {
     })
   }
 
+
+  onClickSmartSearch() {
+    // Open dialog with title and content
+    const dialogRef = this.dialog.open(DialogComponent, {
+      data: {
+        title: 'Search Job',
+        content: 'Your search of web registry and Ceipal will be complete in about 10-60 minutes depending on the number of jobs searched. The first job should be searched in less than 10 minutes. You can keep checking by: 1) Clicking the Refresh Grid Button, 2) Changing the view to Searches, 3) Checking the Total Found column for each job.',
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        // OK button was clicked
+        let params = this.getSearchNPIParams();
+        this.searchAndSendDataFireAndForget("smart_search", null, params);
+      } else {
+        // Cancel button was clicked
+        console.log('User canceled the action');
+      }
+    });
+  }
 
 
   onClickPostToCeipal() {
