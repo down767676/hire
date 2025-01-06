@@ -75,6 +75,8 @@ export class JobTabComponent extends BaseTabComponent {
     { "code": "TextPipeline.travel", "value": "Travel Text Pipeline", "map":"job_text_pipeline" },
     { "code": "TextPipeline.nearby_full_time", "value": "Nearby Fulltime Pipeline", "map":"job_text_pipeline" },
     { "code": "TextPipeline.full_time", "value": "Fulltime Pipeline", "map":"job_text_pipeline" },
+    { "code": "TextPipeline.pipeline_include_texted", "value": "Include Texted - Text Pipeline", "map":"job_text_pipeline" },
+    { "code": "TextPipeline.nearby_include_texted", "value": "Include Texted - Nearby Pipeline", "map":"job_text_pipeline" },
   ]
 
 
