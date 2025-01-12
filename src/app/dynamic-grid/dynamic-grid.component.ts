@@ -151,7 +151,7 @@ export class DynamicGridComponent implements OnInit {
     this.api_end_point = params.get("api_end_point", null)
     this.sp = params.get("sp", null)
     this.table_name = params.get("api_entable_named_point", null)
-    this.display_on_load = params.get("api_end_point", null)
+    this.display_on_load = params.get("display_on_load", null)
   }
 
   loadGridViews() {

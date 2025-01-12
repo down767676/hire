@@ -36,8 +36,12 @@ import { LogTabComponent } from './components/log-tab/log-tab.component'
 import { MessageDialogComponent} from './components/app-message-dialog/app-message-dialog.component';
 import { ConversationDialogComponent } from './components/conversation-dialog/conversation-dialog.component';
 import {FileUploadComponent} from './components/file-upload/file-upload.component'
+import { FacebookPostComponent} from './components/facebook-post/facebook-post.component';
+import { FacebookPostDialogComponent } from './components/facebook-post-dialog/facebook-post-dialog.component';
 @NgModule({
   declarations: [
+    FacebookPostComponent,
+    FacebookPostDialogComponent,
     DialogComponent,
     MessageDialogComponent,
     AppComponent,
