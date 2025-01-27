@@ -191,7 +191,7 @@ export class JobTabComponent extends BaseTabComponent {
 
   onClickGetCeipalJobs() {
     this.onClickSearchCeipalJobsWaitCursor = this.showWait(this.onClickSearchCeipalJobsWaitCursor);
-    this.dataService.fetchDataPost('upsert_ceipal_jobs', null, { "days": "30" }).subscribe(data => {
+      this.dataService.fetchDataPost('upsert_ceipal_jobs', null, { "days": "2" }).subscribe(data => {
       this.onClickSearchCeipalJobsWaitCursor = this.hideWait(this.onClickSearchCeipalJobsWaitCursor);
     })
   }
