@@ -35,12 +35,8 @@ export class JobApplicationComponent extends BaseTabComponent {
   public selectedView: string = null
   public selected_source = this.source_columns[0]
 
-  selectedTask: String = "TalkTo.1"
+  selectedTask: String = "TalkTo.5"
   public tasks = [
-    { "code": "TalkTo.1", "value": "Talk To in last 1 days" },
-    { "code": "TalkTo.2", "value": "Talk To in last 2 days" },
-    { "code": "TalkTo.3", "value": "Talk To in last 3 days" },
-    { "code": "TalkTo.4", "value": "Talk To in last 4 days" },
     { "code": "TalkTo.5", "value": "Talk To in last 5 days" },
     { "code": "TalkTo.6", "value": "Talk To in last 6 days" },
     { "code": "TalkTo.7", "value": "Talk To in last 7 days" },
