@@ -10,7 +10,7 @@
     </mat-form-field>
     <app-generic-search (triggerParentMethod)="onChildEvent()" [sp]="'sp_SearchJobApplications'"
       [tableName]="'jobapplication'"
-      [columns]="['status', 'mobile', 'jobapplication_id', 'npi_number', 'job_id', 'first_name', 'email', 'taxonomy']"></app-generic-search>
+      [columns]="['mobile', 'jobapplication_id', 'first_name', 'email']"></app-generic-search>
     <mat-form-field appearance="fill" style="margin-right: 20px; width: 25%!important;">
       <mat-label>Task</mat-label>
       <mat-select [(ngModel)]="selectedTask" required (selectionChange)="onTaskChange($event)">
@@ -48,6 +48,8 @@
         <mat-option [value]="'left_a_voice_mail'">Left a Voice Mail</mat-option>
         <mat-option [value]="'thanks_for_letting_me_know'">Thanks for Letting Me Know</mat-option>
         <mat-option [value]="'let_dhanusha_know'">Dhanusha To Contact</mat-option>
+        <mat-option [value]="'request_manual_calendy'">Request Calendly</mat-option>
+
       </mat-select>
     </mat-form-field>
     <button mat-raised-button color="primary" (click)="onCreateMessage()">Create Text Message</button>

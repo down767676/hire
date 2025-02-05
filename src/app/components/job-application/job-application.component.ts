@@ -46,7 +46,7 @@ export class JobApplicationComponent extends BaseTabComponent {
     { "code": "TalkTo.30", "value": "Talk To in last 30 days" },
     { "code": "TalkTo.60", "value": "Talk To in last 60 days" },
     { "code": "TalkTo.90", "value": "Talk To in last 90 days" },
-    { "code": "TalkTo.365", "value": "Talk To in last 365 days" },
+    { "code": "TalkTo.365", "value": "Talk To in last 365 days" },  
     { "code": "Submission.1", "value": "Submission in last 1 days" },
     { "code": "Submission.2", "value": "Submission in last 2 days" },
     { "code": "Submission.3", "value": "Submission in last 3 days" },
