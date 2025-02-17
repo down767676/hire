@@ -53,6 +53,10 @@
       Search Job
     </button>
 
+    <button mat-raised-button color="warn" (click)="onClickElasticSearch()" class="same-height">
+      Search Ceipal
+    </button>
+
     <button mat-raised-button color="primary" (click)="onClickRefreshJobs()"
       [class.spinner]="onClickRefreshJobsWaitCursor" [disabled]="onClickRefreshJobsWaitCursor" class="same-height">
       Refresh Grid

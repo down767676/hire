@@ -167,6 +167,28 @@ export class JobTabComponent extends BaseTabComponent {
     });
   }
 
+  onClickElasticSearch() {
+  // Open dialog with title and content
+  const dialogRef = this.dialog.open(DialogComponent, {
+    data: {
+      title: 'Search Ceipal',
+      content: 'Your search will be complete in few minutes.',
+    },
+  });
+
+  dialogRef.afterClosed().subscribe((result) => {
+    if (result) {
+      // OK button was clicked
+      let params = this.getSearchElasticParams();
+      this.searchAndSendDataFireAndForget("search_elastic_job", null, params);
+    } else {
+      // Cancel button was clicked
+      console.log('User canceled the action');
+    }
+  });
+}
+
+
   @Output() changeTabEvent = new EventEmitter<number>();
   onClickSearchCandidates() {
     // Open dialog with title and content
@@ -260,7 +282,12 @@ export class JobTabComponent extends BaseTabComponent {
     return params
   }
 
-
+  
+  getSearchElasticParams(): any {
+    let job_ids = this.getSelectedIds("job_id");
+    let params = { "job_ids": job_ids, "source": "ceipal" }
+    return params
+  }
   getSearchNPIParams(): any {
     let job_ids = this.getSelectedIds("job_id");
     let params = { "job_ids": job_ids, "source": "npi", "search_by": "zip_code", "mode": "Production" }
