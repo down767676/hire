@@ -32,7 +32,7 @@
 
   <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px" class="same-height-row" style="flex-shrink: 0;">
     <button mat-raised-button (click)="onClickSendText()" style="margin-right:100px; background-color: red; color: white;">
-      Text Candidates
+      Broadcast Candidates
     </button>
 
     <mat-form-field appearance="fill">
@@ -40,6 +40,7 @@
       <mat-select [(ngModel)]="selectedMessageType">
         <mat-option [value]="'thanks_for_scheduling'">Thanks for Scheduling</mat-option>
         <mat-option [value]="'wysiwyg'">Blank Message</mat-option>
+        <mat-option [value]="'rtr'">Create RTR</mat-option>
         <mat-option [value]="'job_information'">Send Job Information</mat-option>
         <mat-option [value]="'check_later_time'">Check Availability</mat-option>
         <mat-option [value]="'check_still_interested'">Answer any Questions</mat-option>
@@ -52,7 +53,7 @@
 
       </mat-select>
     </mat-form-field>
-    <button mat-raised-button color="primary" (click)="onCreateMessage()">Create Text Message</button>
+    <button mat-raised-button color="primary" (click)="onCreateMessage()">Create Message</button>
     <button mat-raised-button color="primary" [class.spinner]="refreshCursor"
     [disabled]="refreshCursor" (click)="onClickRefreshJobApplications()">Refresh Grid</button>
 
