@@ -12,6 +12,7 @@ import { GenericSearchComponent } from '../generic-search/generic-search.compone
   styleUrls: ['./base-tab.component.css']
 })
 export class BaseTabComponent implements OnInit {
+  public showButtons = false; // Initially hidden
   @ViewChild(GenericSearchComponent) public searchComponent!: GenericSearchComponent;
   @ViewChild(DynamicGridComponent) public agGrid: DynamicGridComponent;
   selectedRows = []
@@ -32,6 +33,9 @@ export class BaseTabComponent implements OnInit {
   display_on_load: boolean;
   selected_source: string;
   
+  public toggleButtons() {
+    this.showButtons = !this.showButtons; // Toggle the visibility
+  }
 
   showWait(cursor): boolean {
     cursor = true;

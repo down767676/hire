@@ -188,6 +188,26 @@ export class JobTabComponent extends BaseTabComponent {
   });
 }
 
+onClickText() {
+  // Open dialog with title and content
+  const dialogRef = this.dialog.open(DialogComponent, {
+    data: {
+      title: 'Text Candidates for the Job',
+      content: 'Texts would be sent in few minutes.',
+    },
+  });
+
+  dialogRef.afterClosed().subscribe((result) => {
+    if (result) {
+      // OK button was clicked
+      let params = this.getSearchElasticParams();
+      this.searchAndSendDataFireAndForget("text_job", null, params);
+    } else {
+      // Cancel button was clicked
+      console.log('User canceled the action');
+    }
+  });
+}
 
   @Output() changeTabEvent = new EventEmitter<number>();
   onClickSearchCandidates() {
@@ -288,6 +308,13 @@ export class JobTabComponent extends BaseTabComponent {
     let params = { "job_ids": job_ids, "source": "ceipal" }
     return params
   }
+
+  getTextJobParams(): any {
+    let job_ids = this.getSelectedIds("job_id");
+    let params = { "job_ids": job_ids }
+    return params
+  }
+
   getSearchNPIParams(): any {
     let job_ids = this.getSelectedIds("job_id");
     let params = { "job_ids": job_ids, "source": "npi", "search_by": "zip_code", "mode": "Production" }

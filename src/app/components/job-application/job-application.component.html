@@ -1,6 +1,6 @@
 <div fxLayout="column" fxLayoutGap="4px" style="height: 92vh; overflow: hidden;">
   <div style="display: flex; align-items: center; gap: 20px;">
-    <mat-form-field appearance="fill" style="margin-right: 20px;">
+    <mat-form-field *ngIf="false" appearance="fill" style="margin-right: 20px;">
       <mat-label>Source</mat-label>
       <mat-select [(ngModel)]="selected_source" required>
         <mat-option *ngFor="let column of source_columns" [value]="column">
@@ -8,9 +8,6 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
-    <app-generic-search (triggerParentMethod)="onChildEvent()" [sp]="'sp_SearchJobApplications'"
-      [tableName]="'jobapplication'"
-      [columns]="['mobile', 'jobapplication_id', 'first_name', 'email']"></app-generic-search>
     <mat-form-field appearance="fill" style="margin-right: 20px; width: 25%!important;">
       <mat-label>Task</mat-label>
       <mat-select [(ngModel)]="selectedTask" required (selectionChange)="onTaskChange($event)">
@@ -20,6 +17,10 @@
       </mat-select>
     </mat-form-field>
 
+    <app-generic-search (triggerParentMethod)="onChildEvent()" [sp]="'sp_SearchJobApplications'"
+      [tableName]="'jobapplication'"
+      [columns]="['mobile', 'jobapplication_id', 'first_name', 'email']" class="right-aligned" ></app-generic-search>
+   
     <!-- <button mat-raised-button color="primary" (click)="onClickGo()">Go</button> -->
 
   </div>
@@ -31,10 +32,12 @@
   </div>
 
   <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px" class="same-height-row" style="flex-shrink: 0;">
+    <button style="margin-right: auto;" (click)="toggleButtons()">Toggle</button>
+    <div *ngIf="showButtons">
     <button mat-raised-button (click)="onClickSendText()" style="margin-right:100px; background-color: red; color: white;">
       Broadcast Candidates
     </button>
-
+  </div>
     <mat-form-field appearance="fill">
       <mat-label>Select Message Type</mat-label>
       <mat-select [(ngModel)]="selectedMessageType">
@@ -60,9 +63,9 @@
     <button mat-raised-button color="primary" [class.spinner]="conversationCursor"
     [disabled]="conversationCursor" (click)="showConversation()">Conversation History</button>
     <button mat-raised-button [class.spinner]="matchingCursor"
-    [disabled]="matchingCursor" color="primary" (click)="showJobsByDistance()">Matching Jobs - Candidate</button>
-    <button mat-raised-button [class.spinner]="matchingRecruiterCursor"
-    [disabled]="matchingRecruiterCursor" color="primary" (click)="showMatchedJobsDetailed()">Matchng Jobs - Recruiter</button>
+    [disabled]="matchingCursor" color="primary" (click)="showJobsByDistance()">Matching Jobs</button>
+    <!-- <button mat-raised-button [class.spinner]="matchingRecruiterCursor"
+    [disabled]="matchingRecruiterCursor" color="primary" (click)="showMatchedJobsDetailed()">Matchng Jobs - Recruiter</button> -->
 
   </div>
 </div>
