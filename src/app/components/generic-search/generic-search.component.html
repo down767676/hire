@@ -1,15 +1,10 @@
-<div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="4px" style="margin-left:25px;margin-right:25px" >
+<div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="4px" style="margin-left:25px;margin-right:25px">
     <!-- Dropdown to select column -->
-    <mat-form-field >
-        <mat-label>Search By</mat-label>
-        <mat-select [(value)]="selectedColumn">
-            <mat-option *ngFor="let column of columns" [value]="column">{{ column }}</mat-option>
-        </mat-select>
-    </mat-form-field>
+    <mat-select class="custom-mat-select"  [(value)]="selectedColumn">
+        <mat-option *ngFor="let column of columns" [value]="column">{{ column }}</mat-option>
+    </mat-select>
     <!-- Input field for search value -->
-    <mat-form-field >
-        <mat-label>Value</mat-label>
-        <input matInput [(ngModel)]="searchValue">
-    </mat-form-field>
+        <input matInput [(ngModel)]="searchValue" class="custom-mat-select">
+
     <button mat-raised-button color="primary" (click)="onClickSearchField()">Search</button>
 </div>

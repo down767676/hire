@@ -1,24 +1,21 @@
  <div fxLayout="column" fxLayoutGap="4px" style="height: 92vh; overflow: hidden;">
     <div style="display: flex; align-items: center; gap: 20px;">
-      <mat-form-field appearance="fill" style="margin-right: 20px;">
+      <!-- <mat-form-field appearance="fill" style="margin-right: 20px;">
         <mat-label>Source</mat-label>
         <mat-select [(ngModel)]="selected_source" required>
           <mat-option *ngFor="let column of source_columns" [value]="column">
             {{ column }}
           </mat-option>
         </mat-select>
-      </mat-form-field>
+      </mat-form-field> -->
       <app-generic-search (triggerParentMethod)="onChildEvent()" [sp]="'sp_SearchCandidateProfile'"
         [tableName]="'candidateprofile'"
-        [columns]="['first_name', 'last_name', 'email', 'working_for_us']"></app-generic-search>
-      <mat-form-field appearance="fill" style="margin-right: 20px; width: 25%!important;">
-        <mat-label>Task</mat-label>
-        <mat-select [(ngModel)]="selectedTask" required (selectionChange)="onTaskChange($event)">
+        [columns]="['Search Any','first_name', 'last_name', 'email', 'working_for_us']"></app-generic-search>
+        <mat-select class="custom-mat-select"  [(ngModel)]="selectedTask" required (selectionChange)="onTaskChange($event)">
           <mat-option *ngFor="let task of tasks" [value]="task.code">
             {{ task.value }}
           </mat-option>
         </mat-select>
-      </mat-form-field>
   
       <!-- <button mat-raised-button color="primary" (click)="onClickGo()">Go</button> -->
   

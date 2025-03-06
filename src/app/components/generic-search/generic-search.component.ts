@@ -22,7 +22,7 @@ export class GenericSearchComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.columns.length > 0) {
-      this.selectedColumn = this.columns[0];  // Default to first column
+      this.selectedColumn = 'this.columns[0]';  // Default to first column
     }
   }
 

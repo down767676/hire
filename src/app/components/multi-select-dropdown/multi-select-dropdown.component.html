@@ -10,12 +10,10 @@
   </mat-form-field>
    -->
 
-  <mat-form-field appearance="fill">
     <mat-label>Select Options</mat-label>
-    <mat-select (selectionChange)="onSelectionChange(options, $event)" multiple>
+    <mat-select class="custom-mat-select" (selectionChange)="onSelectionChange(options, $event)" multiple>
       <mat-option *ngFor="let option of options" [value]="option.Code" [selected]="option.Selected">
         {{ option.Options }}
       </mat-option>
     </mat-select>
-  </mat-form-field>
   

@@ -1,8 +1,8 @@
-<div fxLayout="column" fxLayoutGap="2px">
+<div fxLayout="column" fxLayoutGap="2px"   class="grid-div grid-container">
   <!-- Controls in a single row -->
   <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="4px" class="same-height-row" style="flex-shrink: 0;">
     <!-- Label -->
-    <label class="same-height">Filtered Row Count: {{ filteredRowCount }}</label>
+    <label class="same-height" style="padding-right:50px;padding-left: 50px;">Row Count: {{ filteredRowCount }}</label>
 
     <!-- Buttons with grey background and inline height -->
     <button (click)="exportToCSV()" class="small-grey-button" style="padding: 0 16px;">
@@ -19,7 +19,7 @@
 
     <label class="same-height" style="padding-left:25px">View:</label>
 
-    <mat-select [(ngModel)]="selectedView" (selectionChange)="onViewSelect($event.value)" style="width: 400px; font-size: 16px;height: 26px; background-color: rgb(230, 226, 226);">
+    <mat-select class="custom-mat-select" [(ngModel)]="selectedView" (selectionChange)="onViewSelect($event.value)" style="width: 400px; font-size: 16px;height: 26px; background-color: rgb(230, 226, 226);">
       <mat-option *ngFor="let view of views" [value]="view.file">
         {{ view.name }}
       </mat-option>
@@ -36,7 +36,7 @@
   </div>
 
   <!-- Grid -->
-  <div class="full-page-grid">
+  <div class="full-page-grid" >
     <ag-grid-angular style="width: 100%; height: 100%;"
       class="ag-theme-alpine"
       [gridOptions]="gridOptions"

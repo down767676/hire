@@ -1,10 +1,11 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild , ViewEncapsulation } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { JobTabComponent } from './components/job-tab/job-tab.component';
 import { MatTabGroup } from '@angular/material/tabs';
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html'
+  templateUrl: './app.component.html',
+  encapsulation: ViewEncapsulation.None // Ensures global styles apply
 })
 export class AppComponent {
   title = 'dynamic-ag-grid';

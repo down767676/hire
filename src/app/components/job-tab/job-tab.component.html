@@ -2,26 +2,23 @@
   <!-- Controls in a single row -->
   <div fxLayout="row" fxLayoutAlign="start center" fxLayoutap="20px" class="same-height-row">
     <!-- Dropdown -->
-    <mat-form-field appearance="fill" fxFlex="20%" class="same-height" *ngIf="false" >
+    <!-- <mat-form-field appearance="fill" fxFlex="20%" class="same-height" *ngIf="false" >
       <mat-label>Source</mat-label>
       <mat-select [(ngModel)]="selected_source" required>
         <mat-option *ngFor="let column of source_columns" [value]="column">
           {{ column }}
         </mat-option>
       </mat-select>
-    </mat-form-field>
-    <mat-form-field appearance="fill" style="margin-right: 20px; width: 25%!important;">
-      <mat-label>Task</mat-label>
-      <mat-select [(ngModel)]="selectedTask" required (selectionChange)="onTaskChange($event)">
+    </mat-form-field> -->
+      <mat-select class="custom-mat-select"  [(ngModel)]="selectedTask" required (selectionChange)="onTaskChange($event)">
         <mat-option *ngFor="let task of tasks" [value]="task.code">
           {{ task.value }}
         </mat-option>
       </mat-select>
-    </mat-form-field>
 
     <!-- Grouped Elements: Generic Search Component and Search Database Button -->
     <app-generic-search (triggerParentMethod)="onChildEvent()" fxFlex="30%" [sp]="'sp_SearchJob'" [tableName]="'job'"
-      [columns]="['vms_job_id', 'job_id', 'client', 'company_name', 'title']" class="right-aligned">
+      [columns]="['Search Any', 'vms_job_id', 'job_id', 'client', 'company_name', 'title']" class="right-aligned">
     </app-generic-search>
 
 

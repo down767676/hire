@@ -170,7 +170,7 @@ export class JobTabComponent extends BaseTabComponent {
   onClickElasticSearch() {
   // Open dialog with title and content
   const dialogRef = this.dialog.open(DialogComponent, {
-    data: {
+    data: { 
       title: 'Search Ceipal',
       content: 'Your search will be complete in few minutes.',
     },

@@ -31,19 +31,15 @@
   }   */
 
 
-  /* Set a consistent height for all elements */
-.same-height-row {
-  height: 24px; /* Desired height */
-}
 
 .same-height {
-  height: 48px; /* Force elements to be the same height */
+  height: 30px!important; /* Force elements to be the same height */
   display: flex;
   align-items: center;
 }
 
 .same-height-length {
-  height: 48px;
+  height: 30px!important;
   width: 800px!important;
   display: flex;
   align-items: center;
@@ -57,23 +53,23 @@
 
 /* Override the default height and padding of mat-form-field */
 .mat-form-field-appearance-fill .mat-form-field-flex {
-  height: 48px; /* Set the height of the input container */
+  height: 30px!important; /* Set the height of the input container */
   padding: 0; /* Remove any padding */
   align-items: center;
 }
 
 .mat-select-trigger {
-  height: 48px; /* Ensure the select trigger matches the height */
+  height: 30px!important; /* Ensure the select trigger matches the height */
   padding: 0; /* Remove padding inside the select */
   display: flex;
   align-items: center;
-  line-height: 48px; /* Vertically align the text */
+  line-height: 30px!important; /* Vertically align the text */
 }
 
 /* Override the height and padding of the input */
 .mat-input-element, .mat-form-field-infix {
-  height: 48px !important; /* Set height */
-  line-height: 48px !important; /* Ensure text is centered */
+  height: 30px!important !important; /* Set height */
+  line-height: 30px!important !important; /* Ensure text is centered */
   padding: 0 0 0 0 !important; /* Remove padding */
   display: flex;
   align-items: center;
@@ -81,7 +77,7 @@
 
 /* Ensure buttons have the same height */
 button.same-height {
-  height: 48px; /* Set height */
+  height: 30px!important; /* Set height */
   padding: 0 16px; /* Adjust horizontal padding as needed */
   display: flex;
   align-items: center;
@@ -89,7 +85,7 @@ button.same-height {
 
 /* Ensure buttons hav e the same height */
 button.same-height {
-  height: 48px !important; /* Set height */
+  height: 30px!important !important; /* Set height */
   padding: 0 16px; /* Adjust horizontal padding as needed */
   display: flex;
   align-items: center;
@@ -119,14 +115,14 @@ button.small-grey-button {
 .same-height .mat-select-trigger {
   display: flex;
   align-items: center;
-  height: 48px;
+  height: 30px!important;
   padding: 0 !important;
-  line-height: 48px; /* Vertically center the text */
+  line-height: 30px!important; /* Vertically center the text */
 }
 
 /* Ensure the mat-form-field itself takes up the full height */
 .same-height.mat-form-field-appearance-fill .mat-form-field-flex {
-  height: 48px;
+  height: 30px!important;
   display: flex;
   align-items: center;
 }
@@ -147,4 +143,28 @@ button.small-grey-button {
 
 .custom-dropdown .mat-select-panel {
   width: 200%; /* Adjust to twice the default width */
+}
+
+/* Change the underline indicator color */
+.custom-tab .mat-ink-bar {
+  background-color: red !important;
+}
+::ng-deep .mat-mdc-tab.mdc-tab.mdc-tab.mdc-tab--active {
+  background-color: var(yellow);
+  font-weight: 900;
+}
+
+::ng-deep .mat-mdc-tab {
+  background-color: #f5f5f5 !important; /* Light gray for inactive tabs */
+  color: black !important;
+}
+
+::ng-deep .mat-mdc-tab.mdc-tab--active {
+  background-color: var(--user-main-color) !important;
+  font-weight: 900 !important;
+  color: white !important;
+}
+
+.md-padding {
+  padding: 0px! important;
 }

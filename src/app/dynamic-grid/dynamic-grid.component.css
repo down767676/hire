@@ -27,7 +27,7 @@ html, body {
 .full-page-grid {
   display: flex;
   flex-direction: column;
-  height: 65vh;
+  height: 70vh;
   width: 100%;
   box-sizing: border-box;
 }

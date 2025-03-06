@@ -41,6 +41,14 @@ export class DynamicGridComponent implements OnInit {
   @Input() display_on_load: boolean;
   @Output() notify = new EventEmitter<void>();
 
+  funnelSvg = `
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+       stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+       xmlns="http://www.w3.org/2000/svg">
+    <path d="M3 4h18l-7 10v6l-4 0v-6z"/>
+  </svg>
+`;
+
   onCellEditingStopped(event: any) {
     // Check if the parameter to clear other rows is enabled
     if (
@@ -80,9 +88,15 @@ export class DynamicGridComponent implements OnInit {
       onGridReady: (params) => this.onGridReady(params),
       onCellValueChanged: (event) => this.onCellValueChanged(event),
       onCellEditingStopped: this.onCellEditingStopped.bind(this),
-      rowSelection: 'multiple',  // Enable multiple row selection
-      rowMultiSelectWithClick: true, // Allow multiple row selection with click
-      onFilterChanged: () => this.updateFilteredRowCount()
+      rowSelection: 'single',  // Enable multiple row selection
+      defaultColDef: {
+        filter: true
+    },
+      icons: {
+        menu: this.funnelSvg
+    }
+      // rowMultiSelectWithClick: true, // Allow multiple row selection with click
+      // onFilterChanged: () => this.updateFilteredRowCount()
       // onSelectionChanged: this.onSelectionChanged.bind(this)  // Bind the selection change event
     };
   }
@@ -284,8 +298,10 @@ export class DynamicGridComponent implements OnInit {
         }
         if (col.type === 'text') {
           columnDef.cellEditor = 'agTextCellEditor';
+          columnDef.filter = "agTextColumnFilter" ;
         } else if (col.type === 'number') {
           columnDef.cellEditor = 'agNumberCellEditor';
+          columnDef.filter = "agNumberColumnFilter";
         } else if (col.type === 'date') {
           columnDef.comparator = this.dateComparator;
           columnDef.cellEditor = 'agDateCellEditor';

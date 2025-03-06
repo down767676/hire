@@ -56,3 +56,203 @@
     margin-left: auto; /* Pushes the component to the right */
   }
   
+  .ag-theme-alpine {
+    font-size: 10px; /* Adjust as needed */
+  }
+  
+  .ag-theme-alpine .ag-cell {
+    font-size: 11px !important; /* Adjust the size */
+  }
+  .ag-theme-alpine .ag-cell {
+    justify-content: flex-start !important; /* Aligns content to the left */
+    display: flex; /* Ensures flex behavior applies */
+  }
+  .ag-theme-alpine .ag-cell {
+    font-weight: bold !important;
+  }
+  .ag-theme-alpine {
+    --ag-row-height: 30px!important; /* Adjust to your preferred height */
+  }
+
+/* Change tab header background */
+.custom-tab .mat-tab-header {
+  background-color: #007bff !important; /* Background color of the tab bar */
+}
+
+/* Change text color of inactive tabs */
+.custom-tab .mat-tab-label {
+  color: white !important;
+  background-color: #0056b3 !important;
+}
+
+/* Change the background and text color of the selected tab */
+.custom-tab .mat-tab-label.mat-tab-label-active {
+  color: yellow !important; /* Selected tab text color */
+  background-color: #004494 !important; /* Selected tab background */
+}
+
+/* Change the underline indicator color */
+.custom-tab .mat-ink-bar {
+  background-color: red !important;
+}
+::ng-deep .mat-mdc-tab.mdc-tab.mdc-tab.mdc-tab--active {
+  background-color: var(yellow);
+  font-weight: 900;
+}
+
+::ng-deep .mat-mdc-tab {
+  background-color: #f5f5f5 !important; /* Light gray for inactive tabs */
+  color: black !important;
+}
+
+::ng-deep .mat-mdc-tab.mdc-tab--active {
+  background-color: var(--user-main-color) !important;
+  font-weight: 900 !important;
+  color: white !important;
+}
+
+.md-padding {
+  padding: 0px! important;
+}
+
+
+
+.mat-mdc-select-panel .mat-mdc-option {
+  height: 30px !important;
+}
+
+.mat-mdc-form-field .mat-mdc-select {
+  height: 30px !important;
+}
+.mat-form-field .mat-select {
+  height: 30px!important; /* Adjust the height as needed */
+}
+  /* Set a consistent height for all elements */
+  .same-height-row {
+    height: 30px; /* Desired height */
+  }
+  
+.mat-form-field .mat-select-trigger {
+  padding-top: 0; 
+  padding-bottom: 0;
+}
+
+.mat-form-field .mat-select-value {
+  line-height: 30px!important; /* Align the text vertically */
+}
+/* Force filter icon to always be visible */
+.ag-header-cell .ag-header-icon {
+  opacity: 1 !important;
+  visibility: visible !important;
+  color: blue !important; /* Change the icon color to blue */
+}
+
+
+::ng-deep mat-form-field {
+  line-height: 1 !important;
+  height: 30px !important; /* Adjust based on your needs */
+  min-height: 30px !important;
+}
+
+::ng-deep .mat-form-field-wrapper {
+  padding-bottom: 0 !important;
+  margin: 0 !important;
+  min-height: 30px !important;
+}
+
+::ng-deep .mat-form-field-flex {
+  align-items: center !important;
+  min-height: 30px !important;
+}
+
+::ng-deep .mat-form-field-infix {
+  padding: 0 !important;
+  min-height: 24px !important;
+  line-height: 24px !important;
+}
+
+::ng-deep .mat-input-element {
+  height: 24px !important;
+  line-height: 24px !important;
+}
+
+::ng-deep .mat-form-field-label {
+  font-size: 12px !important; /* Reduce font size */
+  transform: translateY(-50%) scale(1) !important; /* Prevent scaling */
+  top: 12px !important; /* Adjust label positioning */
+}
+
+::ng-deep .mat-mdc-form-field-infix {
+  padding: 0px !important;
+  min-height: auto !important;
+  line-height: normal !important;
+}
+::ng-deep .mat-mdc-select {
+  border: 2px solid blue !important; /* Add blue border */
+  background-color: lightgray !important; /* Light gray background */
+  border-radius: 4px !important; /* Rounded corners */
+  padding: 4px !important;
+  min-height: 36px !important; /* Adjust height */
+  display: flex !important;
+  align-items: center !important;
+}
+
+/* Style the dropdown trigger area */
+::ng-deep .mat-mdc-select-trigger {
+  background-color: inherit !important;
+  border-radius: 4px !important;
+  padding: 4px !important;
+}
+
+/* Ensure the dropdown list has styling */
+::ng-deep .mat-mdc-select-panel {
+  background-color: white !important;
+  border: 1px solid blue !important;
+}
+
+/* Style options inside dropdown */
+::ng-deep .mat-mdc-option {
+  background-color: white !important;
+  color: black !important;
+}
+
+::ng-deep .mat-mdc-option:hover {
+  background-color: lightblue !important;
+}
+.custom-mat-select {
+  border: 1px solid blue !important;
+  background-color: lightgray !important;
+  border-radius: 4px !important;
+  /* padding: 4px !important; */
+  min-height: 30px !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.grid-div {
+  border-top: 1px solid lightgrey; /* Makes the line very thin */
+  padding-top: 5px; /* Adds space below the border */
+  margin-top:5px;
+  border-bottom: 1px solid lightgrey; /* Makes the line very thin */
+  padding-bottom: 5px; /* Adds space below the border */
+  margin-bottom:10px;
+
+}
+
+.top-div {
+  border-top: 1px solid lightgrey; /* Makes the line very thin */
+  padding-top: 5px; /* Adds space below the border */
+  margin-top:5px;
+}
+
+.bottom-div {
+  border-bottom: 1px solid lightgrey; /* Makes the line very thin */
+  padding-bottom: 10px; /* Adds space below the border */
+  margin-bottom:10px;
+}
+
+.container-div {
+  padding-top: 10px; /* Adds space below the border */
+  background-color: #f0f8ff; /* Soft cyan tint, almost white */
+
+}
