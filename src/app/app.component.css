@@ -91,18 +91,6 @@ button.same-height {
   align-items: center;
 }
 
-button.small-grey-button {
-  background-color: grey; /* Set background color to grey */
-  color: white; /* Ensure text color is white for contrast */
-  border: none; /* Remove border for a clean look */
-  cursor: pointer; /* Change cursor to pointer for better UX */
-  height: 24px;
-  font-size: 16px; /* Adjust the icon size */
-}
-
-.small-grey-button:hover {
-  background-color: darkgrey; /* Slightly darker grey on hover */
-}
 
 /* Ensure the mat-form-field is aligned with the buttons */
 .same-height .mat-form-field-wrapper {

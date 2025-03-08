@@ -1,13 +1,13 @@
 <!-- <app-dynamic-grid [table_name]="candidate_profile_table_name"></app-dynamic-grid> -->
 <!-- app.component.html -->
-<div class="main-content">
+<div class="main-content-div">
 
-    <mat-tab-group   backgroundColor="primary" color="accent" >
-        <mat-tab label="Jobs">
-            <app-jobtab></app-jobtab>
-        </mat-tab>
+    <mat-tab-group #tabs  backgroundColor="primary" color="accent" class="custom-tab-group" style="border-radius: 10px !important;">
         <mat-tab label="JobApplication">
             <app-job-application></app-job-application>
+        </mat-tab>
+        <mat-tab label="Jobs">
+            <app-jobtab></app-jobtab>
         </mat-tab>
         <mat-tab label="Candidates">
             <app-candidate-tab></app-candidate-tab>
@@ -26,12 +26,45 @@
 
     <style>
         ::ng-deep .mat-mdc-tab-list {
-          height: 30px !important; /* Adjust tab header height */
+            height: 30px !important;
+            /* Adjust tab header height */
         }
+
         ::ng-deep .mat-mdc-tab {
-          height: 30px !important;
-          line-height: 30px !important;
+            height: 30px !important;
+            line-height: 30px !important;
         }
-      </style>
-    
+
+        ::ng-deep .mat-mdc-tab-group {
+            border-radius: 10px !important;
+        }
+
+        ::ng-deep .mat-mdc-tab.mdc-tab--active {
+            background-color: #19d266 !important;
+            /* Change to desired highlight color */
+            color: white !important;
+            /* Ensure text is visible */
+            border-radius: 5px 5px 0 0 !important;
+            /* Round top corners */
+            font-weight: bold !important;
+        }
+
+        /* Styling active tab for a specific mat-tab-group */
+.custom-tab-group ::ng-deep .mdc-tab--active {
+  background-color: #b61515 !important;
+  color: rgb(9, 183, 79) !important;
+  font-weight: bold !important;
+  border-radius: 5px 5px 0 0 !important;
+}
+
+::ng-deep .mat-tab[aria-selected="true"] {
+  background-color: #4caf50 !important; /* Change to your desired background color */
+  color: white !important; /* Change to your desired text color */
+  font-weight: bold !important; /* Optional: make the text bold */
+  border-radius: 5px 5px 0 0 !important; /* Optional: rounded corners */
+}
+
+
+    </style>
+
 </div>

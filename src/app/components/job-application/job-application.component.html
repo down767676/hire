@@ -1,23 +1,21 @@
-<div fxLayout="column" fxLayoutGap="4px" style="height: 92vh; overflow: hidden;" class="container-div">
-  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutap="20px">
-    <!-- <mat-label>Source</mat-label> -->
-    <!-- <mat-select class="custom-mat-select"  [(ngModel)]="selected_source" required>
-        <mat-option *ngFor="let column of source_columns" [value]="column">
-          {{ column }}
-        </mat-option>
-      </mat-select> -->
-    <mat-select class="custom-mat-select" [(ngModel)]="selectedTask" required (selectionChange)="onTaskChange($event)">
+<div fxLayout="column" fxLayoutGap="4px" class="tab-container-div"
+  style="height: 94vh;max-width: 100%; overflow: hidden;">
+  <!-- <div fxLayout="column" fxLayoutGap="4px" style="height: 94vh; overflow: hidden;" class="container-div"> -->
+  <div fxLayout="row" fxLayoutAlign="start center" style="max-width: 100%; overflow-x: hidden;" fxLayoutGap="20px"
+    class="tasks-container">
+    <!-- Left-Aligned Component -->
+    <app-generic-search (triggerParentMethod)="onChildEvent()" fxFlex="30%" [sp]="'sp_SearchJobApplications'"
+      [tableName]="'jobapplication'" [columns]="['mobile', 'jobapplication_id', 'first_name', 'email']"
+      class="left-aligned">
+    </app-generic-search>
+
+    <!-- Right-Aligned Mat-Select -->
+    <mat-select class="task-mat-select" [(ngModel)]="selectedTask" required (selectionChange)="onTaskChange($event)"
+      fxFlex="none">
       <mat-option *ngFor="let task of tasks" [value]="task.code">
         {{ task.value }}
       </mat-option>
     </mat-select>
-
-    <app-generic-search (triggerParentMethod)="onChildEvent()" fxFlex="30%" [sp]="'sp_SearchJobApplications'"
-      [tableName]="'jobapplication'" [columns]="['search_any','mobile', 'jobapplication_id', 'first_name', 'email']"
-      class="right-aligned"></app-generic-search>
-
-    <!-- <button mat-raised-button color="primary" (click)="onClickGo()">Go</button> -->
-
   </div>
 
   <div style="overflow-y: auto;">
@@ -26,40 +24,59 @@
     </app-dynamic-grid>
   </div>
 
-  <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px" class="same-height-row" style="flex-shrink: 0;">
-    <button style="margin-right: auto;" (click)="toggleButtons()">Toggle</button>
-    <div *ngIf="showButtons">
-      <button mat-raised-button (click)="onClickSendText()"
-        style="margin-right:100px; background-color: red; color: white;">
-        Broadcast Candidates
+  <div fxLayout="row" fxLayoutAlign="space-between center" class="same-height-row" style="width: 100%;">
+  
+    <!-- Left-aligned div -->
+    <div fxLayout="row" fxLayoutGap="4px">
+      <button class="small-button" mat-raised-button color="primary" (click)="toggleButtons()">Advanced</button>
+      <div *ngIf="showButtons">
+        <button class="small-button" mat-raised-button (click)="onClickSendText()"
+          style="background-color: red; color: white;">
+          Broadcast Candidates
+        </button>
+      </div>
+    </div>
+  
+    <!-- Right-aligned elements wrapped in a flex container -->
+    <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="60px">
+      <div class="select-button-group">
+        <mat-select class="search-mat-select" style="width:350px;" [(ngModel)]="selectedMessageType">
+          <mat-option [value]="''">Select Text Type</mat-option>
+          <mat-option [value]="'thanks_for_scheduling'">Thanks for Scheduling</mat-option>
+          <mat-option [value]="'wysiwyg'">Blank Message</mat-option>
+          <mat-option [value]="'rtr'">Create RTR</mat-option>
+          <mat-option [value]="'job_information'">Send Job Information</mat-option>
+          <mat-option [value]="'check_later_time'">Check Availability</mat-option>
+          <mat-option [value]="'check_still_interested'">Answer any Questions</mat-option>
+          <mat-option [value]="'about_us'">About us</mat-option>
+          <mat-option [value]="'text_before_calling'">Heads Up Before Calling</mat-option>
+          <mat-option [value]="'left_a_voice_mail'">Left a Voice Mail</mat-option>
+          <mat-option [value]="'thanks_for_letting_me_know'">Thanks for Letting Me Know</mat-option>
+          <mat-option [value]="'request_manual_calendy'">Request Calendly</mat-option>
+          <mat-option [value]="'position_on_hold'">Position on Hold</mat-option>
+        </mat-select>
+        <button mat-raised-button color="primary" (click)="onCreateMessage()" class="small-button"
+          style="border-top-left-radius:0;border-bottom-left-radius: 0;">
+          Create Message
+        </button>
+      </div>
+  
+      <button mat-raised-button color="primary" [class.spinner]="refreshCursor" [disabled]="refreshCursor"
+        (click)="onClickRefreshJobApplications()" class="small-button">
+        Refresh Grid
+      </button>
+  
+      <button mat-raised-button color="primary" [class.spinner]="conversationCursor" [disabled]="conversationCursor"
+        (click)="showConversation()" class="small-button">
+        Conversation History
+      </button>
+  
+      <button mat-raised-button [class.spinner]="matchingCursor" [disabled]="matchingCursor" color="primary"
+        (click)="showJobsByDistance()" class="small-button">
+        Matching Jobs
       </button>
     </div>
-    <mat-label>Select Message Type</mat-label>
-    <mat-select class="custom-mat-select" [(ngModel)]="selectedMessageType">
-      <mat-option [value]="'thanks_for_scheduling'">Thanks for Scheduling</mat-option>
-      <mat-option [value]="'wysiwyg'">Blank Message</mat-option>
-      <mat-option [value]="'rtr'">Create RTR</mat-option>
-      <mat-option [value]="'job_information'">Send Job Information</mat-option>
-      <mat-option [value]="'check_later_time'">Check Availability</mat-option>
-      <mat-option [value]="'check_still_interested'">Answer any Questions</mat-option>
-      <mat-option [value]="'about_us'">About us</mat-option>
-      <mat-option [value]="'text_before_calling'">Heads Up Before Calling</mat-option>
-      <mat-option [value]="'left_a_voice_mail'">Left a Voice Mail</mat-option>
-      <mat-option [value]="'thanks_for_letting_me_know'">Thanks for Letting Me Know</mat-option>
-      <mat-option [value]="'request_manual_calendy'">Request Calendly</mat-option>
-      <mat-option [value]="'position_on_hold'">Position on Hold</mat-option>
-
-    </mat-select>
-    <button mat-raised-button color="primary" (click)="onCreateMessage()">Create Message</button>
-    <button mat-raised-button color="primary" [class.spinner]="refreshCursor" [disabled]="refreshCursor"
-      (click)="onClickRefreshJobApplications()">Refresh Grid</button>
-
-    <button mat-raised-button color="primary" [class.spinner]="conversationCursor" [disabled]="conversationCursor"
-      (click)="showConversation()">Conversation History</button>
-    <button mat-raised-button [class.spinner]="matchingCursor" [disabled]="matchingCursor" color="primary"
-      (click)="showJobsByDistance()">Matching Jobs</button>
-    <!-- <button mat-raised-button [class.spinner]="matchingRecruiterCursor"
-    [disabled]="matchingRecruiterCursor" color="primary" (click)="showMatchedJobsDetailed()">Matchng Jobs - Recruiter</button> -->
-
+  
   </div>
+  
 </div>

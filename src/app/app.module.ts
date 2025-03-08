@@ -38,6 +38,8 @@ import { ConversationDialogComponent } from './components/conversation-dialog/co
 import {FileUploadComponent} from './components/file-upload/file-upload.component'
 import { FacebookPostComponent} from './components/facebook-post/facebook-post.component';
 import { FacebookPostDialogComponent } from './components/facebook-post-dialog/facebook-post-dialog.component';
+import { MatIconModule } from '@angular/material/icon';
+
 @NgModule({
   declarations: [
     FacebookPostComponent,
@@ -74,7 +76,8 @@ import { FacebookPostDialogComponent } from './components/facebook-post-dialog/f
     BrowserAnimationsModule,
     MatDialogModule,
     MatCheckboxModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    MatIconModule
   ],
   exports: [DynamicGridComponent],
   providers: [GenericDataService, PopupService, DataSharingService, SearchService,

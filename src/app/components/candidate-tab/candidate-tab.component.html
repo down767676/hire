@@ -11,7 +11,7 @@
       <app-generic-search (triggerParentMethod)="onChildEvent()" [sp]="'sp_SearchCandidateProfile'"
         [tableName]="'candidateprofile'"
         [columns]="['Search Any','first_name', 'last_name', 'email', 'working_for_us']"></app-generic-search>
-        <mat-select class="custom-mat-select"  [(ngModel)]="selectedTask" required (selectionChange)="onTaskChange($event)">
+        <mat-select class="task-mat-select"  [(ngModel)]="selectedTask" required (selectionChange)="onTaskChange($event)">
           <mat-option *ngFor="let task of tasks" [value]="task.code">
             {{ task.value }}
           </mat-option>

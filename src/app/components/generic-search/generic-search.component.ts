@@ -21,9 +21,9 @@ export class GenericSearchComponent implements OnInit {
   constructor(private searchService: SearchService) { }
 
   ngOnInit(): void {
-    if (this.columns.length > 0) {
-      this.selectedColumn = 'this.columns[0]';  // Default to first column
-    }
+    // if (this.columns.length > 0) {
+    //   this.selectedColumn = 'this.columns[0]';  // Default to first column
+    // }
   }
 
   getSearchResults(customer_account, source): Observable<any[]> {

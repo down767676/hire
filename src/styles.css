@@ -76,27 +76,27 @@
 
 /* Change tab header background */
 .custom-tab .mat-tab-header {
-  background-color: #007bff !important; /* Background color of the tab bar */
+  background-color: #991b6f !important; /* Background color of the tab bar */
 }
 
 /* Change text color of inactive tabs */
 .custom-tab .mat-tab-label {
   color: white !important;
-  background-color: #0056b3 !important;
+  background-color: #009bb3 !important;
 }
 
 /* Change the background and text color of the selected tab */
-.custom-tab .mat-tab-label.mat-tab-label-active {
+.custom-tab-group .mat-tab-label-active {
   color: yellow !important; /* Selected tab text color */
   background-color: #004494 !important; /* Selected tab background */
 }
 
 /* Change the underline indicator color */
 .custom-tab .mat-ink-bar {
-  background-color: red !important;
+  background-color: yellow!important;
 }
-::ng-deep .mat-mdc-tab.mdc-tab.mdc-tab.mdc-tab--active {
-  background-color: var(yellow);
+:host .mdc-tab--active {
+  background-color: var(yellow)!important;
   font-weight: 900;
 }
 
@@ -105,12 +105,7 @@
   color: black !important;
 }
 
-::ng-deep .mat-mdc-tab.mdc-tab--active {
-  background-color: var(--user-main-color) !important;
-  font-weight: 900 !important;
-  color: white !important;
-}
-
+        
 .md-padding {
   padding: 0px! important;
 }
@@ -219,24 +214,35 @@
 ::ng-deep .mat-mdc-option:hover {
   background-color: lightblue !important;
 }
-.custom-mat-select {
-  border: 1px solid blue !important;
-  background-color: lightgray !important;
-  border-radius: 4px !important;
-  /* padding: 4px !important; */
-  min-height: 30px !important;
-  display: flex !important;
+.search-mat-select {
+  border: 1px solid rgba(186, 186, 192, 0.855) !important;
+  background-color: #F5F5F5;
+  border-radius: 4px 0px 0px 4px !important;
+  height:30px!important;
   align-items: center !important;
+  text-align: left; /* Ensure text alignment */
+  margin-left: auto; /* Pushes mat-select to the right */
+  padding-right:20px;
+  margin-right: 0px !important;
 }
+
+
+.task-mat-select {
+  border: 1px solid rgba(186, 186, 192, 0.855) !important;
+  background-color: #F5F5F5;
+  border-radius: 4px !important;
+  height:30px!important;
+  align-items: center !important;
+  text-align: left; /* Ensure text alignment */
+  margin-left: auto; /* Pushes mat-select to the right */
+  width: 350px!important; /* Set a fixed width */
+  padding-right:20px;
+}
+
 
 .grid-div {
   border-top: 1px solid lightgrey; /* Makes the line very thin */
-  padding-top: 5px; /* Adds space below the border */
-  margin-top:5px;
-  border-bottom: 1px solid lightgrey; /* Makes the line very thin */
-  padding-bottom: 5px; /* Adds space below the border */
-  margin-bottom:10px;
-
+  padding-top: 2px; /* Adds space below the border */
 }
 
 .top-div {
@@ -251,8 +257,115 @@
   margin-bottom:10px;
 }
 
+
+.main-content-div {
+  margin: 4px; /* Adds space around the div */
+  /* border-bottom: 1px solid lightgrey; */
+  border-radius: 10px !important;
+  overflow: hidden!important;
+  background: white; /* Optional to ensure clarity */
+  color:#F5F5F5 
+}
+
+
+.tab-container-div {
+  background-color: #F5F5F5; /* Soft cyan tint, almost white */
+  /* border-bottom: 1px solid #007bff; Bottom border with color and width */
+}
+
+
 .container-div {
   padding-top: 10px; /* Adds space below the border */
-  background-color: #f0f8ff; /* Soft cyan tint, almost white */
+  background-color: #F5F5F5; /* Soft cyan tint, almost white */
 
+}
+
+.tasks-container {
+  display: flex;
+  justify-content: space-between; /* Pushes elements to both ends */
+  align-items: center; /* Ensures vertical alignment */
+  max-width: 100%;
+}
+
+.custom-input {
+  flex: 1; /* Allows input to take remaining space */
+  max-width: 300px; /* Optional: Set max width */
+}
+
+
+::ng-deep .mat-select-panel {
+  font-size: 6px !important; /* Reduce dropdown font size */
+  max-height: 400px !important; /* Control dropdown height */
+  min-height: auto !important;
+  overflow-y: auto !important; /* Enable scrolling */
+}
+
+::ng-deep .mat-option {
+  font-size: 12px !important; /* Reduce option text size */
+  height: 24px !important; /* Reduce option height */
+  line-height: 24px !important;
+  padding: 2px 10px !important; /* Adjust padding */
+}
+
+
+.small-button {
+  font-size: 12px!important; /* Smaller font */
+  height: 30px!important; /* Reduce button height */
+  line-height: 30px; /* Ensures text is centered */
+  min-width: auto; /* Prevent unnecessary width expansion */
+}
+
+
+.select-button-group {
+  display: flex;
+  align-items: center;
+  gap: 0px; /* Ensure no space between mat-select and button */
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+}
+
+
+
+.search-input {
+
+  min-width: 120px;
+  border-radius: 0px 4px 4px 0px; /* Optional: to match material design */
+  border: 1px solid #ccc; /* Border to make input look neat */
+  height: 30px  !important;
+  margin: 0 !important;  /* Remove external spacing */
+  padding: 0 !important; /* Remove internal spacing */
+}
+
+.search-button mat-icon {
+  font-size: 22px;
+}
+html, body {
+  overflow: hidden; /* Completely hides the scrollbar */
+}
+button.small-grey-button {
+  background-color: rgb(245, 242, 242); /* Light grey background */
+  color: rgb(120, 120, 120); /* Slightly darker grey text */
+  border: 1px solid #bbb; /* Subtle border */
+  cursor: pointer; /* Pointer cursor for better UX */
+  height: 18px; /* Decreased height */
+  font-size: 12px; /* Smaller font size */
+  padding: 1px 4px; /* Compact padding */
+  border-radius: 3px; /* Slightly rounded corners */
+}
+
+
+.small-grey-button:hover {
+  background-color: darkgrey; /* Slightly darker grey on hover */
+}
+:root {
+  --active-tab-bg-color: #b2ee00;
+  --active-tab-text-color: white;
+}
+
+.mat-tab-label-active {
+  background-color: var(--active-tab-bg-color);
+  color: var(--active-tab-text-color);
 }
