@@ -5,7 +5,7 @@
     class="tasks-container">
     <!-- Left-Aligned Component -->
     <app-generic-search (triggerParentMethod)="onChildEvent()" fxFlex="30%" [sp]="'sp_SearchJobApplications'"
-      [tableName]="'jobapplication'" [columns]="['mobile', 'jobapplication_id', 'first_name', 'email']"
+      [tableName]="'jobapplication'" [columns]="['jobapplication_id', 'full_name',  'email', 'job_id','vms_job_id']"
       class="left-aligned">
     </app-generic-search>
 
