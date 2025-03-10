@@ -1,4 +1,4 @@
 <div>
-  <button mat-raised-button color="primary" class="same-height" (click)="triggerFileInput(fileInput)">{{ buttonLabel }}</button>
+  <button mat-raised-button color="primary" class="small-button"  (click)="triggerFileInput(fileInput)">{{ buttonLabel }}</button>
   <input #fileInput type="file" style="display: none;" (change)="uploadFile($event)" />
 </div>

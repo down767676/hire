@@ -1,29 +1,22 @@
-<div fxLayout="column" fxLayoutGap="4px" style="height: 92vh; overflow: hidden;">
-  <!-- Controls in a single row -->
-  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutap="20px" class="same-height-row">
-    <!-- Dropdown -->
-    <!-- <mat-form-field appearance="fill" fxFlex="20%" class="same-height" *ngIf="false" >
-      <mat-label>Source</mat-label>
-      <mat-select [(ngModel)]="selected_source" required>
-        <mat-option *ngFor="let column of source_columns" [value]="column">
-          {{ column }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field> -->
-      <mat-select class="task-mat-select"  [(ngModel)]="selectedTask" required (selectionChange)="onTaskChange($event)">
-        <mat-option *ngFor="let task of tasks" [value]="task.code">
-          {{ task.value }}
-        </mat-option>
-      </mat-select>
+<div fxLayout="column" fxLayoutGap="4px" class="tab-container-div"
+  style="height: 92vh;max-width: 100%; overflow: hidden;">
 
-    <!-- Grouped Elements: Generic Search Component and Search Database Button -->
-    <app-generic-search (triggerParentMethod)="onChildEvent()" fxFlex="30%" [sp]="'sp_SearchJob'" [tableName]="'job'"
-      [columns]="['Search Any', 'vms_job_id', 'job_id', 'client', 'company_name', 'title']" class="right-aligned">
+  <div fxLayout="row" fxLayoutAlign="start center" style="max-width: 100%; overflow-x: hidden;" fxLayoutGap="20px"
+    class="tasks-container">
+    <!-- Left-Aligned Component -->
+    <app-generic-search (triggerParentMethod)="onChildEvent()" fxFlex="30%" [sp]="'sp_SearchJobApplications'"
+      [tableName]="'jobapplication'" [columns]="['vms_job_id', 'job_id', 'client', 'company_name', 'title']"
+      class="left-aligned">
     </app-generic-search>
 
-
+    <!-- Right-Aligned Mat-Select -->
+    <mat-select class="task-mat-select" [(ngModel)]="selectedTask" required (selectionChange)="onTaskChange($event)"
+      fxFlex="none">
+      <mat-option *ngFor="let task of tasks" [value]="task.code">
+        {{ task.value }}
+      </mat-option>
+    </mat-select>
   </div>
-
 
 
   <!-- Grid -->
@@ -33,57 +26,60 @@
     </app-dynamic-grid>
   </div>
 
-  <div >
-    <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px" class="same-height-row" style="flex-shrink: 0;">
-      <button style="margin-right: auto;" (click)="toggleButtons()">Toggle</button>
-    <button mat-raised-button color="primary" (click)="onClickRefreshJobs()"
-      [class.spinner]="onClickRefreshJobsWaitCursor" [disabled]="onClickRefreshJobsWaitCursor" class="same-height">
-      Refresh Grid
-    </button>
-    <button mat-raised-button color="primary" (click)="showJobsByDistance()" class="same-height">Matching Jobs
-    </button>
-    <button mat-raised-button color="primary" (click)="onClickText()" class="same-height">
-      Text Jobs
-    </button>
+  <div fxLayout="column" fxLayoutGap="4px">
+    <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="20px" style="flex-shrink: 0;">
+      <button class="small-button" mat-raised-button color="primary" (click)="toggleButtons()">Advanced Menu</button>
 
-</div>
-    <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px" class="same-height-row" style="flex-shrink: 0;"
-      *ngIf="showButtons">
+      <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="40px">
+        <button class="small-button" mat-raised-button color="primary" (click)="onClickRefreshJobs()"
+          [class.spinner]="onClickRefreshJobsWaitCursor" [disabled]="onClickRefreshJobsWaitCursor">
+          Refresh Grid
+        </button>
+        <button class="small-button" mat-raised-button color="primary" (click)="openFacebookPostDialog()">
+          Travel Pay Breakdown
+        </button>
+
+        <button class="small-button" mat-raised-button color="primary" (click)="onClickSmartSearch()">
+          Search NPI and Ceipal
+        </button>
+
+        <button class="small-button" mat-raised-button color="primary" (click)="onClickElasticSearch()">
+          Search Ceipal Only
+        </button>
+
+        <button class="small-button" mat-raised-button color="primary" (click)="onClickText()">
+          Text Jobs
+        </button>
+      </div>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px" style="flex-shrink: 0;" *ngIf="showButtons">
 
       <!-- Updated Buttons -->
-      <button mat-raised-button color="warn" (click)="onClickPostToCeipal()" class="same-height">
+      <!-- <button class="small-button" mat-raised-button color="primary" (click)="onClickPostToCeipal()" >
         Post Jobs to Ceipal
       </button>
-      <button mat-raised-button color="warn" (click)="onClickGetCeipalJobs()"
+      <button class="small-button" mat-raised-button color="primary" (click)="onClickGetCeipalJobs()"
         [class.spinner]="onClickSearchCeipalJobsWaitCursor" [disabled]="onClickSearchCeipalJobsWaitCursor"
-        class="same-height">
+        >
         Get New Jobs from Ceipal
-      </button>
-      <!-- <button mat-raised-button color="warn" (click)="onClickSearchCandidates()" class="same-height">
+      </button> -->
+      <!-- <button class="small-button" mat-raised-button color="primary" (click)="onClickSearchCandidates()" >
       Search Web Registry
     </button> -->
-      <button mat-raised-button color="warn" (click)="onClickSmartSearch()" class="same-height">
-        Search Job
-      </button>
 
-      <button mat-raised-button color="warn" (click)="onClickElasticSearch()" class="same-height">
-        Search Ceipal
-      </button>
-
-      <app-file-upload [buttonLabel]="'Upload Aya Jobs'" (csvParsed)="handleCsvData($event)"></app-file-upload>
-      <button mat-raised-button color="primary" (click)="openFacebookPostDialog()" class="same-height">
-        Travel Nurse Facebook Post
-      </button>
-
-      <button mat-raised-button color="warn" (click)="onClickClusterJobs()"
-        [class.spinner]="onClickClusterJobsWaitCursor" [disabled]="onClickClusterJobsWaitCursor" class="same-height">
+      <app-file-upload class="small-button" [buttonLabel]="'Upload Aya Jobs'"
+        (csvParsed)="handleCsvData($event)"></app-file-upload>
+      <!-- <button class="small-button" mat-raised-button color="primary" (click)="onClickClusterJobs()"
+        [class.spinner]="onClickClusterJobsWaitCursor" [disabled]="onClickClusterJobsWaitCursor">
         Cluster Jobs
-      </button>
+      </button> -->
+      <button class="small-button" mat-raised-button color="primary" (click)="showJobsByDistance()">Matching
+        Jobs</button>
 
-      <button mat-raised-button color="warn" (click)="copyNuccClassificationToFilteredRows()" class="same-height">
+      <button class="small-button" mat-raised-button color="primary" (click)="copyNuccClassificationToFilteredRows()">
         Copy Classification From Selected
       </button>
-      <button mat-raised-button color="warn" (click)="matchMissingClassification()" class="same-height">
+      <button class="small-button" mat-raised-button color="primary" (click)="matchMissingClassification()">
         Match Missing Classification
       </button>
     </div>

@@ -28,10 +28,10 @@
   
     <!-- Left-aligned div -->
     <div fxLayout="row" fxLayoutGap="4px">
-      <button class="small-button" mat-raised-button color="primary" (click)="toggleButtons()">Advanced</button>
+      <button class="small-button" mat-raised-button color="primary" (click)="toggleButtons()">Advanced Menu</button>
       <div *ngIf="showButtons">
         <button class="small-button" mat-raised-button (click)="onClickSendText()"
-          style="background-color: red; color: white;">
+        mat-raised-button color="primary">
           Broadcast Candidates
         </button>
       </div>
@@ -73,7 +73,7 @@
   
       <button mat-raised-button [class.spinner]="matchingCursor" [disabled]="matchingCursor" color="primary"
         (click)="showJobsByDistance()" class="small-button">
-        Matching Jobs
+        Find Matching Jobs
       </button>
     </div>
   
