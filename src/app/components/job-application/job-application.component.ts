@@ -37,6 +37,7 @@ export class JobApplicationComponent extends BaseTabComponent {
 
   selectedTask: String = "TalkTo.5"
   public tasks = [
+    { "code": "AMTasks.0", "value": "AM Tasks" },
     { "code": "TalkTo.5", "value": "Talk To in last 5 days" },
     { "code": "TalkTo.6", "value": "Talk To in last 6 days" },
     { "code": "TalkTo.7", "value": "Talk To in last 7 days" },
