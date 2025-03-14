@@ -39,6 +39,7 @@ import {FileUploadComponent} from './components/file-upload/file-upload.componen
 import { FacebookPostComponent} from './components/facebook-post/facebook-post.component';
 import { FacebookPostDialogComponent } from './components/facebook-post-dialog/facebook-post-dialog.component';
 import { MatIconModule } from '@angular/material/icon';
+import { DefaultsTabComponent } from './components/defaults-tab/defaults-tab.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,8 @@ import { MatIconModule } from '@angular/material/icon';
     StatusReportTabComponent,
     LogTabComponent,
     ConversationDialogComponent,
-    FileUploadComponent
+    FileUploadComponent,
+    DefaultsTabComponent,
   ],
   imports: [
     BrowserModule,
