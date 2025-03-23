@@ -73,12 +73,11 @@ export class JobTabComponent extends BaseTabComponent {
     { "code": "Texted.90", "value": "Texted in last 90 days", "map":"job_text_history" },
     { "code": "Texted.365", "value": "Texted in last 365 days", "map":"job_text_history" },
     { "code": "TextPipeline.pipeline", "value": "Text Pipeline", "map":"job_text_pipeline" },
-    { "code": "TextPipeline.nearby", "value": "Nearby Job Text Pipeline", "map":"job_text_pipeline" },
-    { "code": "TextPipeline.travel", "value": "Travel Text Pipeline", "map":"job_text_pipeline" },
+    { "code": "TextPipeline.nearby", "value": "Nearby Text Pipeline", "map":"job_text_pipeline" },
     { "code": "TextPipeline.nearby_full_time", "value": "Nearby Fulltime Pipeline", "map":"job_text_pipeline" },
-    { "code": "TextPipeline.full_time", "value": "Fulltime Pipeline", "map":"job_text_pipeline" },
-    { "code": "TextPipeline.pipeline_include_texted", "value": "Include Texted - Text Pipeline", "map":"job_text_pipeline" },
-    { "code": "TextPipeline.nearby_include_texted", "value": "Include Texted - Nearby Pipeline", "map":"job_text_pipeline" },
+    { "code": "TextPipeline.travel", "value": "Travel Text Pipeline", "map":"job_text_pipeline" },
+    { "code": "TextPipeline.full_time", "value": "Extended Radius Fulltime Pipeline", "map":"job_text_pipeline" },
+    { "code": "TextPipeline.nearby_include_texted", "value": "Nearby Text Pipeline - Include Already Texted", "map":"job_text_pipeline" }
   ]
 
 
@@ -233,7 +232,7 @@ onClickText() {
 
   onClickGetCeipalJobs() {
     this.onClickSearchCeipalJobsWaitCursor = this.showWait(this.onClickSearchCeipalJobsWaitCursor);
-      this.dataService.fetchDataPost('upsert_ceipal_jobs', null, { "days": "2" }).subscribe(data => {
+      this.dataService.fetchDataPost('upsert_ceipal_jobs', null, { "days": "1" }).subscribe(data => {
       this.onClickSearchCeipalJobsWaitCursor = this.hideWait(this.onClickSearchCeipalJobsWaitCursor);
     })
   }
