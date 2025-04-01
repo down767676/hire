@@ -17,6 +17,7 @@ import { SearchService } from './services/search.service';
 import { PopupService } from './services/popup.service'
 import { JobApplicationsPopupComponent } from './components/job-applications-popup/job-applications-popup.component';
 import { JobApplicationComponent } from './components/job-application/job-application.component';
+import { CallingListComponent } from './components/calling-list/calling-list.component';
 import { GenericSearchComponent } from './components/generic-search/generic-search.component'
 import { TaxonomyComponent } from './components/taxonomy/taxonomy.component'
 import { StatusReportTabComponent } from './components/status-report-tab/status-report-tab.component';
@@ -53,6 +54,7 @@ import { DefaultsTabComponent } from './components/defaults-tab/defaults-tab.com
     JobApplicationsPopupComponent,
     JobTabComponent,
     JobApplicationComponent,
+    CallingListComponent,
     TaxonomyComponent,
     BaseTabComponent,
     MultiSelectDropdownComponent,

@@ -26,25 +26,43 @@ export class StatusReportTabComponent extends BaseTabComponent {
   calculateTotalsAndPercentages(): void {
     // Calculate total age and salary
     const totalTexted = this.agGrid.rowData.reduce((sum, current) => sum + current.Texted, 0);
-    const totalResponded = this.agGrid.rowData.reduce((sum, current) => sum + current.Responded, 0);
     const totalTalkTo = this.agGrid.rowData.reduce((sum, current) => sum + current.TalkTo, 0);
+    const totalScheduled = this.agGrid.rowData.reduce((sum, current) => sum + current.Scheduled, 0);
+    const totalRTR = this.agGrid.rowData.reduce((sum, current) => sum + current.RTR, 0);
+    const totalMessage = this.agGrid.rowData.reduce((sum, current) => sum + current.Message, 0);
     const totalRejected = this.agGrid.rowData.reduce((sum, current) => sum + current.Rejected, 0);
     const totalToPresent = this.agGrid.rowData.reduce((sum, current) => sum + current.ToPresent, 0);
-    const totalWaiting = this.agGrid.rowData.reduce((sum, current) => sum + current.Waiting, 0);
+    const totalInterview = this.agGrid.rowData.reduce((sum, current) => sum + current.Interview, 0);
     const totalPresented = this.agGrid.rowData.reduce((sum, current) => sum + current.Presented, 0);
     const totalPlaced = this.agGrid.rowData.reduce((sum, current) => sum + current.Placed, 0);
+    // const totalAutoOutReach = this.agGrid.rowData.reduce((sum, current) => sum + current.Texted, 0);
+    const totalAutoOutReach = this.agGrid.rowData.reduce((sum, current) =>
+      sum +
+      current.Texted +
+      current.TalkTo +
+      current.Scheduled +
+      current.RTR +
+      current.Message +
+      current.Rejected +
+      current.ToPresent +
+      current.Interview +
+      current.Presented +
+      current.Placed, 0);
+    
 
-    const RespondedPercent = this.pct(totalResponded / totalTexted)
-    const TalkToPercent = this.pct(totalTalkTo / totalResponded)
-    const RejectedPercent = this.pct(totalRejected / totalResponded)
-    const ToPresentPercent = this.pct(totalToPresent / totalResponded)
-    const WaitingPercent = this.pct(totalWaiting / totalResponded)
-    const PresentedPrecented = this.pct(totalPresented / totalResponded)
-    const PlacedPercent = this.pct(totalPlaced / totalResponded)
+    const RespondedPercent = this.pct(totalAutoOutReach / totalTexted)
+    const TalkToPercent = this.pct(totalTalkTo / totalAutoOutReach)
+    const RTRPercent = this.pct(totalRTR / totalAutoOutReach)
+    const MessagePercent = this.pct(totalMessage / totalAutoOutReach)
+    const InterviewPercent = this.pct(totalInterview / totalInterview)
+    const RejectedPercent = this.pct(totalRejected / totalAutoOutReach)
+    const ToPresentPercent = this.pct(totalToPresent / totalAutoOutReach)
+    const PresentedPrecented = this.pct(totalPresented / totalAutoOutReach)
+    const PlacedPercent = this.pct(totalPlaced / totalAutoOutReach)
 
     this.pinnedRowData = [
-      { title: 'Total', Texted: totalTexted, Responded: totalResponded, TalkTo: totalTalkTo, Rejected: totalRejected, Waiting: totalWaiting, ToPresent: totalToPresent, Presented: totalPresented, Placed: totalPlaced },
-      { title: '%', Responded: RespondedPercent, TalkTo: TalkToPercent, Rejected: RejectedPercent, ToPresent: ToPresentPercent, Presented: PresentedPrecented, Waiting: WaitingPercent, Placed: PlacedPercent }
+      { title: 'Total', AutoOutReach:totalAutoOutReach, TalkTo: totalTalkTo, Scheduled:totalScheduled,RTR:totalRTR,Message:totalMessage, Rejected: totalRejected,  ToPresent: totalToPresent, Interview:totalInterview, Presented: totalPresented, Placed: totalPlaced },
+      { title: '%', AutoOutReach: '', TalkTo: TalkToPercent,Scheduled:'',RTR:RTRPercent, Message:MessagePercent, Rejected: RejectedPercent, ToPresent: ToPresentPercent, Interview:InterviewPercent, Presented: PresentedPrecented,Placed: PlacedPercent}
     ];
     this.pinRow(this.pinnedRowData)
 
@@ -74,7 +92,7 @@ export class StatusReportTabComponent extends BaseTabComponent {
   }
 
   onClickRefreshStats() {
-    this.refreshCursor = this.showWait(this.refreshCursor);
+      this.refreshCursor = this.showWait(this.refreshCursor);
     this.dataService.fetchDataPost('get_sourcing_status_report', null, {}).subscribe(data => {
       this.showGrid(data)
       this.refreshCursor = this.hideWait(this.refreshCursor);

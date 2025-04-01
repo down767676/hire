@@ -3,29 +3,30 @@
 <div class="main-content-div">
 
     <mat-tab-group #tabs  backgroundColor="primary" color="accent" class="custom-tab-group" style="border-radius: 10px !important;">
-        <mat-tab label="JobApplication">
+        <mat-tab label="Applicants">
             <app-job-application></app-job-application>
         </mat-tab>
         <mat-tab label="Jobs">
             <app-jobtab></app-jobtab>
         </mat-tab>
-        <mat-tab label="Candidates">
-            <app-candidate-tab></app-candidate-tab>
-        </mat-tab>
         <mat-tab label="StatusReport">
             <app-status-report-tab></app-status-report-tab>
         </mat-tab>
-        <mat-tab label="Taxonomy">
-            <app-taxonomy></app-taxonomy>
+        <mat-tab label="Calling List">
+            <app-calling-list></app-calling-list>
         </mat-tab>
         <mat-tab label="Configuration">
             <app-defaults-tab></app-defaults-tab>
         </mat-tab>
-
+        <mat-tab label="Ceipal Candidates">
+            <app-candidate-tab></app-candidate-tab>
+        </mat-tab>
+        <mat-tab label="Taxonomy">
+            <app-taxonomy></app-taxonomy>
+        </mat-tab>
         <mat-tab label="Logs">
             <app-log-tab></app-log-tab>
         </mat-tab>
-
     </mat-tab-group>
 
     <style>

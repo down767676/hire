@@ -35,6 +35,24 @@ export class JobApplicationComponent extends BaseTabComponent {
   public selectedView: string = null
   public selected_source = this.source_columns[0]
 
+
+  public normalizedTitleOptions = [
+    "Medical Assistant",
+    "RN Case Manager"
+  ]
+  normalizedTitleOption: String = "Medical Assistant"
+
+  distancetOption: String = '20'
+  public distancetOptions = [
+    '5','10', '12','15','17','20', '25', 'state', 'country'
+  ]
+
+  public employmentOptions = [
+    "full time",
+    "contract"
+  ]
+  employmentOption: String = "Medical Assistant"
+  
   selectedTask: String = "TalkTo.5"
   public tasks = [
     { "code": "AMTasks.0", "value": "AM Tasks" },

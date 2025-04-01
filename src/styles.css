@@ -369,3 +369,7 @@ button.small-grey-button {
   background-color: var(--active-tab-bg-color);
   color: var(--active-tab-text-color);
 }
+
+.child-component {
+  min-width: 200px;
+}
