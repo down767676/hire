@@ -525,7 +525,19 @@ export class DynamicGridComponent implements OnInit {
     )
   }
 
-
+  public clearAllRows(): void {
+    this.rowData = []; // Clear local data model
+  
+    if (this.api) {
+      // Preferred method to update grid data
+      this.api.setGridOption('rowData', []);
+      // Optional: update filtered row count if you're tracking it
+      this.updateFilteredRowCount();
+      this.isDataLoaded = false;
+    }
+  }
+  
+  
   // Function to set the "selected" column to blank for all rows
   // setSelectedToBlank() {
 

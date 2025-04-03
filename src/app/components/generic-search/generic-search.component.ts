@@ -33,6 +33,10 @@ export class GenericSearchComponent implements OnInit {
   }
 
   onClickSearchField() {
+    if (this.selectedColumn === '') {
+      alert('Please select a valid field to search.');
+      return;
+    }
     this.triggerParentMethod.emit(); // Emit event to call parent method
   }
 

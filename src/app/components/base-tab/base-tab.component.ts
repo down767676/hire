@@ -168,7 +168,9 @@ export class BaseTabComponent implements OnInit {
     this.agGrid.loadGridColAndRows(data);
   }
 
-
+  clearGridData() {
+    this.agGrid.clearAllRows();
+  }
   setSelectedToBlank()
   {
     this.agGrid.setSelectedToBlank();
