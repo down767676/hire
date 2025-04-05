@@ -12,6 +12,9 @@ import { DataSharingService } from 'src/app/services/data-sharing.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '../dialog/dialog.component'; // Adjust the path based on your setup
 import { MessageDialogComponent } from '../app-message-dialog/app-message-dialog.component'
+import { FacebookPostDialogComponent } from '../facebook-post-dialog/facebook-post-dialog.component';
+import { environment } from 'src/environments/environment'
+
 @Component({
   selector: 'app-job-application',
   templateUrl: './job-application.component.html',
@@ -24,6 +27,9 @@ export class JobApplicationComponent extends BaseTabComponent {
   public matchingCursor: boolean = false
   public matchingRecruiterCursor: boolean = false
   selectedMessageType: string = '';
+  private apiUrl = environment.apiUrl;
+    
+  public facebook_post_url = `${this.apiUrl}/generate-facebook-post`;
 
   searchFields = ['field1', 'field2'];
   selectedOptions = ['', ''];
@@ -243,6 +249,17 @@ export class JobApplicationComponent extends BaseTabComponent {
     return selectedIds;
   }
 
+  getJobSelectedIds(): number[] {
+    const selectedIds: number[] = [];
+
+    this.agGrid.api.forEachNode((row) => {
+      if (row.data.selected === 'yes') {
+        selectedIds.push(row.data['job_id']);
+      }
+    })
+    return selectedIds;
+  }
+
   getFirstSelectedRow(): any {
     var retRow = null;
     this.agGrid.api.forEachNode((row) => {
@@ -393,6 +410,23 @@ export class JobApplicationComponent extends BaseTabComponent {
 
   }
 
+    openFacebookPostDialog(): void {
+      var ids = this.getJobSelectedIds()
+  
+      if (ids.length > 1) {
+        alert('Error: More than one row has the value "yes"');
+        return;
+      } else if (ids.length === 0) {
+        alert('No row with "yes" selected');
+        return;
+      }
+  
+      this.dialog.open(FacebookPostDialogComponent, {
+        width: '600px',
+        data: { jobId:ids[0], url: this.facebook_post_url}, // Pass jobId and url to the dialog component
+      });
+    }
+  
   go(selectedTask) {
     if (this.isValid(selectedTask)) {
       this.refreshCursor = this.showWait(this.refreshCursor);

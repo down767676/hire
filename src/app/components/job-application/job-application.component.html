@@ -27,18 +27,22 @@
   <div fxLayout="row" fxLayoutAlign="space-between center" class="same-height-row" style="width: 100%;">
   
     <!-- Left-aligned div -->
-    <div fxLayout="row" fxLayoutGap="4px">
+    <div fxLayout="row" fxLayoutGap="5px" >
       <button class="small-button" mat-raised-button color="primary" (click)="toggleButtons()">Advanced Menu</button>
-      <div *ngIf="showButtons">
+      <div *ngIf="showButtons"  fxLayoutGap="5px" >
         <button class="small-button" mat-raised-button (click)="onClickSendText()"
         mat-raised-button color="primary">
         Text Candidates
         </button>
+        <button class="small-button" mat-raised-button color="primary" (click)="openFacebookPostDialog()">
+          Travel Pay
+        </button>
+
       </div>
     </div>
   
     <!-- Right-aligned elements wrapped in a flex container -->
-    <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="60px">
+    <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px">
       <div class="select-button-group">
         <mat-select class="search-mat-select" style="width:350px;" [(ngModel)]="selectedMessageType">
           <mat-option [value]="''">Select Text Type</mat-option>

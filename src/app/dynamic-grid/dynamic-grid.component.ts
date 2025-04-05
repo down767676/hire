@@ -533,7 +533,7 @@ export class DynamicGridComponent implements OnInit {
       this.api.setGridOption('rowData', []);
       // Optional: update filtered row count if you're tracking it
       this.updateFilteredRowCount();
-      this.isDataLoaded = false;
+      this.isDataLoaded = false;  
     }
   }
   
