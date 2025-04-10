@@ -24,7 +24,7 @@ export class JobTabComponent extends BaseTabComponent {
 
   private apiUrl = environment.apiUrl;
   jobs_receiver_url = `${this.apiUrl}/receive_jobs`;
-  public facebook_post_url = `${this.apiUrl}/generate-facebook-post`;
+  public facebook_post_url = `${this.apiUrl}/generate-travel-report`;
 
   public onClickSearchCandidatesWaitCursor: boolean = false;
   public onClickSearchCeipalJobsWaitCursor: boolean = false;

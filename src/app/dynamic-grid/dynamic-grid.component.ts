@@ -422,12 +422,10 @@ export class DynamicGridComponent implements OnInit {
       const result = this.api.applyTransaction({ update: this.rowData });
 
       // Force the grid to refresh the cells
-      this.api.refreshCells({ force: true });
-      console.log('Transaction Result:', result);
-
-    });
-  }
-
+  }) 
+     this.api.refreshCells({ force: true });
+    //  console.log('Transaction Result:', result);
+     };
   onGridReady(params: any) {
     this.gridInited = true;
     this.api = params.api;

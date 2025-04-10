@@ -29,7 +29,7 @@ export class JobApplicationComponent extends BaseTabComponent {
   selectedMessageType: string = '';
   private apiUrl = environment.apiUrl;
     
-  public facebook_post_url = `${this.apiUrl}/generate-facebook-post`;
+  public facebook_post_url = `${this.apiUrl}/generate-travel-report`;
 
   searchFields = ['field1', 'field2'];
   selectedOptions = ['', ''];
