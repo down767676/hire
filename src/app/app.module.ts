@@ -39,6 +39,8 @@ import { ConversationDialogComponent } from './components/conversation-dialog/co
 import {FileUploadComponent} from './components/file-upload/file-upload.component'
 import { FacebookPostComponent} from './components/facebook-post/facebook-post.component';
 import { FacebookPostDialogComponent } from './components/facebook-post-dialog/facebook-post-dialog.component';
+import { TravelComponent} from './components/travel/travel.component';
+import { TravelDialogComponent } from './components/travel-dialog/travel-dialog.component';
 import { MatIconModule } from '@angular/material/icon';
 import { DefaultsTabComponent } from './components/defaults-tab/defaults-tab.component';
 
@@ -46,6 +48,8 @@ import { DefaultsTabComponent } from './components/defaults-tab/defaults-tab.com
   declarations: [
     FacebookPostComponent,
     FacebookPostDialogComponent,
+    TravelComponent,
+    TravelDialogComponent,
     DialogComponent,
     MessageDialogComponent,
     AppComponent,

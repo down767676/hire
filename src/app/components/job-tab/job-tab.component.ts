@@ -14,6 +14,7 @@ import { MatSelectChange } from '@angular/material/select';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment'
 import { FacebookPostDialogComponent } from '../facebook-post-dialog/facebook-post-dialog.component';
+import { TravelDialogComponent } from '../travel-dialog/travel-dialog.component';
 
 @Component({
   selector: 'app-jobtab',
@@ -24,7 +25,8 @@ export class JobTabComponent extends BaseTabComponent {
 
   private apiUrl = environment.apiUrl;
   jobs_receiver_url = `${this.apiUrl}/receive_jobs`;
-  public facebook_post_url = `${this.apiUrl}/generate-travel-report`;
+  public facebook_post_url = `${this.apiUrl}/generate-facebook-post`;
+  public travel_url = `${this.apiUrl}/generate-travel-report`;
 
   public onClickSearchCandidatesWaitCursor: boolean = false;
   public onClickSearchCeipalJobsWaitCursor: boolean = false;
@@ -97,6 +99,25 @@ export class JobTabComponent extends BaseTabComponent {
       data: { jobId:ids[0], url: this.facebook_post_url}, // Pass jobId and url to the dialog component
     });
   }
+
+  
+  openTravelDialog(): void {
+    var ids = this.getMobileSelectedIds()
+
+    if (ids.length > 1) {
+      alert('Error: More than one row has the value "yes"');
+      return;
+    } else if (ids.length === 0) {
+      alert('No row with "yes" selected');
+      return;
+    }
+
+    this.dialog.open(TravelDialogComponent, {
+      width: '600px',
+      data: { jobId:ids[0], url: this.travel_url}, // Pass jobId and url to the dialog component
+    });
+  }
+  
   // Handle the emitted JSON and modify it
   handleCsvData(csvData: any): void {
     console.log('Received JSON:', csvData);

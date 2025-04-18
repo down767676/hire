@@ -25,7 +25,7 @@ export class FacebookPostComponent implements OnInit {
 
   getFacebookPost(jobId: number, url: string): void {
     const apiUrl = `${url}?job_id=${jobId}`;
-    this.dataService.fetchData('generate-travel-report', null, {'job_id':jobId}).subscribe(data => {
+    this.dataService.fetchData('generate-facebook-post', null, {'job_id':jobId}).subscribe(data => {
       this.postContent = data;
     });
 
