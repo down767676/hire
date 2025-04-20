@@ -305,6 +305,16 @@ onClickText() {
       this.onClickRefreshJobsWaitCursor = this.hideWait(this.onClickRefreshJobsWaitCursor);
     });
   }
+  onClickRefreshAndUpdatePay() {
+    // let params = this.getSearchCandididateParams()
+    let params = this.getSearchNPIParams()
+    params['update_pay'] = true
+    this.onClickRefreshJobsWaitCursor = this.showWait(this.onClickRefreshJobsWaitCursor);
+    this.dataService.fetchDataPost('get_ceipal_jobs', null, params).subscribe(data => {
+      this.showGrid(data)
+      this.onClickRefreshJobsWaitCursor = this.hideWait(this.onClickRefreshJobsWaitCursor);
+    });
+  }
 
 
   matchMissingClassification() {
