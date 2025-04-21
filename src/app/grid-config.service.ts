@@ -27,7 +27,8 @@ export class GridConfigService {
 
   getGridViews(table_name:string): Observable<any[]> {
     let params = new HttpParams().set('table_name', table_name);
-    return this.http.get<any[]>(this.viewsUrl, {params});
+    var views = this.http.get<any[]>(this.viewsUrl, {params});
+    return views
   }
 
   }

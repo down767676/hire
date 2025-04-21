@@ -36,6 +36,7 @@ export class DynamicGridComponent implements OnInit {
   @Input() clearOtherRowsOnSelect: boolean = false;
   @Input() updateSelectedColumn: boolean = false;
   @Input() table_name: string;
+  @Input() view_name: string;
   @Input() api_end_point: string;
   @Input() sp: string;
   @Input() display_on_load: boolean;
@@ -169,7 +170,16 @@ export class DynamicGridComponent implements OnInit {
   }
 
   loadGridViews() {
-    this.gridConfigService.getGridViews(this.table_name).subscribe(data => {
+    var view_name = null
+    if (this.view_name)
+    {
+      view_name = this.view_name
+    }
+    else
+    {
+      view_name = this.table_name
+    }
+    this.gridConfigService.getGridViews(view_name).subscribe(data => {
       this.views = data["views"];
       this.selectedView = this.views[0].file
     });
@@ -261,7 +271,17 @@ export class DynamicGridComponent implements OnInit {
   }
 
   loadGridColAndRows(rows: any) {
-    this.loadGridColAndRowsHelper(rows, this.table_name, true);
+    var view_name = null
+    if (this.view_name)
+    {
+      view_name = this.view_name
+    }
+    else
+    {
+      view_name = this.table_name
+    }
+
+    this.loadGridColAndRowsHelper(rows, view_name, true);
   }
 
   dateFormatter(params) {
