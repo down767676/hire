@@ -13,6 +13,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '../dialog/dialog.component'; // Adjust the path based on your setup
 import { MessageDialogComponent } from '../app-message-dialog/app-message-dialog.component'
 import { FacebookPostDialogComponent } from '../facebook-post-dialog/facebook-post-dialog.component';
+import { TravelDialogComponent } from '../travel-dialog/travel-dialog.component';
+
 import { environment } from 'src/environments/environment'
 
 @Component({
@@ -30,6 +32,8 @@ export class JobApplicationComponent extends BaseTabComponent {
   private apiUrl = environment.apiUrl;
     
   public facebook_post_url = `${this.apiUrl}/generate-travel-report`;
+  public travel_url = `${this.apiUrl}/generate-travel-report`;
+
 
   searchFields = ['field1', 'field2'];
   selectedOptions = ['', ''];
@@ -427,6 +431,24 @@ export class JobApplicationComponent extends BaseTabComponent {
       });
     }
   
+      openTravelDialog(): void {
+        var ids = this.getJobSelectedIds()
+    
+        if (ids.length > 1) {
+          alert('Error: More than one row has the value "yes"');
+          return;
+        } else if (ids.length === 0) {
+          alert('No row with "yes" selected');
+          return;
+        }
+    
+        this.dialog.open(TravelDialogComponent, {
+          width: '600px',
+          data: { jobId:ids[0], url: this.travel_url}, // Pass jobId and url to the dialog component
+        });
+      }
+      
+    
   go(selectedTask) {
     if (this.isValid(selectedTask)) {
       this.refreshCursor = this.showWait(this.refreshCursor);
