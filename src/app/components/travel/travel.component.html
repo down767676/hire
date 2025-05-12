@@ -1,0 +1,13 @@
+<!-- facebook-post.component.html -->
+<div>
+    <h3>Travel Pay Breakdown</h3>
+    <textarea
+      rows="10"
+      cols="50"
+      [value]="postContent"
+      readonly
+      style="width: 100%;"
+    ></textarea>
+    <button (click)="copyToClipboard()">Copy to Clipboard</button>
+  </div>
+  

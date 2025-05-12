@@ -1,0 +1,97 @@
+<div fxLayout="column" fxLayoutGap="4px" class="tab-container-div"
+  style="height: 94vh;max-width: 100%; overflow: hidden;">
+  <div fxLayout="row" fxLayoutAlign="space-between center" style="max-width: 100%; overflow-x: hidden;" fxLayoutGap="20px"
+  class="tasks-container">
+<!-- Left-Aligned Component -->
+    <!-- Centered Components Container -->
+    <div fxLayout="row" fxLayoutAlign="center center" class="centered-components" class="left-aligned">
+      <!-- First Dropdown -->
+      <mat-select class="search-mat-select child-component" fxFlex="25%" [(ngModel)]="normalizedTitleOption">
+        <mat-option *ngFor="let option of normalizedTitleOptions" [value]="option">
+          {{ option}}
+        </mat-option>
+      </mat-select>
+
+      <!-- Second Dropdown -->
+      <mat-select fxFlex="50%" class="search-mat-select child-component"  [(ngModel)]="employmentOption">
+        <mat-option *ngFor="let option of employmentOptions" [value]="option">
+          {{ option }}
+        </mat-option>
+      </mat-select>
+
+      <mat-select fxFlex="5%" class="search-mat-select child-component"  [(ngModel)]="distancetOption">
+        <mat-option *ngFor="let option of distancetOptions" [value]="option">
+          {{ option }}
+        </mat-option>
+      </mat-select>
+
+
+  <!-- Search button with icon -->
+  <button mat-icon-button color="primary" class="search-button" (click)="onClickCreateCallingList()">
+    <mat-icon>search</mat-icon>
+  </button>
+    </div>
+  
+  </div>
+  
+    <div class="grid-wrapper">
+  <app-dynamic-grid [table_name]="table_name" [view_name]="view_name" [api_end_point]="api_end_point" [sp]="sp"
+      [display_on_load]="display_on_load" [clearOtherRowsOnSelect]="true">
+    </app-dynamic-grid>
+  </div>
+
+  <div fxLayout="row" fxLayoutAlign="space-between center" class="same-height-row" style="width: 100%;">
+  
+    <!-- Left-aligned div -->
+    <div fxLayout="row" fxLayoutGap="4px">
+      <button class="small-button" mat-raised-button color="primary" (click)="toggleButtons()">Advanced Menu</button>
+      <div *ngIf="showButtons">
+        <button class="small-button" mat-raised-button (click)="onClickSendText()"
+        mat-raised-button color="primary">
+          Text Candidates
+        </button>
+      </div>
+    </div>
+  
+    <!-- Right-aligned elements wrapped in a flex container -->
+    <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="60px">
+      <div class="select-button-group">
+        <mat-select class="search-mat-select" style="width:350px;" [(ngModel)]="selectedMessageType">
+          <mat-option [value]="''">Select Text Type</mat-option>
+          <mat-option [value]="'thanks_for_scheduling'">Thanks for Scheduling</mat-option>
+          <mat-option [value]="'wysiwyg'">Blank Message</mat-option>
+          <mat-option [value]="'rtr'">Create RTR</mat-option>
+          <mat-option [value]="'job_information'">Send Job Information</mat-option>
+          <mat-option [value]="'check_later_time'">Check Availability</mat-option>
+          <mat-option [value]="'check_still_interested'">Answer any Questions</mat-option>
+          <mat-option [value]="'about_us'">About us</mat-option>
+          <mat-option [value]="'text_before_calling'">Heads Up Before Calling</mat-option>
+          <mat-option [value]="'left_a_voice_mail'">Left a Voice Mail</mat-option>
+          <mat-option [value]="'thanks_for_letting_me_know'">Thanks for Letting Me Know</mat-option>
+          <mat-option [value]="'got_vm_request_calendy'">Got VM - Request Calendly</mat-option>
+          <mat-option [value]="'request_manual_calendy'">Request Calendly</mat-option>
+          <mat-option [value]="'request_manual_calendy_missed'">Request Calendly Again For No Show</mat-option>
+          <mat-option [value]="'position_on_hold'">Position on Hold</mat-option>
+          <mat-option [value]="'send_document_list_ma'">Send Document List Medical Assistant</mat-option>
+          <mat-option [value]="'send_document_list_lpn'">Send Document List LPN</mat-option>
+        </mat-select>
+        <button mat-raised-button color="primary" (click)="onCreateMessage()" class="small-button"
+          style="border-top-left-radius:0;border-bottom-left-radius: 0;">
+          Create Message
+        </button>
+      </div>
+    
+      <button mat-raised-button color="primary" [class.spinner]="conversationCursor" [disabled]="conversationCursor"
+        (click)="showConversation()" class="small-button">
+        Conversation History
+      </button>
+  
+      <button mat-raised-button [class.spinner]="matchingCursor" [disabled]="matchingCursor" color="primary"
+        (click)="showJobsByDistance()" class="small-button">
+        Find Matching Jobs
+      </button>
+    </div>
+  
+  </div>
+  
+</div>

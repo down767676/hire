@@ -60,4 +60,3 @@ ngAfterViewInit() {
     this.tabs.selectedIndex = index;
   }
 }
-
