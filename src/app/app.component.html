@@ -1,75 +1,114 @@
-<!-- <app-dynamic-grid [table_name]="candidate_profile_table_name"></app-dynamic-grid> -->
 <!-- app.component.html -->
-<div class="main-content-div">
 
-    <mat-tab-group #tabs  backgroundColor="primary" color="accent" class="custom-tab-group" style="border-radius: 10px !important;">
-        <mat-tab label="Applicants">
-            <app-job-application></app-job-application>
-        </mat-tab>
-        <mat-tab label="Jobs">
-            <app-jobtab></app-jobtab>
-        </mat-tab>
-        <mat-tab label="StatusReport">
-            <app-status-report-tab></app-status-report-tab>
-        </mat-tab>
-        <mat-tab label="Calling List">
-            <app-calling-list></app-calling-list>
-        </mat-tab>
-        <mat-tab label="Configuration">
-            <app-defaults-tab></app-defaults-tab>
-        </mat-tab>
-        <mat-tab label="Ceipal Candidates">
-            <app-candidate-tab></app-candidate-tab>
-        </mat-tab>
-        <mat-tab label="Taxonomy">
-            <app-taxonomy></app-taxonomy>
-        </mat-tab>
-        <mat-tab label="Logs">
-            <app-log-tab></app-log-tab>
-        </mat-tab>
-    </mat-tab-group>
+<!-- Login Panel -->
+<div class="login-panel" *ngIf="!isLoggedIn()" style="display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f4f6f8;">
+  <div style="text-align: center; background: white; padding: 50px 30px; border-radius: 12px; box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); max-width: 400px; width: 100%;">
+    
+    <!-- Bigger Logo -->
+    <div style="display: flex; justify-content: center; margin-bottom: 20px;">
+      <img 
+        src="assets/images/zenexpartners.png" 
+        alt="Zenex Logo" 
+        style="width: 66%; max-width: 260px; height: auto;" 
+      />
+    </div>
 
-    <style>
-        ::ng-deep .mat-mdc-tab-list {
-            height: 30px !important;
-            /* Adjust tab header height */
-        }
+    <!-- Green Title -->
+    <h1 style="margin-bottom: 40px; font-size: 24px; font-weight: 600; color: #28a745;">Zenex Cloud</h1>
 
-        ::ng-deep .mat-mdc-tab {
-            height: 30px !important;
-            line-height: 30px !important;
-        }
+    <!-- Microsoft Login Button -->
+    <button 
+      (click)="login()" 
+      style="
+        background-color: #2f2f2f;
+        color: white;
+        border: none;
+        padding: 14px 20px;
+        font-size: 16px;
+        border-radius: 6px;
+        cursor: pointer;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      "
+    >
+      <img 
+        src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" 
+        alt="Microsoft Icon" 
+        style="width: 20px; height: 20px;" 
+      />
+      Continue with Microsoft
+    </button>
 
-        ::ng-deep .mat-mdc-tab-group {
-            border-radius: 10px !important;
-        }
+  </div>
+</div>
 
-        ::ng-deep .mat-mdc-tab.mdc-tab--active {
-            background-color: #19d266 !important;
-            /* Change to desired highlight color */
-            color: white !important;
-            /* Ensure text is visible */
-            border-radius: 5px 5px 0 0 !important;
-            /* Round top corners */
-            font-weight: bold !important;
-        }
+<!-- Main Content Tabs -->
+<div *ngIf="isLoggedIn()" class="main-content-div">
 
-        /* Styling active tab for a specific mat-tab-group */
-.custom-tab-group ::ng-deep .mdc-tab--active {
-  background-color: #b61515 !important;
-  color: rgb(9, 183, 79) !important;
-  font-weight: bold !important;
-  border-radius: 5px 5px 0 0 !important;
-}
+  <mat-tab-group #tabs backgroundColor="primary" color="accent" class="custom-tab-group" style="border-radius: 10px !important;">
+    <mat-tab label="Applicants">
+      <app-job-application></app-job-application>
+    </mat-tab>
+    <mat-tab label="Jobs">
+      <app-jobtab></app-jobtab>
+    </mat-tab>
+    <mat-tab label="StatusReport">
+      <app-status-report-tab></app-status-report-tab>
+    </mat-tab>
+    <mat-tab label="Calling List">
+      <app-calling-list></app-calling-list>
+    </mat-tab>
+    <mat-tab label="Configuration">
+      <app-defaults-tab></app-defaults-tab>
+    </mat-tab>
+    <mat-tab label="Ceipal Candidates">
+      <app-candidate-tab></app-candidate-tab>
+    </mat-tab>
+    <mat-tab label="Taxonomy">
+      <app-taxonomy></app-taxonomy>
+    </mat-tab>
+    <mat-tab label="Logs">
+      <app-log-tab></app-log-tab>
+    </mat-tab>
+  </mat-tab-group>
 
-::ng-deep .mat-tab[aria-selected="true"] {
-  background-color: #4caf50 !important; /* Change to your desired background color */
-  color: white !important; /* Change to your desired text color */
-  font-weight: bold !important; /* Optional: make the text bold */
-  border-radius: 5px 5px 0 0 !important; /* Optional: rounded corners */
-}
+  <style>
+    ::ng-deep .mat-mdc-tab-list {
+      height: 30px !important;
+    }
 
+    ::ng-deep .mat-mdc-tab {
+      height: 30px !important;
+      line-height: 30px !important;
+    }
 
-    </style>
+    ::ng-deep .mat-mdc-tab-group {
+      border-radius: 10px !important;
+    }
+
+    ::ng-deep .mat-mdc-tab.mdc-tab--active {
+      background-color: #19d266 !important;
+      color: white !important;
+      border-radius: 5px 5px 0 0 !important;
+      font-weight: bold !important;
+    }
+
+    .custom-tab-group ::ng-deep .mdc-tab--active {
+      background-color: #b61515 !important;
+      color: rgb(9, 183, 79) !important;
+      font-weight: bold !important;
+      border-radius: 5px 5px 0 0 !important;
+    }
+
+    ::ng-deep .mat-tab[aria-selected="true"] {
+      background-color: #4caf50 !important;
+      color: white !important;
+      font-weight: bold !important;
+      border-radius: 5px 5px 0 0 !important;
+    }
+  </style>
 
 </div>

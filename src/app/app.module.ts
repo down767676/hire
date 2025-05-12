@@ -1,3 +1,7 @@
+import { FormsModule } from '@angular/forms';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MaterialDateEditorComponent } from './components/material-date-editor/material-date-editor.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatTableModule } from '@angular/material/table';
 import { BrowserModule } from '@angular/platform-browser';
@@ -10,7 +14,6 @@ import { HttpClientModule } from '@angular/common/http';  // Import HttpClientMo
 import { CandidateTabComponent } from './components/candidate-tab/candidate-tab.component';
 import { BaseTabComponent } from './components/base-tab/base-tab.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormsModule } from '@angular/forms';
 import { MatTabsModule } from '@angular/material/tabs';
 import { GenericDataService } from './services/generic-data.service';
 import { SearchService } from './services/search.service';
@@ -43,6 +46,10 @@ import { TravelComponent} from './components/travel/travel.component';
 import { TravelDialogComponent } from './components/travel-dialog/travel-dialog.component';
 import { MatIconModule } from '@angular/material/icon';
 import { DefaultsTabComponent } from './components/defaults-tab/defaults-tab.component';
+import { MsalModule, MsalInterceptor, MsalService, MsalGuard, MSAL_INSTANCE } from '@azure/msal-angular';
+import { PublicClientApplication, InteractionType } from '@azure/msal-browser';
+import { MSALInstanceFactory } from 'src/msal-config';
+
 
 @NgModule({
   declarations: [
@@ -68,15 +75,14 @@ import { DefaultsTabComponent } from './components/defaults-tab/defaults-tab.com
     ConversationDialogComponent,
     FileUploadComponent,
     DefaultsTabComponent,
+    MaterialDateEditorComponent,
   ],
   imports: [
     BrowserModule,
     AgGridModule,
     HttpClientModule,
-    FormsModule,
     MatTabsModule,
     MatTableModule,
-    MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
     MatButtonModule,
@@ -85,10 +91,25 @@ import { DefaultsTabComponent } from './components/defaults-tab/defaults-tab.com
     MatDialogModule,
     MatCheckboxModule,
     FlexLayoutModule,
-    MatIconModule
+    MatIconModule,
+    FormsModule,
+    MatDatepickerModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatNativeDateModule,
+    FormsModule,
+    MatDatepickerModule,
+    MatDatepickerModule,
+        MsalModule.forRoot(MSALInstanceFactory(), {
+      interactionType: InteractionType.Popup,
+      authRequest: {
+        scopes: ['User.Read'],
+      },
+    }, null),
+
   ],
-  exports: [DynamicGridComponent],
-  providers: [GenericDataService, PopupService, DataSharingService, SearchService,
+  exports: [DynamicGridComponent,MaterialDateEditorComponent],
+  providers: [GenericDataService, PopupService, DataSharingService, SearchService,MsalService, MsalGuard,
     { provide: MAT_DIALOG_DATA, useValue: {} },
     { provide: MatDialogRef, useValue: {} },
     { provide: BASE_CLASS_PARAMS, useValue: {} }],

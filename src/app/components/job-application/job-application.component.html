@@ -1,16 +1,25 @@
-<div fxLayout="column" fxLayoutGap="4px" class="tab-container-div"
-  style="height: 94vh;max-width: 100%; overflow: hidden;">
-  <!-- <div fxLayout="column" fxLayoutGap="4px" style="height: 94vh; overflow: hidden;" class="container-div"> -->
-  <div fxLayout="row" fxLayoutAlign="start center" style="max-width: 100%; overflow-x: hidden;" fxLayoutGap="20px"
-    class="tasks-container">
-    <!-- Left-Aligned Component -->
-    <app-generic-search (triggerParentMethod)="onChildEvent()" fxFlex="30%" [sp]="'sp_SearchJobApplications'"
-      [tableName]="'jobapplication'" [columns]="['jobapplication_id', 'full_name',  'email', 'mobile_e164_format','job_id','vms_job_id']"
-      class="left-aligned">
-    </app-generic-search>
+<div fxLayout="column" class="tab-container-div"
+     style="height: 92vh; max-width: 100%; overflow: hidden;">
 
-    <!-- Right-Aligned Mat-Select -->
-    <mat-select class="task-mat-select" [(ngModel)]="selectedTask" required (selectionChange)="onTaskChange($event)"
+  <!-- Task selection row -->
+  <div fxLayout.gt-sm="row" fxLayout.lt-md="column"
+       fxLayoutAlign="start center"
+       fxLayoutGap="20px"
+       style="overflow-x: auto; flex-wrap: wrap; padding: 8px 16px;">
+    
+    <app-generic-search
+      (triggerParentMethod)="onChildEvent()"
+      fxFlex.gt-sm="30%" fxFlex.lt-md="100%"
+      [sp]="'sp_SearchJobApplications'"
+      [tableName]="'jobapplication'"
+      [columns]="['jobapplication_id', 'full_name',  'email', 'mobile_e164_format','job_id','vms_job_id']"
+      class="left-aligned">
+    </app-generic-search> 
+
+    <mat-select class="task-mat-select desktop-only"
+      [(ngModel)]="selectedTask"
+      required
+      (selectionChange)="onTaskChange($event)"
       fxFlex="none">
       <mat-option *ngFor="let task of tasks" [value]="task.code">
         {{ task.value }}
@@ -18,33 +27,39 @@
     </mat-select>
   </div>
 
-  <div style="overflow-y: auto;">
-    <app-dynamic-grid [table_name]="table_name" [api_end_point]="api_end_point" [sp]="sp"
-      [display_on_load]="display_on_load" [clearOtherRowsOnSelect]="true">
-    </app-dynamic-grid>
+  <!-- Grid section with forced height -->
+  <div fxFlex style="overflow-y: auto; min-height: 0; padding: 0 16px 8px;">
+<div style="height: 60vh">
+        <app-dynamic-grid
+        class="force-grid-height"
+        [table_name]="table_name"
+        [api_end_point]="api_end_point"
+        [sp]="sp"
+        [display_on_load]="display_on_load"
+        [clearOtherRowsOnSelect]="true">
+      </app-dynamic-grid>
+    </div>
   </div>
 
-  <div fxLayout="row" fxLayoutAlign="space-between center" class="same-height-row" style="width: 100%;">
-  
-    <!-- Left-aligned div -->
-    <div fxLayout="row" fxLayoutGap="5px" >
-      <button class="small-button" mat-raised-button color="primary" (click)="toggleButtons()">Advanced Menu</button>
-      <div *ngIf="showButtons"  fxLayoutGap="5px" >
-        <button class="small-button" mat-raised-button (click)="onClickSendText()"
-        mat-raised-button color="primary">
-        Text Candidates
-        </button>
-        <button class="small-button" mat-raised-button color="primary" (click)="openTravelDialog()">
-          Travel Pay
-        </button>
+  <!-- Bottom toolbar -->
+  <div fxLayout.lt-md="column" fxLayout.gt-sm="row"
+       fxLayoutAlign="space-between center"
+       fxLayoutGap="10px"
+       style="padding: 8px 16px 6px; border-top: 1px solid #ccc; background: #fff; flex-shrink: 0;">
 
+    <!-- Left buttons -->
+    <div fxLayout="row" fxLayoutGap="5px" fxFlex wrap>
+      <button class="small-button" mat-raised-button color="primary" (click)="toggleButtons()">Advanced Menu</button>
+      <div *ngIf="showButtons" fxLayoutGap="5px">
+        <button class="small-button" mat-raised-button color="primary" (click)="onClickSendText()">Text Candidates</button>
+        <button class="small-button" mat-raised-button color="primary" (click)="openTravelDialog()">Travel Pay</button>
       </div>
     </div>
-  
-    <!-- Right-aligned elements wrapped in a flex container -->
-    <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px">
+
+    <!-- Right buttons -->
+    <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" fxFlex wrap>
       <div class="select-button-group">
-        <mat-select class="search-mat-select" style="width:350px;" [(ngModel)]="selectedMessageType">
+        <mat-select class="search-mat-select" style="width: 350px;" [(ngModel)]="selectedMessageType">
           <mat-option [value]="''">Select Text Type</mat-option>
           <mat-option [value]="'thanks_for_scheduling'">Thanks for Scheduling</mat-option>
           <mat-option [value]="'wysiwyg'">Blank Message</mat-option>
@@ -68,23 +83,21 @@
           Create Message
         </button>
       </div>
-  
+
       <button mat-raised-button color="primary" [class.spinner]="refreshCursor" [disabled]="refreshCursor"
-        (click)="onClickRefreshJobApplications()" class="small-button">
+              (click)="onClickRefreshJobApplications()" class="small-button">
         Refresh Grid
       </button>
-  
+
       <button mat-raised-button color="primary" [class.spinner]="conversationCursor" [disabled]="conversationCursor"
-        (click)="showConversation()" class="small-button">
+              (click)="showConversation()" class="small-button">
         Conversation History
       </button>
-  
+
       <button mat-raised-button [class.spinner]="matchingCursor" [disabled]="matchingCursor" color="primary"
-        (click)="showJobsByDistance()" class="small-button">
+              (click)="showJobsByDistance()" class="small-button">
         Find Matching Jobs
       </button>
     </div>
-  
   </div>
-  
 </div>

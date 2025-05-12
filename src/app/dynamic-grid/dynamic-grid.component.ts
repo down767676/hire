@@ -13,6 +13,7 @@ import { MultiSelectDropdownComponent } from '../components/multi-select-dropdow
 import { ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AgGridAngular } from 'ag-grid-angular';
+import { MaterialDateEditorComponent} from '../components/material-date-editor/material-date-editor.component'
 
 // ../multi-select-dropdown/multi-select-dropdown.component'
 
@@ -41,6 +42,8 @@ export class DynamicGridComponent implements OnInit {
   @Input() sp: string;
   @Input() display_on_load: boolean;
   @Output() notify = new EventEmitter<void>();
+  public isMobile = window.innerWidth < 960;
+
 
   funnelSvg = `
   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -87,6 +90,7 @@ export class DynamicGridComponent implements OnInit {
 
     this.gridOptions = {
       onGridReady: (params) => this.onGridReady(params),
+      stopEditingWhenCellsLoseFocus: true,
       onCellValueChanged: (event) => this.onCellValueChanged(event),
       onCellEditingStopped: this.onCellEditingStopped.bind(this),
       rowSelection: 'single',  // Enable multiple row selection
@@ -322,12 +326,56 @@ export class DynamicGridComponent implements OnInit {
         } else if (col.type === 'number') {
           columnDef.cellEditor = 'agNumberCellEditor';
           columnDef.filter = "agNumberColumnFilter";
-        } else if (col.type === 'date') {
-          columnDef.comparator = this.dateComparator;
-          columnDef.cellEditor = 'agDateCellEditor';
-          columnDef.valueFormatter = this.dateFormatter;
-          columnDef.filter = 'agDateColumnFilter';
+        
+        } else if (col.type === 'number') {
+          columnDef.cellEditor = 'agNumberCellEditor';
+          columnDef.filter = "agNumberColumnFilter";
         }
+          else if (col.type === 'date') {
+            // columnDef.field = 'date'
+            columnDef.cellEditor = MaterialDateEditorComponent;
+            columnDef.filter = 'agDateColumnFilter';
+            columnDef.sortable = true;
+            columnDef.editable = true;
+            columnDef.cellEditorPopup =  true
+            columnDef.cellDataType = 'date'
+          
+            columnDef.valueFormatter = (params) => {
+              if (!params.value) return '';
+              const date = new Date(params.value);
+              if (isNaN(date.getTime())) return params.value;
+              const yy = String(date.getFullYear());
+              const mm = String(date.getMonth() + 1).padStart(2, '0');
+              const dd = String(date.getDate()).padStart(2, '0');
+              return `${yy}-${mm}-${dd}`;
+            };
+          
+            // columnDef.valueSetter = (params) => {
+            //   const oldValue = new Date(params.oldValue);
+            //   const newValue = new Date(params.newValue);
+          
+            //   if (!params.newValue || oldValue.getTime() === newValue.getTime()) {
+            //     return false;
+            //   }
+          
+            //   params.data[params.colDef.field!] = newValue;
+            //   return true;
+            // };
+          
+            columnDef.filterParams = {
+              comparator: (filterDate: Date, cellValue: any) => {
+                const parsed = new Date(cellValue);
+                if (isNaN(parsed.getTime())) return -1;
+          
+                const d1 = new Date(filterDate.setHours(0, 0, 0, 0));
+                const d2 = new Date(parsed.setHours(0, 0, 0, 0));
+          
+                if (d1 < d2) return -1;
+                if (d1 > d2) return 1;
+                return 0;
+              },
+            };
+          }                        
         else if (col.type === 'boolean') {
           columnDef.cellEditor = 'agCheckboxCellEditor';
           columnDef.cellRenderer = 'agCheckboxCellRenderer';
@@ -377,7 +425,8 @@ export class DynamicGridComponent implements OnInit {
 
 
   frameworkComponents = {
-    multiSelectDropdownComponent: MultiSelectDropdownComponent
+    multiSelectDropdownComponent: MultiSelectDropdownComponent,
+    materialDateEditor: MaterialDateEditorComponent
   };
 
   // Called when the filter is changed
@@ -566,7 +615,7 @@ export class DynamicGridComponent implements OnInit {
 
   //   for (let i = 0; i < rowCount; i++) {
   //     const node = this.api.getDisplayedRowAtIndex(i); // Get node at each index
-  //     node.data.selected = ''; // Set the selected column to an empty string
+  //     node.data.selected = ''; // Set the selecngted column to an empty string
   //     updatedData.push({ ...node.data }); // Store the updated row
   //   }
   //   // // Get all rows and set the "selected" column to blank

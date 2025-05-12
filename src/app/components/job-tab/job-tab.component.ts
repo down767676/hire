@@ -23,7 +23,7 @@ import { TravelDialogComponent } from '../travel-dialog/travel-dialog.component'
 })
 export class JobTabComponent extends BaseTabComponent {
 
-  private apiUrl = environment.apiUrl;
+  private apiUrl = environment.apiUrl;    
   jobs_receiver_url = `${this.apiUrl}/receive_jobs`;
   public facebook_post_url = `${this.apiUrl}/generate-facebook-post`;
   public travel_url = `${this.apiUrl}/generate-travel-report`;
@@ -253,7 +253,7 @@ onClickText() {
 
   onClickGetCeipalJobs() {
     this.onClickSearchCeipalJobsWaitCursor = this.showWait(this.onClickSearchCeipalJobsWaitCursor);
-      this.dataService.fetchDataPost('upsert_ceipal_jobs', null, { "days": "1" }).subscribe(data => {
+      this.dataService.fetchDataPost('upsert_ceipal_jobs', null, { "days": "3" }).subscribe(data => {
       this.onClickSearchCeipalJobsWaitCursor = this.hideWait(this.onClickSearchCeipalJobsWaitCursor);
     })
   }
@@ -310,7 +310,7 @@ onClickText() {
     let params = this.getSearchNPIParams()
     params['update_pay'] = true
     this.onClickRefreshJobsWaitCursor = this.showWait(this.onClickRefreshJobsWaitCursor);
-    this.dataService.fetchDataPost('get_ceipal_jobs', null, params).subscribe(data => {
+    this.dataService.fetchDataPost('update_pay_range  ', null, params).subscribe(data => {
       this.showGrid(data)
       this.onClickRefreshJobsWaitCursor = this.hideWait(this.onClickRefreshJobsWaitCursor);
     });

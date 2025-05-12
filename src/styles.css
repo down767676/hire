@@ -373,3 +373,32 @@ button.small-grey-button {
 .child-component {
   min-width: 200px;
 }
+
+/* Hide desktop-only buttons on mobile (960px and below) */
+@media (max-width: 959px) {
+  .desktop-only {
+    display: none !important;
+  }
+}
+
+/* Make buttons and selects full width on small screens */
+@media (max-width: 768px) {
+  .small-button,
+  .task-mat-select,
+  .search-mat-select {
+    width: 100% !important;
+    margin-bottom: 8px;
+  }
+
+  .select-button-group {
+    width: 100%;
+  }
+}
+@media (min-width: 960px) {
+  .task-mat-select {
+    float: right;
+  }
+}
+.grid-wrapper {
+  height: 80vh!important;
+}

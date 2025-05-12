@@ -1,35 +1,49 @@
-<div fxLayout="column" fxLayoutGap="2px" class="grid-div container-div" style="max-width:100%;overflow:hidden">
-  <!-- Controls in a single row -->
-  <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="4px" style="align-items:bottom;margin-bottom:0px;padding-bottom:0px; flex-shrink: 0; width: 100%; justify-content: space-between;">
-    <!-- Left-aligned controls -->
-    <label class="same-height" style="padding-right:50px;color:blue">Row Count: {{ filteredRowCount }}</label>
-    <div fxLayout="row" fxLayoutGap="2px" cfxLayoutAlign="start center">
+<div fxLayout="column" fxLayoutGap="2px" class="grid-div container-div" style="max-width:100%; overflow:hidden;">
 
-      <button (click)="exportToCSV()" class="small-grey-button" style="padding: 0 16px;">
+  <!-- Top Controls -->
+  <div fxLayout.lt-md="column" fxLayout.gt-sm="row"
+       fxLayoutAlign="space-between center" fxLayoutGap="8px"
+       style="flex-wrap: wrap; width: 100%; padding-bottom: 4px;">
+
+    <!-- Row count label -->
+    <label class="desktop-only" style="color: blue;">Row Count: {{ filteredRowCount }}</label>
+
+    <!-- Buttons: only visible on desktop -->
+    <div fxLayout="row" fxLayoutGap="6px" class="desktop-only">
+      <button (click)="exportToCSV()" class="small-grey-button small-button" style="padding: 0 16px;">
         <i class="fas fa-file-csv"></i> Export to CSV
       </button>
-      <button (click)="setSelectedToBlank()" class="small-grey-button" style="padding: 0 16px;">
+      <button (click)="setSelectedToBlank()" class="small-grey-button small-button" style="padding: 0 16px;">
         Clear All Selections
       </button>
-      <button (click)="setSelectedToYes()"  class="small-grey-button" style="padding: 0 16px;">
+      <button (click)="setSelectedToYes()" class="small-grey-button small-button" style="padding: 0 16px;">
         Select All
       </button>
-      <button (click)="clearFilters()" class="small-grey-button" style="padding: 0 16px;">Clear All Filters</button>
-      <button (click)="addRow()" class="small-grey-button" style="padding: 0 16px;">Add Row</button>
+      <button (click)="clearFilters()" class="small-grey-button small-button" style="padding: 0 16px;">
+        Clear All Filters
+      </button>
+      <button (click)="addRow()" class="small-grey-button small-button" style="padding: 0 16px;">
+        Add Row
+      </button>
     </div>
 
-    <!-- Right-aligned mat-select -->
-    <mat-select class="task-mat-select" [(ngModel)]="selectedView" (selectionChange)="onViewSelect($event.value)">
-      <mat-option *ngFor="let view of views" [value]="view.file">
-        {{ view.name }}
-      </mat-option>
-    </mat-select>
+    <!-- View selector: always visible, right-aligned on desktop -->
+    <div fxFlex fxLayoutAlign="end" fxFlex.lt-md="100%" fxFlex.gt-sm="auto" class="desktop-only">
+      <mat-select class="task-mat-select" [(ngModel)]="selectedView"
+                  (selectionChange)="onViewSelect($event.value)" fxFlex="none">
+        <mat-option *ngFor="let view of views" [value]="view.file">
+          {{ view.name }}
+        </mat-option>
+      </mat-select>
+    </div>
+
   </div>
 
-  <!-- Grid -->
-  <div class="full-page-grid">
-    <ag-grid-angular style="width: 100%; height: 100%;"
+  <!-- Grid Display -->
+  <div class="full-page-grid" style="width: 100%;  min-height: 300px;">
+    <ag-grid-angular
       class="ag-theme-alpine"
+      style="width: 100%; height: 100%;"
       [gridOptions]="gridOptions"
       [rowData]="rowData"
       [columnDefs]="columnDefs"
