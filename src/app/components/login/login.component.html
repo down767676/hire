@@ -1,0 +1,47 @@
+<!-- app.component.html -->
+
+<!-- Login Panel -->
+<div class="login-panel" style="display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f4f6f8;">
+  <div style="text-align: center; background: white; padding: 50px 30px; border-radius: 12px; box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); max-width: 400px; width: 100%;">
+    
+    <!-- Bigger Logo -->
+    <div style="display: flex; justify-content: center; margin-bottom: 20px;">
+      <img 
+        src="assets/images/zenexpartners.png" 
+        alt="Zenex Logo" 
+        style="width: 66%; max-width: 260px; height: auto;" 
+      />
+    </div>
+
+    <!-- Green Title -->
+    <h1 style="margin-bottom: 40px; font-size: 24px; font-weight: 600; color: #28a745;">Zenex Cloud</h1>
+
+    <!-- Microsoft Login Button -->
+    <button 
+      (click)="login()" 
+      style="
+        background-color: #2f2f2f;
+        color: white;
+        border: none;
+        padding: 14px 20px;
+        font-size: 16px;
+        border-radius: 6px;
+        cursor: pointer;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      "
+    >
+      <img 
+        src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" 
+        alt="Microsoft Icon" 
+        style="width: 20px; height: 20px;" 
+      />
+      Continue with Microsoft
+    </button>
+
+  </div>
+</div>
+
