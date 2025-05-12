@@ -1,4 +1,6 @@
-import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { LoginComponent } from './components/login/login.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';import { FormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MaterialDateEditorComponent } from './components/material-date-editor/material-date-editor.component';
@@ -54,13 +56,15 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
 
 @NgModule({
   declarations: [
+    AppComponent,
+    LoginComponent,
+    DashboardComponent,
     FacebookPostComponent,
     FacebookPostDialogComponent,
     TravelComponent,
     TravelDialogComponent,
     DialogComponent,
     MessageDialogComponent,
-    AppComponent,
     DynamicGridComponent,
     CandidateTabComponent,
     JobApplicationsPopupComponent,
@@ -80,48 +84,60 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
   ],
   imports: [
     BrowserModule,
-    AgGridModule,
+    BrowserAnimationsModule,
     HttpClientModule,
+    FormsModule,
+    RouterModule.forRoot([
+      { path: 'login', component: LoginComponent },
+      { path: 'app', component: DashboardComponent, canActivate: [MsalGuard] },
+      { path: '', redirectTo: 'app', pathMatch: 'full' },
+      { path: '**', redirectTo: 'app' }
+    ]),
+    FlexLayoutModule,
     MatTabsModule,
     MatTableModule,
     MatInputModule,
     MatSelectModule,
     MatButtonModule,
-    AgGridModule,
-    BrowserAnimationsModule,
     MatDialogModule,
     MatCheckboxModule,
-    FlexLayoutModule,
     MatIconModule,
-    FormsModule,
     MatDatepickerModule,
-    MatInputModule,
     MatFormFieldModule,
     MatNativeDateModule,
-    FormsModule,
-    MatDatepickerModule,
-    MatDatepickerModule,
-        MsalModule.forRoot(MSALInstanceFactory(), {
-      interactionType: InteractionType.Popup,
-      authRequest: {
-        scopes: ['User.Read'],
+    AgGridModule,
+    MsalModule.forRoot(
+      MSALInstanceFactory(),
+      {
+        interactionType: InteractionType.Popup,
+        authRequest: {
+          scopes: ['User.Read'],
+        },
       },
-    }, null),
-
+      {
+        interactionType: InteractionType.Popup,
+        protectedResourceMap: new Map()
+      }
+    ),
   ],
-  exports: [DynamicGridComponent,MaterialDateEditorComponent],
-  providers: [GenericDataService, PopupService, DataSharingService, SearchService,MsalService, MsalGuard,
+  exports: [DynamicGridComponent, MaterialDateEditorComponent],
+  providers: [
+    GenericDataService,
+    PopupService,
+    DataSharingService,
+    SearchService,
+    MsalService,
+    MsalGuard,
     { provide: MAT_DIALOG_DATA, useValue: {} },
     { provide: MatDialogRef, useValue: {} },
-        {
+    {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true
     },
-
-    { provide: BASE_CLASS_PARAMS, useValue: {} }],
-  // providers: [DataService, PopupService],
+    { provide: BASE_CLASS_PARAMS, useValue: {} }
+  ],
   bootstrap: [AppComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA] // Add this line
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class AppModule { }
+export class AppModule {}

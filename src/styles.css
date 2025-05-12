@@ -402,3 +402,7 @@ button.small-grey-button {
 .grid-wrapper {
   height: 80vh!important;
 }
+
+.grid-wrapper-medium {
+  height: 76vh!important;
+}

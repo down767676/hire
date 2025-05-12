@@ -34,6 +34,13 @@ export class AuthService {
     }
   }
 
+   initservice(): void {
+  const accounts = this.msalService.instance.getAllAccounts();
+  if (accounts.length > 0 && !this.msalService.instance.getActiveAccount()) {
+    this.msalService.instance.setActiveAccount(accounts[0]);
+  }
+}
+
   logout(): void {
     this.msalService.logout();
   }

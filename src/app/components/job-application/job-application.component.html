@@ -1,6 +1,5 @@
 <div fxLayout="column" class="tab-container-div"
-     style="height: 92vh; max-width: 100%; overflow: hidden;">
-
+     style="height: 96vh; max-width: 100%; overflow: hidden;">
   <!-- Task selection row -->
   <div fxLayout.gt-sm="row" fxLayout.lt-md="column"
        fxLayoutAlign="start center"
@@ -28,8 +27,8 @@
   </div>
 
   <!-- Grid section with forced height -->
-  <div fxFlex style="overflow-y: auto; min-height: 0; padding: 0 16px 8px;">
-<div style="height: 60vh">
+ 
+ <div class="grid-wrapper-medium">
         <app-dynamic-grid
         class="force-grid-height"
         [table_name]="table_name"
@@ -39,7 +38,7 @@
         [clearOtherRowsOnSelect]="true">
       </app-dynamic-grid>
     </div>
-  </div>
+  
 
   <!-- Bottom toolbar -->
   <div fxLayout.lt-md="column" fxLayout.gt-sm="row"
