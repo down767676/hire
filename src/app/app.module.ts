@@ -49,7 +49,8 @@ import { DefaultsTabComponent } from './components/defaults-tab/defaults-tab.com
 import { MsalModule, MsalInterceptor, MsalService, MsalGuard, MSAL_INSTANCE } from '@azure/msal-angular';
 import { PublicClientApplication, InteractionType } from '@azure/msal-browser';
 import { MSALInstanceFactory } from 'src/msal-config';
-
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -112,6 +113,12 @@ import { MSALInstanceFactory } from 'src/msal-config';
   providers: [GenericDataService, PopupService, DataSharingService, SearchService,MsalService, MsalGuard,
     { provide: MAT_DIALOG_DATA, useValue: {} },
     { provide: MatDialogRef, useValue: {} },
+        {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    },
+
     { provide: BASE_CLASS_PARAMS, useValue: {} }],
   // providers: [DataService, PopupService],
   bootstrap: [AppComponent],
