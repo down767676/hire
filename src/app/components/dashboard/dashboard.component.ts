@@ -15,6 +15,13 @@ export class DashboardComponent implements AfterViewInit {
   @ViewChild('tabs', { static: false }) tabs: MatTabGroup;
   @ViewChild(JobTabComponent, { static: false }) firstTab: JobTabComponent;
 
+  hovering = false;
+
+// logout() {
+//   this.msalService.logoutRedirect(); // or logoutPopup()
+// }
+
+
   constructor(private auth: AuthService) {}
 
   ngAfterViewInit() {

@@ -1,3 +1,12 @@
+<!-- Floating Logout Button -->
+<div class="logout-wrapper" (mouseenter)="hovering = true" (mouseleave)="hovering = false">
+  <button mat-icon-button (click)="logout()" class="logout-button" matTooltip="Logout">
+    <mat-icon>logout</mat-icon>
+  </button>
+  <span class="logout-label" *ngIf="hovering">Logout</span>
+</div>
+
+
 <!-- Main Content Tabs -->
 
 

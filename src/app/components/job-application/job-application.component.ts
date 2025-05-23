@@ -139,7 +139,7 @@ export class JobApplicationComponent extends BaseTabComponent {
     { "code": "Texted.365", "value": "Texted in last 365 days"} ,
     { "code": "GetCandidiates.Nearby", "value": "Show Nearby Candidates" },
     { "code": "GetCandidiates.NearFullTime", "value": "Show Nearby Full Time Candidates" },
-    { "code": "GetCandidiates.Travel", "value": "Show Travel CanFulldidates" }
+    { "code": "GetCandidiates.Travel", "value": "Show Travel Candidates" }
   ]
 
   someMethod(): void {
