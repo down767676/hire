@@ -52,11 +52,19 @@
           Travel Pay Breakdown
         </button>
         <button class="small-button" mat-raised-button color="primary" (click)="onClickSmartSearch()">
-          Search NPI and Ceipal
+          Search NPI and Ceipal And Save
         </button>
         <button class="small-button" mat-raised-button color="primary" (click)="onClickElasticSearch()">
-          Search Ceipal Only
+          Search Ceipal 
         </button>
+        <button class="small-button" mat-raised-button color="primary" (click)="searchWithoutSave('ceipal')" [class.spinner]="onClickSearchCandidatesWaitCursor" [disabled]="onClickSearchCandidatesWaitCursor">
+          Search Ceipal Without Save
+        </button>
+        <button class="small-button" mat-raised-button color="primary" (click)="searchCount('ceipal')" [class.spinner]="onClickSearchCandidatesWaitCursor" [disabled]="onClickSearchCandidatesWaitCursor">
+          Search Ceipal Count
+        </button>
+
+
         <button class="small-button" mat-raised-button color="primary" (click)="onClickText()">
           Text Jobs
         </button>

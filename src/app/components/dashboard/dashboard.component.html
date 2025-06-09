@@ -11,12 +11,16 @@
 
 
   <mat-tab-group #tabs backgroundColor="primary" color="accent" class="custom-tab-group" style="border-radius: 10px !important;">
-    <mat-tab label="Applicants">
-      <app-job-application></app-job-application>
-    </mat-tab>
     <mat-tab label="Jobs">
       <app-jobtab></app-jobtab>
     </mat-tab>
+    <mat-tab label="Applicants">
+      <app-job-application></app-job-application>
+    </mat-tab>
+    <mat-tab label="Search Results">
+      <app-search-results></app-search-results>
+    </mat-tab>
+
     <mat-tab label="StatusReport">
       <app-status-report-tab></app-status-report-tab>
     </mat-tab>
@@ -35,6 +39,9 @@
     <mat-tab label="Logs">
       <app-log-tab></app-log-tab>
     </mat-tab>
+      <mat-tab label="Control Page">
+    <app-control-page></app-control-page>
+  </mat-tab>  
   </mat-tab-group>
 
   <style>

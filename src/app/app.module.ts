@@ -53,6 +53,8 @@ import { PublicClientApplication, InteractionType } from '@azure/msal-browser';
 import { MSALInstanceFactory } from 'src/msal-config';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { SearchResultsComponent } from './components/search-results/search-results.component';
+import { ControlPageComponent } from './components/control-page/control-page.component';
 
 @NgModule({
   declarations: [
@@ -81,6 +83,8 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     FileUploadComponent,
     DefaultsTabComponent,
     MaterialDateEditorComponent,
+    SearchResultsComponent,
+    ControlPageComponent
   ],
   imports: [
     BrowserModule,

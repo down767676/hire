@@ -36,6 +36,8 @@ export class CallingListComponent extends BaseTabComponent {
   public selectedView: string = null
   public selected_source = this.source_columns[0]
 
+  clientFilter: string = 'Any Client';
+
 
   public normalizedTitleOptions = [
     "Any Title",
@@ -312,7 +314,7 @@ export class CallingListComponent extends BaseTabComponent {
   {
     if (this.validateOptions()) {
       this.refreshCursor = this.showWait(this.refreshCursor);
-      this.dataService.fetchDataPost('create_calling_list', null, { 'distance': this.distancetOption, 'employmentType':this.employmentOption, 'normalizedTitle':this.normalizedTitleOption }).subscribe(data => {
+      this.dataService.fetchDataPost('create_calling_list', null, { 'distance': this.distancetOption, 'employmentType':this.employmentOption, 'normalizedTitle':this.normalizedTitleOption , 'clientFilter':this.clientFilter}).subscribe(data => {
         this.showGrid(data);
         this.refreshCursor = this.hideWait(this.refreshCursor);
       })

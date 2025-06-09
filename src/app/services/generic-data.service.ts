@@ -4,6 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment'
 import { ColDef, GridOptions, GridApi } from 'ag-grid-community';
+import { timeout } from 'rxjs/operators';
 
 
 @Injectable({
@@ -26,13 +27,24 @@ export class GenericDataService {
 
 
 
-  fetchDataPost(api_end_point: string, sp: string, params: any): Observable<any> {
-    // Add `sp` to the params object
-    const body = { ...params, sp };
+  // fetchDataPost(api_end_point: string, sp: string, params: any): Observable<any> {
+  //   // Add `sp` to the params object
+  //   const body = { ...params, sp };
   
-    // Make the POST request with the body
-    return this.http.post(`${this.apiUrl}/${api_end_point}`, body);
-  }
+  //   // Make the POST request with the body
+  //   return this.http.post(`${this.apiUrl}/${api_end_point}`, body);
+  // }
+
+fetchDataPost(api_end_point: string, sp: string, params: any): Observable<any> {
+  const body = { ...params, sp };
+
+  // 5 minutes = 300,000 milliseconds
+  return this.http.post(`${this.apiUrl}/${api_end_point}`, body).pipe(
+    timeout(300000)
+  );
+}
+
+
     getTableData(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/get_campaign`);
   }

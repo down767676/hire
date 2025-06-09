@@ -141,6 +141,7 @@ export class BaseTabComponent implements OnInit {
     });
   }
 
+  
   buildSearchParams(): any {
     const params: any = {};
     this.searchFields.forEach((field, index) => {

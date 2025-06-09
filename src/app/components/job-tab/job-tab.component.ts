@@ -163,7 +163,7 @@ export class JobTabComponent extends BaseTabComponent {
 
   initializeFields(): void {
     this.setParentAttributes({ "api_end_point": "get_ceipal_jobs", "sp": "", "table_name": "job", "display_on_load": true })
-
+    
   }
 
   // component = JobT abComponent
@@ -171,15 +171,28 @@ export class JobTabComponent extends BaseTabComponent {
     super(data, paramService, dataService, popupService, { "api_end_point": "get_ceipal_jobs", "sp": "", "table_name": "job", "display_on_load": true });
   }
 
-  searchAndSendData(api_end_point, sp, params): void {
-    // const params = this.buildSearchParams();
+  searchWithoutSave(source): void {
+    let params = this.getSearchElasticParams();
+    params['source'] = source
     this.onClickSearchCandidatesWaitCursor = this.showWait(this.onClickSearchCandidatesWaitCursor);
-    this.dataService.fetchDataPost(api_end_point, sp, params).subscribe(data => {
-      this.dataSharingService.setData(data);
-      this.changeTabEvent.emit(1);
-      this.onClickSearchCandidatesWaitCursor = this.hideWait(this.onClickSearchCandidatesWaitCursor);
+      this.dataService.fetchDataPost("search_elastic_job_without_save", null,params ).subscribe(data => {
+        this.dataSharingService.setData(data);
+        this.changeTabEvent.emit(2);
+        this.onClickSearchCandidatesWaitCursor = this.hideWait(this.onClickSearchCandidatesWaitCursor);
     });
   }
+
+  searchCount(source): void {
+    let params = this.getSearchElasticParams();
+    params['source'] = source
+    this.onClickSearchCandidatesWaitCursor = this.showWait(this.onClickSearchCandidatesWaitCursor);
+      this.dataService.fetchDataPost("search_elastic_count", null,params ).subscribe(response => {
+      window.alert("Found " + response.count + " matching candidates.");
+        this.onClickSearchCandidatesWaitCursor = this.hideWait(this.onClickSearchCandidatesWaitCursor);
+    });
+  }
+
+  
 
   searchAndSendDataFireAndForget(api_end_point, sp, params): void {
     this.dataService.fetchDataPost(api_end_point, sp, params).subscribe(data => {

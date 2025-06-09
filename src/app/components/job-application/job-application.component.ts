@@ -14,7 +14,7 @@ import { DialogComponent } from '../dialog/dialog.component'; // Adjust the path
 import { MessageDialogComponent } from '../app-message-dialog/app-message-dialog.component'
 import { FacebookPostDialogComponent } from '../facebook-post-dialog/facebook-post-dialog.component';
 import { TravelDialogComponent } from '../travel-dialog/travel-dialog.component';
-
+import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment'
 
 @Component({
@@ -64,6 +64,7 @@ export class JobApplicationComponent extends BaseTabComponent {
   employmentOption: String = "Medical Assistant"
   
   selectedTask: String = "TalkTo.5"
+  stateStatus: string = '';
   public tasks = [
     { "code": "AMTasks.0", "value": "AM Tasks" },
     { "code": "TalkTo.5", "value": "Talk To in last 5 days" },
@@ -159,7 +160,7 @@ export class JobApplicationComponent extends BaseTabComponent {
   }
 
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, paramService: ParamService, protected dataService: GenericDataService, protected popupService: PopupService, private dataSharingService: DataSharingService, public dialog: MatDialog) {
+  constructor(private http: HttpClient, @Inject(MAT_DIALOG_DATA) public data: any, paramService: ParamService, protected dataService: GenericDataService, protected popupService: PopupService, private dataSharingService: DataSharingService, public dialog: MatDialog) {
     super(data, paramService, dataService, popupService, { "api_end_point": "get_campaign", "sp": "", "table_name": "candidateprofile", "display_on_load": true });
 
   }
@@ -296,11 +297,23 @@ export class JobApplicationComponent extends BaseTabComponent {
   ngOnInit() {
     this.dataSharingService.data$.subscribe(data => {
       this.showGrid(data);
+          this.getStatus();
       // Optionally, perform any necessary logic with the received data
     });
   }
 
-  onClickSendText() {
+  getStatus(): void {
+    this.dataService.fetchDataPost('broadcast/status', null, {"status":this.stateStatus}).subscribe(res => {
+      this.stateStatus = res.status;
+    });
+  }
+
+  setBroadcast(status: 'Stopped' | 'Running'): void {
+    this.dataService.fetchDataPost('broadcast/set', null,{ "status":status }).subscribe(() => {
+      this.getStatus();
+    });
+  }
+    onClickSendText() {
     const dialogRef = this.dialog.open(DialogComponent, {
       data: {
         title: 'Text Candidates',
