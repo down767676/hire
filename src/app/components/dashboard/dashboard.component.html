@@ -10,73 +10,73 @@
 <!-- Main Content Tabs -->
 
 
-  <mat-tab-group #tabs backgroundColor="primary" color="accent" class="custom-tab-group" style="border-radius: 10px !important;">
-    <mat-tab label="Jobs">
-      <app-jobtab></app-jobtab>
-    </mat-tab>
-    <mat-tab label="Applicants">
-      <app-job-application></app-job-application>
-    </mat-tab>
-    <mat-tab label="Search Results">
-      <app-search-results></app-search-results>
-    </mat-tab>
+<mat-tab-group #tabs backgroundColor="primary" color="accent" class="custom-tab-group"
+  style="border-radius: 10px !important;">
+  <mat-tab label="Jobs">
+    <app-jobtab></app-jobtab>
+  </mat-tab>
+  <mat-tab label="Applicants">
+    <app-job-application></app-job-application>
+  </mat-tab>
+  <mat-tab label="Search Results">
+    <app-search-results></app-search-results>
+  </mat-tab>
 
-    <mat-tab label="StatusReport">
-      <app-status-report-tab></app-status-report-tab>
-    </mat-tab>
-    <mat-tab label="Calling List">
-      <app-calling-list></app-calling-list>
-    </mat-tab>
-    <mat-tab label="Configuration">
-      <app-defaults-tab></app-defaults-tab>
-    </mat-tab>
-    <mat-tab label="Ceipal Candidates">
-      <app-candidate-tab></app-candidate-tab>
-    </mat-tab>
-    <mat-tab label="Taxonomy">
-      <app-taxonomy></app-taxonomy>
-    </mat-tab>
-    <mat-tab label="Logs">
-      <app-log-tab></app-log-tab>
-    </mat-tab>
-      <mat-tab label="Control Page">
+  <mat-tab label="StatusReport">
+    <app-status-report-tab></app-status-report-tab>
+  </mat-tab>
+  <mat-tab label="Calling List">
+    <app-calling-list></app-calling-list>
+  </mat-tab>
+  <mat-tab label="Configuration">
+    <app-defaults-tab></app-defaults-tab>
+  </mat-tab>
+  <mat-tab label="Ceipal Candidates">
+    <app-candidate-tab></app-candidate-tab>
+  </mat-tab>
+  <mat-tab label="Taxonomy">
+    <app-taxonomy></app-taxonomy>
+  </mat-tab>
+  <mat-tab label="Control Page">
     <app-control-page></app-control-page>
-  </mat-tab>  
-  </mat-tab-group>
+  </mat-tab>
+  <mat-tab label="Logs">
+    <app-log-tab></app-log-tab>
+  </mat-tab>
+</mat-tab-group>
 
-  <style>
-    ::ng-deep .mat-mdc-tab-list {
-      height: 30px !important;
-    }
+<style>
+  ::ng-deep .mat-mdc-tab-list {
+    height: 30px !important;
+  }
 
-    ::ng-deep .mat-mdc-tab {
-      height: 30px !important;
-      line-height: 30px !important;
-    }
+  ::ng-deep .mat-mdc-tab {
+    height: 30px !important;
+    line-height: 30px !important;
+  }
 
-    ::ng-deep .mat-mdc-tab-group {
-      border-radius: 10px !important;
-    }
+  ::ng-deep .mat-mdc-tab-group {
+    border-radius: 10px !important;
+  }
 
-    ::ng-deep .mat-mdc-tab.mdc-tab--active {
-      background-color: #19d266 !important;
-      color: white !important;
-      border-radius: 5px 5px 0 0 !important;
-      font-weight: bold !important;
-    }
+  ::ng-deep .mat-mdc-tab.mdc-tab--active {
+    background-color: #19d266 !important;
+    color: white !important;
+    border-radius: 5px 5px 0 0 !important;
+    font-weight: bold !important;
+  }
 
-    .custom-tab-group ::ng-deep .mdc-tab--active {
-      background-color: #b61515 !important;
-      color: rgb(9, 183, 79) !important;
-      font-weight: bold !important;
-      border-radius: 5px 5px 0 0 !important;
-    }
+  .custom-tab-group ::ng-deep .mdc-tab--active {
+    background-color: #b61515 !important;
+    color: rgb(9, 183, 79) !important;
+    font-weight: bold !important;
+    border-radius: 5px 5px 0 0 !important;
+  }
 
-    ::ng-deep .mat-tab[aria-selected="true"] {
-      background-color: #4caf50 !important;
-      color: white !important;
-      font-weight: bold !important;
-      border-radius: 5px 5px 0 0 !important;
-    }
-  </style>
-
+  ::ng-deep .mat-tab[aria-selected="true"] {
+    background-color: #4caf50 !important;
+    color: white !important;
+    font-weight: bold !important;
+    border-radius: 5px 5px 0 0 !important;
+  }
+</style>

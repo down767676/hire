@@ -55,6 +55,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { SearchResultsComponent } from './components/search-results/search-results.component';
 import { ControlPageComponent } from './components/control-page/control-page.component';
+import { MatDividerModule } from '@angular/material/divider';
 
 @NgModule({
   declarations: [
@@ -87,6 +88,7 @@ import { ControlPageComponent } from './components/control-page/control-page.com
     ControlPageComponent
   ],
   imports: [
+    MatDividerModule,
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
