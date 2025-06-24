@@ -1,9 +1,8 @@
 <div fxLayout="column" fxLayoutGap="2px" class="grid-div container-div" style="max-width:100%; overflow:hidden;">
 
   <!-- Top Controls -->
-  <div fxLayout.lt-md="column" fxLayout.gt-sm="row"
-       fxLayoutAlign="space-between center" fxLayoutGap="8px"
-       style="flex-wrap: wrap; width: 100%; padding-bottom: 4px;">
+  <div fxLayout.lt-md="column" fxLayout.gt-sm="row" fxLayoutAlign="space-between center" fxLayoutGap="8px"
+    style="flex-wrap: wrap; width: 100%; padding-bottom: 4px;">
 
     <!-- Row count label -->
     <label class="desktop-only" style="color: blue;">Row Count: {{ filteredRowCount }}</label>
@@ -27,30 +26,32 @@
       </button>
     </div>
 
-    <!-- View selector: always visible, right-aligned on desktop -->
-    <div fxFlex fxLayoutAlign="end" fxFlex.lt-md="100%" fxFlex.gt-sm="auto" class="desktop-only">
-      <mat-select class="task-mat-select" [(ngModel)]="selectedView"
-                  (selectionChange)="onViewSelect($event.value)" fxFlex="none">
+    <!-- Right-aligned label + select -->
+    <div fxLayout="row" fxLayoutAlign="end center" fxFlex class="desktop-only" style="margin-right: 0;">
+
+      <!-- Label with fixed width and right alignment -->
+      <div fxFlex="none" style="width: 80px; text-align: right; margin-left: 70px;">
+        <label style="display: block;">Columns:</label>
+      </div>
+
+      <!-- Dropdown -->
+      <mat-select class="task-mat-select" [(ngModel)]="selectedView" (selectionChange)="onViewSelect($event.value)"
+        fxFlex="none">
         <mat-option *ngFor="let view of views" [value]="view.file">
           {{ view.name }}
         </mat-option>
       </mat-select>
     </div>
+    
 
   </div>
 
   <!-- Grid Display -->
   <div class="full-page-grid" style="width: 100%;  min-height: 300px;">
-    <ag-grid-angular
-      class="ag-theme-alpine"
-      style="width: 100%; height: 100%;"
-      [gridOptions]="gridOptions"
-      [rowData]="rowData"
-      [columnDefs]="columnDefs"
-      [frameworkComponents]="frameworkComponents"
+    <ag-grid-angular class="ag-theme-alpine" style="width: 100%; height: 100%;" [gridOptions]="gridOptions"
+      [rowData]="rowData" [columnDefs]="columnDefs" [frameworkComponents]="frameworkComponents"
       [multiSelectDropdownComponent]="multiSelectDropdownComponent"
-      [pinnedBottomRowData]="showPinnedRow ? pinnedBottomRowData : null"
-      [defaultColDef]="defaultColDef"
+      [pinnedBottomRowData]="showPinnedRow ? pinnedBottomRowData : null" [defaultColDef]="defaultColDef"
       (filterChanged)="onFilterChanged()">
     </ag-grid-angular>
   </div>

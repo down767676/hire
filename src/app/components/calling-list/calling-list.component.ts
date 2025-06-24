@@ -48,7 +48,7 @@ export class CallingListComponent extends BaseTabComponent {
 
   distancetOption: String = 'Any Distance'
   public distancetOptions = [
-   'Any Distance', '5','10', '12','15','17','20', '25', 'state', 'country'
+   'Any Distance', '5','10', '12','15','17','20', '25','30', 'state', 'country'
   ]
 
   public employmentOptions = [

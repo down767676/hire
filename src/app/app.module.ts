@@ -56,6 +56,7 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { SearchResultsComponent } from './components/search-results/search-results.component';
 import { ControlPageComponent } from './components/control-page/control-page.component';
 import { MatDividerModule } from '@angular/material/divider';
+import { PackageReadyComponent } from './components/package-ready/package-ready.component';
 
 @NgModule({
   declarations: [
@@ -85,10 +86,10 @@ import { MatDividerModule } from '@angular/material/divider';
     DefaultsTabComponent,
     MaterialDateEditorComponent,
     SearchResultsComponent,
-    ControlPageComponent
+    ControlPageComponent,
+    PackageReadyComponent
   ],
   imports: [
-    MatDividerModule,
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,

@@ -2,6 +2,7 @@ import { Component, ViewChild, AfterViewInit, ViewEncapsulation } from '@angular
 import { JobTabComponent } from '../job-tab/job-tab.component';
 import { MatTabGroup } from '@angular/material/tabs';
 import { AuthService } from 'src/app/services/auth.service';
+import { MsalService } from '@azure/msal-angular';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,6 +12,7 @@ import { AuthService } from 'src/app/services/auth.service';
 export class DashboardComponent implements AfterViewInit {
   candidate_profile_table_name = "candidateprofile";
   job_table_name = "job";
+  package_ready = "package_ready";
 
   @ViewChild('tabs', { static: false }) tabs: MatTabGroup;
   @ViewChild(JobTabComponent, { static: false }) firstTab: JobTabComponent;
@@ -22,8 +24,22 @@ export class DashboardComponent implements AfterViewInit {
 // }
 
 
-  constructor(private auth: AuthService) {}
+  constructor(private auth: AuthService, private msalService: MsalService) {}
 
+    ngOnInit(): void {
+    const account = this.msalService.instance.getActiveAccount()
+      || this.msalService.instance.getAllAccounts()[0];
+
+    if (account) {
+      const domain = account.username.split('@')[1];
+      if (domain !== 'zenexpartners.com') {
+        alert('Access is restricted to zenexpartners.com accounts only.');
+        this.msalService.logoutRedirect(); // or logoutPopup()
+      } else {
+        this.msalService.instance.setActiveAccount(account); // Optional, but recommended
+      }
+    }
+  }
   ngAfterViewInit() {
     if (this.firstTab?.changeTabEvent) {
       this.firstTab.changeTabEvent.subscribe((tabNumber: number) => {
