@@ -1,22 +1,19 @@
-<div fxLayout="column" class="tab-container-div"
-     style="height: 92vh; max-width: 100%; overflow: hidden;">
+<div fxLayout="column" class="tab-container-div" style="height: 92vh; max-width: 100%; overflow: hidden;">
 
   <!-- Search + Task Selector -->
-  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px"
-       class="tasks-container" style="max-width: 100%; overflow-x: hidden;">
-    
-    <app-generic-search (triggerParentMethod)="onChildEvent()" fxFlex="30%"
-      [sp]="'sp_SearchJobApplications'"
-      [tableName]="'jobapplication'"
-      [columns]="['vms_job_id', 'job_id', 'client', 'company_name', 'title']"
+  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px" class="tasks-container"
+    style="max-width: 100%; overflow-x: hidden;">
+
+    <app-generic-search (triggerParentMethod)="onChildEvent()" fxFlex="30%" [sp]="'sp_SearchJobApplications'"
+      [tableName]="'jobapplication'" [columns]="['vms_job_id', 'job_id', 'client', 'company_name', 'title']"
       class="left-aligned">
     </app-generic-search>
 
-    <mat-select class="task-mat-select"
-                [(ngModel)]="selectedTask"
-                required
-                (selectionChange)="onTaskChange($event)"
-                fxFlex="none">
+    <div style="margin-right: 0px!important;" fxLayout="row" fxLayoutAlign="end center" fxFlex>
+      <label style="margin-right: 4px;"><b>Data:</b></label>
+    </div>
+    <mat-select class="task-mat-select" [(ngModel)]="selectedTask" required (selectionChange)="onTaskChange($event)"
+      fxFlex="none">
       <mat-option *ngFor="let task of tasks" [value]="task.code">
         {{ task.value }}
       </mat-option>
@@ -24,11 +21,8 @@
   </div>
 
   <!-- Grid (fills available space) -->
-    <div class="grid-wrapper">
-    <app-dynamic-grid
-      [table_name]="table_name" 
-      [api_end_point]="api_end_point"
-      [sp]="sp"
+  <div class="grid-wrapper">
+    <app-dynamic-grid [table_name]="table_name" [api_end_point]="api_end_point" [sp]="sp"
       [display_on_load]="display_on_load">
     </app-dynamic-grid>
   </div>
@@ -55,12 +49,14 @@
           Search NPI and Ceipal And Save
         </button>
         <button class="small-button" mat-raised-button color="primary" (click)="onClickElasticSearch()">
-          Search Ceipal 
+          Search Ceipal
         </button>
-        <button class="small-button" mat-raised-button color="primary" (click)="searchWithoutSave('ceipal')" [class.spinner]="onClickSearchCandidatesWaitCursor" [disabled]="onClickSearchCandidatesWaitCursor">
+        <button class="small-button" mat-raised-button color="primary" (click)="searchWithoutSave('ceipal')"
+          [class.spinner]="onClickSearchCandidatesWaitCursor" [disabled]="onClickSearchCandidatesWaitCursor">
           Search Ceipal Without Save
         </button>
-        <button class="small-button" mat-raised-button color="primary" (click)="searchCount('ceipal')" [class.spinner]="onClickSearchCandidatesWaitCursor" [disabled]="onClickSearchCandidatesWaitCursor">
+        <button class="small-button" mat-raised-button color="primary" (click)="searchCount('ceipal')"
+          [class.spinner]="onClickSearchCandidatesWaitCursor" [disabled]="onClickSearchCandidatesWaitCursor">
           Search Ceipal Count
         </button>
 
@@ -78,8 +74,7 @@
         Get Ceipal Jobs
       </button>
 
-      <app-file-upload class="small-button" [buttonLabel]="'Upload Aya Jobs'"
-        (csvParsed)="handleCsvData($event)">
+      <app-file-upload class="small-button" [buttonLabel]="'Upload Aya Jobs'" (csvParsed)="handleCsvData($event)">
       </app-file-upload>
 
       <button class="small-button" mat-raised-button color="primary" (click)="showJobsByDistance()">

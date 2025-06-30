@@ -432,9 +432,9 @@ onClickText() {
       this.onClickRefreshJobsWaitCursor = this.showWait(this.onClickRefreshJobsWaitCursor);
 
       this.dataService.fetchDataPost('get_job_statistics', null, { 'task': selectedTask }).subscribe(data => {
+        this.agGrid.setSelectedView(secondaryDropdownValue)
         this.showGrid(data);
         this.onClickRefreshJobsWaitCursor = this.hideWait(this.onClickRefreshJobsWaitCursor);
-        this.agGrid.setSelectedView(secondaryDropdownValue)
 
       })
     }
