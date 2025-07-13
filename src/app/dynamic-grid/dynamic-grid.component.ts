@@ -13,7 +13,7 @@ import { MultiSelectDropdownComponent } from '../components/multi-select-dropdow
 import { ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AgGridAngular } from 'ag-grid-angular';
-import { MaterialDateEditorComponent} from '../components/material-date-editor/material-date-editor.component'
+import { MaterialDateEditorComponent } from '../components/material-date-editor/material-date-editor.component'
 
 // ../multi-select-dropdown/multi-select-dropdown.component'
 
@@ -96,10 +96,10 @@ export class DynamicGridComponent implements OnInit {
       rowSelection: 'single',  // Enable multiple row selection
       defaultColDef: {
         filter: true
-    },
+      },
       icons: {
         menu: this.funnelSvg
-    }
+      }
       // rowMultiSelectWithClick: true, // Allow multiple row selection with click
       // onFilterChanged: () => this.updateFilteredRowCount()
       // onSelectionChanged: this.onSelectionChanged.bind(this)  // Bind the selection change event
@@ -132,34 +132,34 @@ export class DynamicGridComponent implements OnInit {
   // }
 
 
-  dateComparator(date1: string, date2: string): number {
-    // Attempt to parse the dates
-    const dateObj1 = Date.parse(date1);
-    const dateObj2 = Date.parse(date2);
+  // dateComparator(date1: string, date2: string): number {
+  //   // Attempt to parse the dates
+  //   const dateObj1 = Date.parse(date1);
+  //   const dateObj2 = Date.parse(date2);
 
-    // Handle invalid dates
-    if (isNaN(dateObj1) && isNaN(dateObj2)) {
-      console.error('Invalid date format:', date1, date2);
-      return 0  // Treat invalid dates as equal
-    }
-    else if (isNaN(dateObj1) && !isNaN(dateObj2)) {
-      console.error('Invalid date format:', date1, date2);
-      return 1  // Treat invalid dates as equal
-    }
-    else if (!isNaN(dateObj1) && isNaN(dateObj2)) {
-      console.error('Invalid date format:', date1, date2);
-      return -1  // Treat invalid dates as equal
-    }
+  //   // Handle invalid dates
+  //   if (isNaN(dateObj1) && isNaN(dateObj2)) {
+  //     console.error('Invalid date format:', date1, date2);
+  //     return 0  // Treat invalid dates as equal
+  //   }
+  //   else if (isNaN(dateObj1) && !isNaN(dateObj2)) {
+  //     console.error('Invalid date format:', date1, date2);
+  //     return 1  // Treat invalid dates as equal
+  //   }
+  //   else if (!isNaN(dateObj1) && isNaN(dateObj2)) {
+  //     console.error('Invalid date format:', date1, date2);
+  //     return -1  // Treat invalid dates as equal
+  //   }
 
-    // Compare the timestamps
-    if (dateObj1 < dateObj2) {
-      return -1;
-    }
-    if (dateObj1 > dateObj2) {
-      return 1;
-    }
-    return 0;
-  }
+  //   // Compare the timestamps
+  //   if (dateObj1 < dateObj2) {
+  //     return -1;
+  //   }
+  //   if (dateObj1 > dateObj2) {
+  //     return 1;
+  //   }
+  //   return 0;
+  // }
 
   pinRow(pinnedBottomRowData: any[]) {
     this.showPinnedRow = true;
@@ -175,12 +175,10 @@ export class DynamicGridComponent implements OnInit {
 
   loadGridViews() {
     var view_name = null
-    if (this.view_name)
-    {
+    if (this.view_name) {
       view_name = this.view_name
     }
-    else
-    {
+    else {
       view_name = this.table_name
     }
     this.gridConfigService.getGridViews(view_name).subscribe(data => {
@@ -276,12 +274,10 @@ export class DynamicGridComponent implements OnInit {
 
   loadGridColAndRows(rows: any) {
     var view_name = null
-    if (this.view_name)
-    {
+    if (this.view_name) {
       view_name = this.view_name
     }
-    else
-    {
+    else {
       view_name = this.table_name
     }
 
@@ -295,6 +291,11 @@ export class DynamicGridComponent implements OnInit {
     return formatDate(params.value, 'MM-dd-yyyy', 'en-US');
   }
 
+  dateComparator(date1: string, date2: string): number {
+    const d1 = new Date(date1).getTime();
+    const d2 = new Date(date2).getTime();
+    return d1 - d2;
+  }
 
   loadGridColAndRowsHelper(rows: any, view_name: string, loadData: boolean) {
     if (view_name == null) {
@@ -322,60 +323,60 @@ export class DynamicGridComponent implements OnInit {
         }
         if (col.type === 'text') {
           columnDef.cellEditor = 'agTextCellEditor';
-          columnDef.filter = "agTextColumnFilter" ;
+          columnDef.filter = "agTextColumnFilter";
         } else if (col.type === 'number') {
           columnDef.cellEditor = 'agNumberCellEditor';
           columnDef.filter = "agNumberColumnFilter";
-        
+
         } else if (col.type === 'number') {
           columnDef.cellEditor = 'agNumberCellEditor';
           columnDef.filter = "agNumberColumnFilter";
         }
-          else if (col.type === 'date') {
-            // columnDef.field = 'date'
-            columnDef.cellEditor = MaterialDateEditorComponent;
-            columnDef.filter = 'agDateColumnFilter';
-            columnDef.sortable = true;
-            columnDef.editable = true;
-            columnDef.cellEditorPopup =  true
-            columnDef.cellDataType = 'date'
-          
-            columnDef.valueFormatter = (params) => {
-              if (!params.value) return '';
-              const date = new Date(params.value);
-              if (isNaN(date.getTime())) return params.value;
-              const yy = String(date.getFullYear());
-              const mm = String(date.getMonth() + 1).padStart(2, '0');
-              const dd = String(date.getDate()).padStart(2, '0');
-              return `${yy}-${mm}-${dd}`;
-            };
-          
-            // columnDef.valueSetter = (params) => {
-            //   const oldValue = new Date(params.oldValue);
-            //   const newValue = new Date(params.newValue);
-          
-            //   if (!params.newValue || oldValue.getTime() === newValue.getTime()) {
-            //     return false;
-            //   }
-          
-            //   params.data[params.colDef.field!] = newValue;
-            //   return true;
-            // };
-          
-            columnDef.filterParams = {
-              comparator: (filterDate: Date, cellValue: any) => {
-                const parsed = new Date(cellValue);
-                if (isNaN(parsed.getTime())) return -1;
-          
-                const d1 = new Date(filterDate.setHours(0, 0, 0, 0));
-                const d2 = new Date(parsed.setHours(0, 0, 0, 0));
-          
-                if (d1 < d2) return -1;
-                if (d1 > d2) return 1;
-                return 0;
-              },
-            };
-          }                        
+        else if (col.type === 'date') {
+          // columnDef.field = 'date'
+          columnDef.cellEditor = MaterialDateEditorComponent;
+          columnDef.filter = 'agDateColumnFilter';
+          columnDef.sortable = true;
+          columnDef.editable = true;
+          columnDef.cellEditorPopup = true
+          columnDef.cellDataType = 'date'
+          columnDef.comparator = this.dateComparator
+          columnDef.valueFormatter = (params) => {
+            if (!params.value) return '';
+            const date = new Date(params.value);
+            if (isNaN(date.getTime())) return params.value;
+            const yy = String(date.getFullYear());
+            const mm = String(date.getMonth() + 1).padStart(2, '0');
+            const dd = String(date.getDate()).padStart(2, '0');
+            return `${yy}-${mm}-${dd}`;
+          };
+
+          // columnDef.valueSetter = (params) => {
+          //   const oldValue = new Date(params.oldValue);
+          //   const newValue = new Date(params.newValue);
+
+          //   if (!params.newValue || oldValue.getTime() === newValue.getTime()) {
+          //     return false;
+          //   }
+
+          //   params.data[params.colDef.field!] = newValue;
+          //   return true;
+          // };
+
+          columnDef.filterParams = {
+            comparator: (filterDate: Date, cellValue: any) => {
+              const parsed = new Date(cellValue);
+              if (isNaN(parsed.getTime())) return -1;
+
+              const d1 = new Date(filterDate.setHours(0, 0, 0, 0));
+              const d2 = new Date(parsed.setHours(0, 0, 0, 0));
+
+              if (d1 < d2) return -1;
+              if (d1 > d2) return 1;
+              return 0;
+            },
+          };
+        }
         else if (col.type === 'boolean') {
           columnDef.cellEditor = 'agCheckboxCellEditor';
           columnDef.cellRenderer = 'agCheckboxCellRenderer';
@@ -386,9 +387,17 @@ export class DynamicGridComponent implements OnInit {
             values: col.values
           };
         }
-        else if (col.type === 'checkbox') {
-          cb = true
+        else if (col.type && col.type.toLowerCase().includes('url')) {
+          columnDef.cellRenderer = (params) => {
+            if (!params.value) return '';
+            return `<a href="${params.value}" target="_blank" rel="noopener noreferrer">Link</a>`;
+          };
         }
+
+        else if (col.type === 'checkbox') {
+          cb = true;
+        }
+
         else if (col.type === 'multi-select-dropdown') {
           columnDef.cellEditor = MultiSelectDropdownComponent;
           // columnDef.cellRenderer = "MultiSelectDropdownComponent";
@@ -491,10 +500,10 @@ export class DynamicGridComponent implements OnInit {
       const result = this.api.applyTransaction({ update: this.rowData });
 
       // Force the grid to refresh the cells
-  }) 
-     this.api.refreshCells({ force: true });
+    })
+    this.api.refreshCells({ force: true });
     //  console.log('Transaction Result:', result);
-     };
+  };
   onGridReady(params: any) {
     this.gridInited = true;
     this.api = params.api;
@@ -594,17 +603,17 @@ export class DynamicGridComponent implements OnInit {
 
   public clearAllRows(): void {
     this.rowData = []; // Clear local data model
-  
+
     if (this.api) {
       // Preferred method to update grid data
       this.api.setGridOption('rowData', []);
       // Optional: update filtered row count if you're tracking it
       this.updateFilteredRowCount();
-      this.isDataLoaded = false;  
+      this.isDataLoaded = false;
     }
   }
-  
-  
+
+
   // Function to set the "selected" column to blank for all rows
   // setSelectedToBlank() {
 

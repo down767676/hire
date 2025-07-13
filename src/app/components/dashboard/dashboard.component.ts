@@ -3,7 +3,7 @@ import { JobTabComponent } from '../job-tab/job-tab.component';
 import { MatTabGroup } from '@angular/material/tabs';
 import { AuthService } from 'src/app/services/auth.service';
 import { MsalService } from '@azure/msal-angular';
-
+import { SessionService } from 'src/app/services/sessionservice.service';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -24,7 +24,7 @@ export class DashboardComponent implements AfterViewInit {
 // }
 
 
-  constructor(private auth: AuthService, private msalService: MsalService) {}
+  constructor(private auth: AuthService, private msalService: MsalService, private sessionService: SessionService) {}
 
     ngOnInit(): void {
     const account = this.msalService.instance.getActiveAccount()

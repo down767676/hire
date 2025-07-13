@@ -18,6 +18,7 @@ import { BaseTabComponent } from './components/base-tab/base-tab.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTabsModule } from '@angular/material/tabs';
 import { GenericDataService } from './services/generic-data.service';
+import { SessionService } from './services/sessionservice.service';
 import { SearchService } from './services/search.service';
 import { PopupService } from './services/popup.service'
 import { JobApplicationsPopupComponent } from './components/job-applications-popup/job-applications-popup.component';
@@ -57,6 +58,8 @@ import { SearchResultsComponent } from './components/search-results/search-resul
 import { ControlPageComponent } from './components/control-page/control-page.component';
 import { MatDividerModule } from '@angular/material/divider';
 import { PackageReadyComponent } from './components/package-ready/package-ready.component';
+import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
+
 
 @NgModule({
   declarations: [
@@ -94,6 +97,7 @@ import { PackageReadyComponent } from './components/package-ready/package-ready.
     BrowserAnimationsModule,
     HttpClientModule,
     FormsModule,
+    NgIdleKeepaliveModule.forRoot(),
     RouterModule.forRoot([
       { path: 'login', component: LoginComponent },
       { path: 'app', component: DashboardComponent, canActivate: [MsalGuard] },
@@ -112,6 +116,7 @@ import { PackageReadyComponent } from './components/package-ready/package-ready.
     MatDatepickerModule,
     MatFormFieldModule,
     MatNativeDateModule,
+    NgIdleKeepaliveModule ,
     AgGridModule,
     MsalModule.forRoot(
       MSALInstanceFactory(),
@@ -130,6 +135,7 @@ import { PackageReadyComponent } from './components/package-ready/package-ready.
   exports: [DynamicGridComponent, MaterialDateEditorComponent],
   providers: [
     GenericDataService,
+    SessionService,
     PopupService,
     DataSharingService,
     SearchService,

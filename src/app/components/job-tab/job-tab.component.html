@@ -10,7 +10,7 @@
     </app-generic-search>
 
     <div style="margin-right: 0px!important;" fxLayout="row" fxLayoutAlign="end center" fxFlex>
-      <label style="margin-right: 4px;"><b>Data:</b></label>
+      <label style="margin-right: 4px;"><b>Task:</b></label>
     </div>
     <mat-select class="task-mat-select" [(ngModel)]="selectedTask" required (selectionChange)="onTaskChange($event)"
       fxFlex="none">
@@ -49,7 +49,7 @@
           Search NPI and Ceipal And Save
         </button>
         <button class="small-button" mat-raised-button color="primary" (click)="onClickElasticSearch()">
-          Search Ceipal
+          Search Ceipal And Save
         </button>
         <button class="small-button" mat-raised-button color="primary" (click)="searchWithoutSave('ceipal')"
           [class.spinner]="onClickSearchCandidatesWaitCursor" [disabled]="onClickSearchCandidatesWaitCursor">

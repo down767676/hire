@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+
 import { MsalService } from '@azure/msal-angular';
 import {
   PublicClientApplication,
@@ -10,7 +12,7 @@ import {
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private msalService: MsalService) {}
+  constructor(private msalService: MsalService,private router:Router) {}
 
   async login(): Promise<void> {
     const instance = this.msalService.instance as PublicClientApplication;
@@ -43,6 +45,7 @@ export class AuthService {
 
   logout(): void {
     this.msalService.logout();
+    this.router.navigate(['/login']);
   }
 
   isLoggedIn(): boolean {
