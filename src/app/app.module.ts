@@ -1,3 +1,5 @@
+
+import {HelloTestCellComponent} from './components/hello-test-cell/hello-test-cell.component'
 import { RouterModule } from '@angular/router';
 import { LoginComponent } from './components/login/login.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';import { FormsModule } from '@angular/forms';
@@ -59,7 +61,12 @@ import { ControlPageComponent } from './components/control-page/control-page.com
 import { MatDividerModule } from '@angular/material/divider';
 import { PackageReadyComponent } from './components/package-ready/package-ready.component';
 import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
-
+import { QuillModule } from 'ngx-quill';
+import {EditDescriptionDialogComponent} from './components/edit-description-dialog/edit-description-dialog.component'
+import {DescriptionButtonCellComponent} from './components/description-button-cell/description-button-cell.component'
+import { HelloWorldCellComponent } from './components/hello-world-cell/hello-world-cell.component';
+import { EditHtmlDialogComponent } from './components/edit-html-dialog/edit-html-dialog.component'
+import { MatOptionModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -75,6 +82,7 @@ import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
     DynamicGridComponent,
     CandidateTabComponent,
     JobApplicationsPopupComponent,
+    HelloWorldCellComponent,
     JobTabComponent,
     JobApplicationComponent,
     CallingListComponent,
@@ -90,13 +98,22 @@ import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
     MaterialDateEditorComponent,
     SearchResultsComponent,
     ControlPageComponent,
-    PackageReadyComponent
+    PackageReadyComponent,
+    EditDescriptionDialogComponent,
+    DescriptionButtonCellComponent,
+    HelloTestCellComponent,
+    EditHtmlDialogComponent,
+    
   ],
   imports: [
+    AgGridModule,
     BrowserModule,
     BrowserAnimationsModule,
+    QuillModule.forRoot(),
     HttpClientModule,
     FormsModule,
+        AgGridModule,
+      
     NgIdleKeepaliveModule.forRoot(),
     RouterModule.forRoot([
       { path: 'login', component: LoginComponent },
@@ -107,17 +124,17 @@ import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
     FlexLayoutModule,
     MatTabsModule,
     MatTableModule,
+    MatDialogModule,
     MatInputModule,
     MatSelectModule,
     MatButtonModule,
-    MatDialogModule,
     MatCheckboxModule,
     MatIconModule,
     MatDatepickerModule,
     MatFormFieldModule,
     MatNativeDateModule,
     NgIdleKeepaliveModule ,
-    AgGridModule,
+    MatOptionModule,
     MsalModule.forRoot(
       MSALInstanceFactory(),
       {

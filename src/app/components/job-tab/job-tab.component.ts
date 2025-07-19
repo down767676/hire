@@ -172,6 +172,16 @@ export class JobTabComponent extends BaseTabComponent {
   }
 
   searchWithoutSave(source): void {
+        var ids = this.getMobileSelectedIds()
+
+    if (ids.length > 1) {
+      alert('Error: More than one row has the value "yes"');
+      return;
+    } else if (ids.length === 0) {
+      alert('No row with "yes" selected');
+      return;
+    }
+
     let params = this.getSearchElasticParams();
     params['source'] = source
     this.onClickSearchCandidatesWaitCursor = this.showWait(this.onClickSearchCandidatesWaitCursor);
@@ -183,6 +193,16 @@ export class JobTabComponent extends BaseTabComponent {
   }
 
   searchCount(source): void {
+        var ids = this.getMobileSelectedIds()
+
+    if (ids.length > 1) {
+      alert('Error: More than one row has the value "yes"');
+      return;
+    } else if (ids.length === 0) {
+      alert('No row with "yes" selected');
+      return;
+    }
+
     let params = this.getSearchElasticParams();
     params['source'] = source
     this.onClickSearchCandidatesWaitCursor = this.showWait(this.onClickSearchCandidatesWaitCursor);
@@ -201,6 +221,16 @@ export class JobTabComponent extends BaseTabComponent {
   }
 
   onClickElasticSearch() {
+    var ids = this.getMobileSelectedIds()
+
+    if (ids.length > 1) {
+      alert('Error: More than one row has the value "yes"');
+      return;
+    } else if (ids.length === 0) {
+      alert('No row with "yes" selected');
+      return;
+    }
+
   // Open dialog with title and content
   const dialogRef = this.dialog.open(DialogComponent, {
     data: { 

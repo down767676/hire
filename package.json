@@ -45,6 +45,8 @@
     "ag-grid-angular": "^31.3.2",
     "ag-grid-community": "^31.3.2",
     "core-js": "^3.37.1",
+    "ngx-quill": "^28.0.1",
+    "quill": "^2.0.3",
     "rxjs": "^7.8.1",
     "xlsx": "^0.18.5",
     "zone.js": "^0.11.8"

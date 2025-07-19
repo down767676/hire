@@ -14,8 +14,16 @@ import { ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AgGridAngular } from 'ag-grid-angular';
 import { MaterialDateEditorComponent } from '../components/material-date-editor/material-date-editor.component'
-
+import { MatDialog } from '@angular/material/dialog';
+import { EditHtmlDialogComponent } from '../components/edit-html-dialog/edit-html-dialog.component';
+import { AgGridModule } from 'ag-grid-angular';
 // ../multi-select-dropdown/multi-select-dropdown.component'
+
+function stripHtml(html: string): string {
+  const div = document.createElement('div');
+  div.innerHTML = html;
+  return div.textContent || div.innerText || '';
+}
 
 @Component({
   selector: 'app-dynamic-grid',
@@ -84,25 +92,30 @@ export class DynamicGridComponent implements OnInit {
   public api!: GridApi;
   public views: any;
 
-
-  constructor(private http: HttpClient, private dataService: GenericDataService, protected paramService: ParamService, protected garamService: ParamService, private gridConfigService: GridConfigService) {
-
-
+  constructor(
+    private http: HttpClient,
+    private dataService: GenericDataService,
+    protected paramService: ParamService,
+    protected garamService: ParamService,
+    private gridConfigService: GridConfigService,
+    private dialog: MatDialog
+  ) {
     this.gridOptions = {
       onGridReady: (params) => this.onGridReady(params),
       stopEditingWhenCellsLoseFocus: true,
       onCellValueChanged: (event) => this.onCellValueChanged(event),
       onCellEditingStopped: this.onCellEditingStopped.bind(this),
-      rowSelection: 'single',  // Enable multiple row selection
+      context: {
+        componentParent: this
+      },
+
+      rowSelection: 'single',
       defaultColDef: {
         filter: true
       },
       icons: {
         menu: this.funnelSvg
       }
-      // rowMultiSelectWithClick: true, // Allow multiple row selection with click
-      // onFilterChanged: () => this.updateFilteredRowCount()
-      // onSelectionChanged: this.onSelectionChanged.bind(this)  // Bind the selection change event
     };
   }
 
@@ -302,140 +315,156 @@ export class DynamicGridComponent implements OnInit {
       view_name = this.table_name;
     }
     this.gridConfigService.getGridProperties(view_name).subscribe((data: GridProperties) => {
-      let cb = false
+      let cb = false;
       const columnDefCheckBox: ColDef = {
-        headerCheckboxSelection: true,  // Display checkbox in the header
-        checkboxSelection: true,        // Display checkbox in each row
-        headerCheckboxSelectionFilteredOnly: true, // Display header checkbox for only filtered rows
+        headerCheckboxSelection: true,
+        checkboxSelection: true,
+        headerCheckboxSelectionFilteredOnly: true,
         width: 50,
-        pinned: 'left'  // Pin the checkbox column to the left
-      }
+        pinned: 'left'
+      };
+
       this.columnDefs = data.columns.map((col: GridColumn) => {
         const columnDef: ColDef = {
           headerName: col.headerName,
           field: col.field,
           width: col.width,
-          editable: col.editable,
+          editable: col.editable
         };
 
         if (col.table) {
-          columnDef["table"] = col.table
-        }
-        if (col.type === 'text') {
-          columnDef.cellEditor = 'agTextCellEditor';
-          columnDef.filter = "agTextColumnFilter";
-        } else if (col.type === 'number') {
-          columnDef.cellEditor = 'agNumberCellEditor';
-          columnDef.filter = "agNumberColumnFilter";
-
-        } else if (col.type === 'number') {
-          columnDef.cellEditor = 'agNumberCellEditor';
-          columnDef.filter = "agNumberColumnFilter";
-        }
-        else if (col.type === 'date') {
-          // columnDef.field = 'date'
-          columnDef.cellEditor = MaterialDateEditorComponent;
-          columnDef.filter = 'agDateColumnFilter';
-          columnDef.sortable = true;
-          columnDef.editable = true;
-          columnDef.cellEditorPopup = true
-          columnDef.cellDataType = 'date'
-          columnDef.comparator = this.dateComparator
-          columnDef.valueFormatter = (params) => {
-            if (!params.value) return '';
-            const date = new Date(params.value);
-            if (isNaN(date.getTime())) return params.value;
-            const yy = String(date.getFullYear());
-            const mm = String(date.getMonth() + 1).padStart(2, '0');
-            const dd = String(date.getDate()).padStart(2, '0');
-            return `${yy}-${mm}-${dd}`;
-          };
-
-          // columnDef.valueSetter = (params) => {
-          //   const oldValue = new Date(params.oldValue);
-          //   const newValue = new Date(params.newValue);
-
-          //   if (!params.newValue || oldValue.getTime() === newValue.getTime()) {
-          //     return false;
-          //   }
-
-          //   params.data[params.colDef.field!] = newValue;
-          //   return true;
-          // };
-
-          columnDef.filterParams = {
-            comparator: (filterDate: Date, cellValue: any) => {
-              const parsed = new Date(cellValue);
-              if (isNaN(parsed.getTime())) return -1;
-
-              const d1 = new Date(filterDate.setHours(0, 0, 0, 0));
-              const d2 = new Date(parsed.setHours(0, 0, 0, 0));
-
-              if (d1 < d2) return -1;
-              if (d1 > d2) return 1;
-              return 0;
-            },
-          };
-        }
-        else if (col.type === 'boolean') {
-          columnDef.cellEditor = 'agCheckboxCellEditor';
-          columnDef.cellRenderer = 'agCheckboxCellRenderer';
-        }
-        else if (col.type === 'dropdown') {
-          columnDef.cellEditor = 'agSelectCellEditor';
-          columnDef.cellEditorParams = {
-            values: col.values
-          };
-        }
-        else if (col.type && col.type.toLowerCase().includes('url')) {
-          columnDef.cellRenderer = (params) => {
-            if (!params.value) return '';
-            return `<a href="${params.value}" target="_blank" rel="noopener noreferrer">Link</a>`;
-          };
+          columnDef["table"] = col.table;
         }
 
-        else if (col.type === 'checkbox') {
-          cb = true;
+        switch (col.type) {
+          case 'text':
+            columnDef.cellEditor = 'agTextCellEditor';
+            columnDef.filter = "agTextColumnFilter";
+            break;
+          case 'number':
+            columnDef.cellEditor = 'agNumberCellEditor';
+            columnDef.filter = "agNumberColumnFilter";
+            break;
+          case 'date':
+            columnDef.cellEditor = MaterialDateEditorComponent;
+            columnDef.filter = 'agDateColumnFilter';
+            columnDef.sortable = true;
+            columnDef.editable = true;
+            columnDef.cellEditorPopup = true;
+            columnDef.cellDataType = 'date';
+            columnDef.comparator = this.dateComparator;
+            columnDef.valueFormatter = (params) => {
+              if (!params.value) return '';
+              const date = new Date(params.value);
+              if (isNaN(date.getTime())) return params.value;
+              const yy = String(date.getFullYear());
+              const mm = String(date.getMonth() + 1).padStart(2, '0');
+              const dd = String(date.getDate()).padStart(2, '0');
+              return `${yy}-${mm}-${dd}`;
+            };
+            columnDef.filterParams = {
+              comparator: (filterDate: Date, cellValue: any) => {
+                const parsed = new Date(cellValue);
+                if (isNaN(parsed.getTime())) return -1;
+                const d1 = new Date(filterDate.setHours(0, 0, 0, 0));
+                const d2 = new Date(parsed.setHours(0, 0, 0, 0));
+                return d1 < d2 ? -1 : d1 > d2 ? 1 : 0;
+              }
+            };
+            break;
+          case 'boolean':
+            columnDef.cellEditor = 'agCheckboxCellEditor';
+            columnDef.cellRenderer = 'agCheckboxCellRenderer';
+            break;
+          case 'dropdown':
+            columnDef.cellEditor = 'agSelectCellEditor';
+            columnDef.cellEditorParams = { values: col.values };
+            break;
+          case 'checkbox':
+            cb = true;
+            break;
+          case 'url':
+            columnDef.cellRenderer = (params) => {
+              if (!params.value) return '';
+              return `<a href="${params.value}" target="_blank" rel="noopener noreferrer">Link</a>`;
+            }
+          case 'multi-select-dropdown':
+            columnDef.cellEditor = MultiSelectDropdownComponent;
+            columnDef.editable = true;
+            columnDef.cellEditorParams = {
+              procName: col.option_sp_name,
+              codes: ['1', '2']
+            };
+            break;
+          case 'html':
+            columnDef.cellRenderer = (params) => {
+              const div = document.createElement('div');
+
+              // Preview plain text
+              const html = params.value || '';
+              const preview = stripHtml(html);
+              const truncated = preview.length > 40 ? preview.slice(0, 40) + '…' : preview;
+
+              div.innerHTML = `
+  <div style="display: flex; align-items: center; width: 100%;">
+    <button style="flex-shrink: 0; margin-right: 6px; padding: 2px 6px;">…</button>
+    <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex-grow: 1;">
+      ${truncated}
+    </span>
+  </div>
+`;
+
+
+              // Button click to edit
+              const btn = div.querySelector('button');
+              btn?.addEventListener('click', () => {
+                const dialogRef = this.dialog.open(EditHtmlDialogComponent, {
+                  width: '700px',
+                  data: { value: params.value || '' }
+                });
+
+                dialogRef.afterClosed().subscribe(result => {
+                  if (result != null) {
+                    params.node.setDataValue(params.colDef.field, result);
+
+                    // Save via service
+                    params.context.componentParent.saveToBackend(
+                      params.data.job_id,
+                      params.colDef.field,
+                      result
+                    );
+                  }
+                });
+              });
+
+              return div;
+            };
+            columnDef.editable = false;
+            break;
+
+
         }
 
-        else if (col.type === 'multi-select-dropdown') {
-          columnDef.cellEditor = MultiSelectDropdownComponent;
-          // columnDef.cellRenderer = "MultiSelectDropdownComponent";
-          // columnDef.cellEditorFramework = "MultiSelectDropdownComponent";
-          columnDef.editable = true
-          columnDef.cellEditorParams = {
-            procName: col.option_sp_name, // Stored procedure name for fetching options
-            codes: ['1', '2']
-          };
-        }
         return columnDef;
-      }
-      );
+      });
 
       if (cb) {
-        this.columnDefs.push(columnDefCheckBox)
-        // this.api.setColumnDefs(this.columnDefs)
+        this.columnDefs.push(columnDefCheckBox);
         if (this.api) {
-          this.api.setGridOption('columnDefs', this.columnDefs)
-
+          this.api.setGridOption('columnDefs', this.columnDefs);
         }
+      }
 
-      }
       if (loadData) {
-        this.loadData(rows)
-        // this.api.setRowData(rows)
-        // if (this.api){
-        //   this.api.setGridOption('rowData', rows)
-        // }
+        this.loadData(rows);
       }
-    }
-    );
+    });
   }
 
 
   frameworkComponents = {
     multiSelectDropdownComponent: MultiSelectDropdownComponent,
-    materialDateEditor: MaterialDateEditorComponent
+    materialDateEditor: MaterialDateEditorComponent,
   };
 
   // Called when the filter is changed
@@ -611,6 +640,9 @@ export class DynamicGridComponent implements OnInit {
       this.updateFilteredRowCount();
       this.isDataLoaded = false;
     }
+  }
+  saveToBackend(jobId: number, columnName: string, value: string): void {
+    this.dataService.updateData(jobId, columnName, value, this.table_name, null, null).subscribe();
   }
 
 
