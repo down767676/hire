@@ -42,7 +42,7 @@ export class DynamicGridComponent implements OnInit {
     resizable: true
   };
 
-  @Input() clearOtherRowsOnSelect: boolean = false;
+  @Input() clearOtherRowsOnSelect: boolean = true;
   @Input() updateSelectedColumn: boolean = false;
   @Input() table_name: string;
   @Input() view_name: string;
@@ -51,6 +51,7 @@ export class DynamicGridComponent implements OnInit {
   @Input() display_on_load: boolean;
   @Output() notify = new EventEmitter<void>();
   public isMobile = window.innerWidth < 960;
+  multiSelectLabel: string = 'Multi Select';
 
 
   funnelSvg = `
@@ -337,6 +338,12 @@ export class DynamicGridComponent implements OnInit {
         }
 
         switch (col.type) {
+          case 'email':
+            columnDef.cellRenderer = (params) => {
+              if (!params.value) return '';
+              return `<a href="mailto:${params.value}">${params.value}</a>`;
+            };
+            break;
           case 'text':
             columnDef.cellEditor = 'agTextCellEditor';
             columnDef.filter = "agTextColumnFilter";
@@ -479,6 +486,7 @@ export class DynamicGridComponent implements OnInit {
     }
   }
 
+  
   setSelectedToValue(val) {
     let counter = 1; // Stavalrting value for the ID column
 
@@ -597,6 +605,12 @@ export class DynamicGridComponent implements OnInit {
     this.setSelectedToValue_2('')
   }
 
+  multiSelect()
+  {
+      this.clearOtherRowsOnSelect = !this.clearOtherRowsOnSelect;
+    this.multiSelectLabel = this.clearOtherRowsOnSelect ? 'Multi Select' : 'Single Select';
+
+  }
   // Function to Add a New Row
   addRow() {
     if (!this.table_name) {

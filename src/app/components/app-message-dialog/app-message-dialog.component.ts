@@ -9,7 +9,7 @@ export class MessageDialogComponent {
 
   constructor(
     public dialogRef: MatDialogRef<MessageDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { message: string }
+    @Inject(MAT_DIALOG_DATA) public data: { message: string , sendLabel: string }
   ) {
     this.message = data.message;  // Initialize the message with the passed data
   }

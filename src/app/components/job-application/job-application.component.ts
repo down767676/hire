@@ -16,7 +16,7 @@ import { FacebookPostDialogComponent } from '../facebook-post-dialog/facebook-po
 import { TravelDialogComponent } from '../travel-dialog/travel-dialog.component';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment'
-
+import { EmailMessageDialogComponent } from '../app-email-message-dialog/app-email-message-dialog.component';
 @Component({
   selector: 'app-job-application',
   templateUrl: './job-application.component.html',
@@ -159,6 +159,9 @@ export class JobApplicationComponent extends BaseTabComponent {
     this.setParentAttributes({ "api_end_point": "", "sp": "", "table_name": "jobapplication", "display_on_load": false })
   }
 
+get sendLabel(): string {
+  return this.agGrid?.clearOtherRowsOnSelect ? 'Send Single' : 'Send Bulk';
+}
 
   constructor(private http: HttpClient, @Inject(MAT_DIALOG_DATA) public data: any, paramService: ParamService, protected dataService: GenericDataService, protected popupService: PopupService, private dataSharingService: DataSharingService, public dialog: MatDialog) {
     super(data, paramService, dataService, popupService, { "api_end_point": "get_campaign", "sp": "", "table_name": "candidateprofile", "display_on_load": true });
@@ -166,61 +169,183 @@ export class JobApplicationComponent extends BaseTabComponent {
   }
 
 
-  onCreateMessage() {
-    var ids = this.getMobileSelectedIds()
+// onCreateMessage() {
+//   const ids = this.getMobileSelectedIds();
 
-    if (ids.length > 1) {
-      alert('Error: More than one row has the value "yes"');
-      return;
-    } else if (ids.length === 0) {
-      alert('No row with "yes" selected');
-      return;
-    }
+//   // if (ids.length > 1) {
+//   //   alert('Error: More than one row has the value "yes"');
+//   //   return;
+//   // } else if (ids.length === 0) {
+//   //   alert('No row with "yes" selected');
+//   //   return;
+//   // }
 
-    var row = this.getFirstSelectedRow()
-    if (this.selectedMessageType == null || this.selectedMessageType == '') {
-      alert("Message type must be selected.")
-      return
-    }
+//   const row = this.getFirstSelectedRow();
 
-    const jsonData = {
-      jobapplication_id: row.data.jobapplication_id,
-      scenario: this.selectedMessageType
-    };
-    const jobapplication_id = row.data.jobapplication_id;
-    // Send JSON to Python service
-    this.dataService.fetchDataPost('get_message', null, jsonData).subscribe(data => {
-      const dialogRef = this.dialog.open(MessageDialogComponent, {
-        width: '70vw', // Adjust as needed
-        maxWidth: '70vw', // Prevents it from shrinking below this width
-        height: '70vh', // Adjust as needed for height        
-        data: { message: data }  // Pass the initial text here
-      });
+//   if (!this.selectedMessageType) {
+//     alert("Message type must be selected.");
+//     return;
+//   }
 
-      dialogRef.afterClosed().subscribe(result => {
+//   const jobapplication_id = row.data.jobapplication_id;
+//   const scenario = this.selectedMessageType;
+//   const isEmail = scenario.includes('email');
+//   const endpoint = isEmail ? 'get_email_message' : 'get_message';
 
-        if (result) {
+//   const jsonData = { jobapplication_id, scenario };
 
-          var row = this.getFirstSelectedRow()
-          const message = result;
-          const jsonData = {
-            jobapplication_id: jobapplication_id,
-            message: message
+//   this.dataService.fetchDataPost(endpoint, null, jsonData).subscribe(data => {
+//     let dialogRef;
+
+//     if (isEmail) {
+//       dialogRef = this.dialog.open(EmailMessageDialogComponent, {
+//         width: '70vw',
+//         maxWidth: '70vw',
+//         height: '70vh',
+//         data:{ email:{
+//           from: data.from,
+//           to: data.to,
+//           subject: data.subject,
+//           body: data.body
+
+//         },
+//         sendLabel:this.sendLabel
+//       }
+//       });
+//     } else {
+//       dialogRef = this.dialog.open(MessageDialogComponent, {
+//         width: '70vw',
+//         maxWidth: '70vw',
+//         height: '70vh',
+//         data: { message: data ,
+//           sendLabel:this.sendLabel
+//         }
+//       });
+//     }
+
+    
+//     dialogRef.afterClosed().subscribe(result => {
+//       if (!result) return;
+
+//       if (isEmail) {
+//         // Normalize and trim all fields
+//         const from = (result.from || '').trim();
+//         const to = (result.to || '').trim();
+//         const subject = (result.subject || '').trim();
+//         const body = (result.body || '').trim();
+
+//         const missingFields = [];
+//         if (!from) missingFields.push("From");
+//         if (!to) missingFields.push("To");
+//         if (!subject) missingFields.push("Subject");
+//         if (!body) missingFields.push("Body");
+
+//         if (missingFields.length > 0) {
+//           alert(`The following fields are required: ${missingFields.join(", ")}`);
+//           return;
+//         }
+//       }
+
+//       const payload = isEmail
+//         ? { scenario, jobapplication_id, ...result }
+//         : { scenario,jobapplication_id, message: result };
+
+//       const postEndpoint = isEmail ? 'send_email' : 'send_text';
+
+//       this.dataService.fetchDataPost(postEndpoint, null, payload).subscribe(response => {
+//         // Optionally notify the user of success
+//       });
+//     });
+//   });
+// }
+
+onCreateMessage() {
+  const scenario = this.selectedMessageType;
+  if (!scenario) {
+    alert("Message type must be selected.");
+    return;
+  }
+
+  const isEmail = scenario.includes('email');
+  const endpoint = isEmail ? 'get_email_message' : 'get_message';
+
+  const selectedIds = this.getMobileSelectedIds();
+  if (selectedIds.length === 0) {
+    alert("Please select at least one candidate.");
+    return;
+  }
+
+  const selectedRows = this.agGrid.rowData.filter(row => selectedIds.includes(row.jobapplication_id));
+
+  const previewRow = selectedRows[0];
+  const jsonData = {
+    jobapplication_id: previewRow.jobapplication_id,
+    scenario
+  };
+
+  this.dataService.fetchDataPost(endpoint, null, jsonData).subscribe(async data => {
+    const dialogRef = isEmail
+      ? this.dialog.open(EmailMessageDialogComponent, {
+          width: '70vw',
+          maxWidth: '70vw',
+          height: '70vh',
+          data: {
+            email: {
+              from: data.from,
+              to: data.to,
+              subject: data.subject,
+              body: data.body
+            },
+            sendLabel: this.sendLabel
+          }
+        })
+      : this.dialog.open(MessageDialogComponent, {
+          width: '70vw',
+          maxWidth: '70vw',
+          height: '70vh',
+          data: {
+            message: data,
+            sendLabel: this.sendLabel
+          }
+        });
+
+    dialogRef.afterClosed().subscribe(async result => {
+      if (!result) return;
+
+      for (const row of selectedRows) {
+        const delay = Math.floor(Math.random() * 5000) + 5000; // 5000ms to 10000ms
+        const name = row.first_name || 'Candidate';
+        const jobapplication_id = row.jobapplication_id;
+
+        if (isEmail) {
+          const personalizedBody = result.body?.replace(/^Hi\s+\w+/i, `Hi ${name}`) || '';
+          const payload = {
+            scenario,
+            jobapplication_id,
+            from: result.from?.trim(),
+            to: row.email || result.to?.trim(),
+            subject: result.subject?.trim(),
+            body: personalizedBody
           };
 
-          // Send JSON to Python service
-          this.dataService.fetchDataPost('send_text', null, jsonData).subscribe(data => {
-            // this.setSelectedToBlank();
-          });
+          await this.dataService.fetchDataPost('send_email', null, payload).toPromise();
+        } else {
+          const personalizedMessage = result.replace(/^Hi\s+\w+/i, `Hi ${name}`);
+          const payload = {
+            scenario,
+            jobapplication_id,
+            message: personalizedMessage
+          };
 
+          await this.dataService.fetchDataPost('send_text', null, payload).toPromise();
         }
-      });
 
-      // this.setSelectedToBlank();
+        // Wait for random delay between 5 and 10 seconds
+        await new Promise(resolve => setTimeout(resolve, delay));
+      }
     });
-
-
-  }
+  });
+}
 
   getSearchParams(): any {
     let job_ids = this.extractCheckedIDs("job_id");

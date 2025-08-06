@@ -447,3 +447,12 @@ button.small-grey-button {
   font-size: 13px;
 }
 
+.email-body-form-field {
+  width: 100%;
+}
+
+.email-body-textarea {
+  width: 100%;
+  resize: none;
+  font-family: inherit;
+}

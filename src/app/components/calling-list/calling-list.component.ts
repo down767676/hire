@@ -162,16 +162,20 @@ export class CallingListComponent extends BaseTabComponent {
   }
 
 
+get sendLabel(): string {
+  return this.agGrid?.clearOtherRowsOnSelect ? 'Send Single' : 'Send Bulk';
+}
+
   onCreateMessage() {
     var ids = this.getMobileSelectedIds()
 
-    if (ids.length > 1) {
-      alert('Error: More than one row has the value "yes"');
-      return;
-    } else if (ids.length === 0) {
-      alert('No row with "yes" selected');
-      return;
-    }
+    // if (ids.length > 1) {
+    //   alert('Error: More than one row has the value "yes"');
+    //   return;
+    // } else if (ids.length === 0) {
+    //   alert('No row with "yes" selected');
+    //   return;
+    // }
 
     var row = this.getFirstSelectedRow()
     if (this.selectedMessageType == null || this.selectedMessageType == '') {
@@ -190,7 +194,7 @@ export class CallingListComponent extends BaseTabComponent {
         width: '70vw', // Adjust as needed
         maxWidth: '70vw', // Prevents it from shrinking below this width
         height: '70vh', // Adjust as needed for height        
-        data: { message: data }  // Pass the initial text here
+        data: { message: data,sendLabel:this.sendLabel }  // Pass the initial text here
       });
 
       dialogRef.afterClosed().subscribe(result => {

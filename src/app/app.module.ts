@@ -67,6 +67,8 @@ import {DescriptionButtonCellComponent} from './components/description-button-ce
 import { HelloWorldCellComponent } from './components/hello-world-cell/hello-world-cell.component';
 import { EditHtmlDialogComponent } from './components/edit-html-dialog/edit-html-dialog.component'
 import { MatOptionModule } from '@angular/material/core';
+import {EmailMessageDialogComponent} from './components/app-email-message-dialog/app-email-message-dialog.component'
+import { TextFieldModule } from '@angular/cdk/text-field';
 
 @NgModule({
   declarations: [
@@ -103,6 +105,7 @@ import { MatOptionModule } from '@angular/material/core';
     DescriptionButtonCellComponent,
     HelloTestCellComponent,
     EditHtmlDialogComponent,
+    EmailMessageDialogComponent
     
   ],
   imports: [
@@ -113,7 +116,7 @@ import { MatOptionModule } from '@angular/material/core';
     HttpClientModule,
     FormsModule,
         AgGridModule,
-      
+      TextFieldModule,
     NgIdleKeepaliveModule.forRoot(),
     RouterModule.forRoot([
       { path: 'login', component: LoginComponent },
