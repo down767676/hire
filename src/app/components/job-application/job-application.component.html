@@ -81,14 +81,18 @@
           <mat-option [value]="'position_on_hold'">Position on Hold</mat-option>
           <mat-option [value]="'send_document_list_ma'">Send Document List Medical Assistant</mat-option>
           <mat-option [value]="'send_document_list_lpn'">Send Document List LPN</mat-option>
+          <mat-option [value]="'nudge_for_current_submission_documents'">Nudge for Current Submission Document</mat-option>
+          <mat-option [value]="'nudge_for_future_submissionsn_documents'">Nudge for Future Submission Document</mat-option>
+          <mat-option [value]="'dice_reach_out_job_desc_calendly'">Dice Candidates Reach Out</mat-option>
           <mat-option [value]="'resume_request_email_template_include_job_description_html'">Email - Send JD and Request Resume After Yes</mat-option>
           <mat-option [value]="'request_information_email_for_submission_html'">Email - Request information for submission</mat-option>
+          <mat-option [value]="'rtr_email_html'">Email - RTR</mat-option>
 
         </mat-select>
         <button mat-raised-button color="primary" (click)="onCreateMessage()" class="small-button"
           style="border-top-left-radius:0;border-bottom-left-radius: 0;">
           Create Message
-        </button>
+        </button> 
       </div>
 
       <button mat-raised-button color="primary" [class.spinner]="refreshCursor" [disabled]="refreshCursor"

@@ -36,6 +36,10 @@ export class CandidateTabComponent extends BaseTabComponent {
 
   selectedTask: String = "Ceipal.1"
   public tasks = [
+    { "code": "Availability.0", "value": "Available Today" },
+    { "code": "Availability.30", "value": "Available In Next 30 Days" },
+    { "code": "Availability.60", "value": "Available In Next 60 Days" },
+    { "code": "Availability.1000", "value": "All Availability Received" },
     { "code": "Working.1", "value": "Working for us" },
     { "code": "InHiringProcess.1", "value": "In Hiring Process" },
     { "code": "Ceipal.1", "value": "Ceipal last 1 days" },

@@ -279,7 +279,7 @@ onCreateMessage() {
 
   const previewRow = selectedRows[0];
   const jsonData = {
-    jobapplication_id: previewRow.jobapplication_id,
+    email: previewRow.jobapplication_id,
     scenario
   };
 

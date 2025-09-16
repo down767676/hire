@@ -316,6 +316,7 @@ export class DynamicGridComponent implements OnInit {
       view_name = this.table_name;
     }
     this.gridConfigService.getGridProperties(view_name).subscribe((data: GridProperties) => {
+      this.view_name = view_name;
       let cb = false;
       const columnDefCheckBox: ColDef = {
         headerCheckboxSelection: true,

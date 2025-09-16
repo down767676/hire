@@ -7,7 +7,8 @@ export function MSALInstanceFactory() {
     auth: {
       clientId: '13a74dae-bccc-430f-aa4c-98ddaf36ddf1',
       authority: 'https://login.microsoftonline.com/common',
-      redirectUri:  environment.redirectUri
+      redirectUri:  environment.redirectUri,
+      postLogoutRedirectUri: environment.redirectUri
     },
     cache: {
       cacheLocation: 'localStorage',

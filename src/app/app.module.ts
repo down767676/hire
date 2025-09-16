@@ -58,6 +58,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { SearchResultsComponent } from './components/search-results/search-results.component';
 import { ControlPageComponent } from './components/control-page/control-page.component';
+import { MarketingTrackerComponent } from './components/marketing-tracker/marketing-tracker.component';
 import { MatDividerModule } from '@angular/material/divider';
 import { PackageReadyComponent } from './components/package-ready/package-ready.component';
 import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
@@ -100,6 +101,7 @@ import { TextFieldModule } from '@angular/cdk/text-field';
     MaterialDateEditorComponent,
     SearchResultsComponent,
     ControlPageComponent,
+    MarketingTrackerComponent,
     PackageReadyComponent,
     EditDescriptionDialogComponent,
     DescriptionButtonCellComponent,
