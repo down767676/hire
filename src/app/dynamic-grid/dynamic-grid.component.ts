@@ -426,23 +426,67 @@ export class DynamicGridComponent implements OnInit {
               // Button click to edit
               const btn = div.querySelector('button');
               btn?.addEventListener('click', () => {
-                const dialogRef = this.dialog.open(EditHtmlDialogComponent, {
-                  width: '700px',
-                  data: { value: params.value || '' }
-                });
+                // Fetch latest value from database before opening dialog
+                const componentParent = params.context.componentParent;
+                const recordId = params.data[componentParent.table_name + "_id"];
+                const fieldName = params.colDef.field;
 
-                dialogRef.afterClosed().subscribe(result => {
-                  if (result != null) {
-                    params.node.setDataValue(params.colDef.field, result);
+                console.log('Fetching latest value:', { recordId, fieldName, table: componentParent.table_name });
 
-                    // Save via service
-                    params.context.componentParent.saveToBackend(
-                      params.data.job_id,
-                      params.colDef.field,
-                      result
-                    );
-                  }
-                });
+                componentParent.dataService.getFieldValue(recordId, fieldName, componentParent.table_name)
+                  .subscribe({
+                    next: (response) => {
+                      console.log('Database response:', response);
+                      // Handle different possible response formats
+                      let latestValue = '';
+                      if (Array.isArray(response) && response.length > 0) {
+                        latestValue = response[0][fieldName] || '';
+                      } else if (response && typeof response === 'object') {
+                        latestValue = response.value || response[fieldName] || '';
+                      } else {
+                        latestValue = response || '';
+                      }
+
+                      const dialogRef = componentParent.dialog.open(EditHtmlDialogComponent, {
+                        width: '700px',
+                        data: { value: latestValue }
+                      });
+
+                      dialogRef.afterClosed().subscribe(result => {
+                        if (result != null) {
+                          params.node.setDataValue(params.colDef.field, result);
+
+                          // Save via service
+                          componentParent.saveToBackend(
+                            recordId,
+                            params.colDef.field,
+                            result
+                          );
+                        }
+                      });
+                    },
+                    error: (error) => {
+                      console.error('Error fetching latest value:', error);
+                      // Fallback to cached value if fetch fails
+                      const dialogRef = componentParent.dialog.open(EditHtmlDialogComponent, {
+                        width: '700px',
+                        data: { value: params.value || '' }
+                      });
+
+                      dialogRef.afterClosed().subscribe(result => {
+                        if (result != null) {
+                          params.node.setDataValue(params.colDef.field, result);
+
+                          // Save via service
+                          componentParent.saveToBackend(
+                            recordId,
+                            params.colDef.field,
+                            result
+                          );
+                        }
+                      });
+                    }
+                  });
               });
 
               return div;

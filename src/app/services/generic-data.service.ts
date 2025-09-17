@@ -53,4 +53,13 @@ fetchDataPost(api_end_point: string, sp: string, params: any): Observable<any> {
     return this.http.post<void>(`${this.apiUrl}/update`, { id, column, value, table, update_table, update_table_id});
   }
 
+  getFieldValue(id: number, column: string, table: string): Observable<any> {
+    const params = {
+      id: id.toString(),
+      column: column,
+      table: table
+    };
+    return this.fetchData('get_field_value', '', params);
+  }
+
 }
