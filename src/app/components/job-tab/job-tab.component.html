@@ -74,7 +74,7 @@
         Get Ceipal Jobs
       </button>
 
-      <app-file-upload class="small-button" [buttonLabel]="'Upload Aya Jobs'" (csvParsed)="handleCsvData($event)">
+      <app-file-upload class="small-button" [buttonLabel]="'Upload Aya Jobs'" (csvParsed)="uploadAyaJobs($event)">
       </app-file-upload>
 
       <button class="small-button" mat-raised-button color="primary" (click)="showJobsByDistance()">

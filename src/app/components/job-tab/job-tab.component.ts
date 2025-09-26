@@ -119,7 +119,7 @@ export class JobTabComponent extends BaseTabComponent {
   }
   
   // Handle the emitted JSON and modify it
-  handleCsvData(csvData: any): void {
+  uploadAyaJobs(csvData: any): void {
     console.log('Received JSON:', csvData);
 
     const payload = {}
@@ -132,11 +132,11 @@ export class JobTabComponent extends BaseTabComponent {
     // csvData.metadata = { processedBy: 'Parent Component' }; // Add metadata
 
     // Send the modified JSON to the backend
-    this.sendToBackend(payload);
+    this.sendJobsToBackend(payload);
   }
 
   // Send the JSON to the backend
-  private sendToBackend(data: any): void {
+  private sendJobsToBackend(data: any): void {
     this.http.post(this.jobs_receiver_url, data).subscribe({
       next: (response) => {
         console.log('Data sent successfully:', response);

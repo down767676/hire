@@ -1,7 +1,16 @@
 <div fxLayout="column" fxLayoutGap="4px" style="height: 92vh; overflow: hidden;">
-    <div>
+    <!-- Grid -->
+    <div style="flex: 1;">
       <app-dynamic-grid [table_name]="table_name" [updateSelectedColumn]="true" [api_end_point]="api_end_point" [sp]="sp"
         [display_on_load]="display_on_load">
       </app-dynamic-grid>
+    </div>
+
+    <!-- Refresh Button -->
+    <div fxLayout="row" fxLayoutAlign="end center" style="flex-shrink: 0; padding: 8px;">
+      <button class="small-button" mat-raised-button color="primary" (click)="onClickRefresh()"
+        [class.spinner]="onClickRefreshWaitCursor" [disabled]="onClickRefreshWaitCursor">
+        Refresh Grid
+      </button>
     </div>
   </div>
