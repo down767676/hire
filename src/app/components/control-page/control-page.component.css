@@ -1,0 +1,14 @@
+.small-button {
+  min-width: 100px;
+}
+
+.status-label {
+  margin-left: 20px;
+  font-size: 14px;
+  color: #333;
+  align-self: center;
+}
+
+.control-tab-container {
+  margin-top: 16px;
+}

@@ -1,0 +1,46 @@
+/* Marketing Tracker Component Styles */
+.tab-container-div {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.grid-wrapper-medium {
+  overflow: auto;
+  padding: 8px 16px;
+  height: calc(92vh - 150px);
+}
+
+.force-grid-height {
+  height: 100%;
+}
+
+.task-mat-select {
+  min-width: 200px;
+}
+
+.small-button {
+  font-size: 12px;
+  padding: 4px 8px;
+  min-width: auto;
+}
+
+.select-button-group {
+  display: flex;
+  align-items: center;
+}
+
+.left-aligned {
+  text-align: left;
+}
+
+.spinner {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .desktop-only {
+    display: none;
+  }
+}

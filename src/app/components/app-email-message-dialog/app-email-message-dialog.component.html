@@ -1,0 +1,39 @@
+<h1 mat-dialog-title>Send Email</h1>
+
+<div mat-dialog-content class="email-form">
+
+  <div class="email-row">
+    <label class="email-label">From:</label>
+    <input matInput [(ngModel)]="email.from" class="email-input">
+  </div>
+
+  <div class="email-row">
+    <label class="email-label">To:</label>
+    <input matInput [(ngModel)]="email.to" class="email-input">
+  </div>
+
+  <div class="email-row">
+    <label class="email-label">Subject:</label>
+    <input matInput [(ngModel)]="email.subject" class="email-input">
+  </div>
+
+  <mat-form-field appearance="outline" class="email-body-form-field">
+    <textarea
+      matInput
+      placeholder="Message body..."
+      [(ngModel)]="email.body"
+      cdkTextareaAutosize
+      #autosize="cdkTextareaAutosize"
+      cdkAutosizeMinRows="10"
+      cdkAutosizeMaxRows="20"
+      class="email-body-textarea">
+    </textarea>
+  </mat-form-field>
+</div>
+
+<div mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancel</button>
+<button mat-button (click)="onSend()">
+  {{ sendLabel }}
+</button>
+</div>

@@ -1,0 +1,10 @@
+<h2 mat-dialog-title>Edit Job Description</h2>
+
+<mat-dialog-content>
+  <quill-editor [(ngModel)]="editedValue" [styles]="{height: '200px'}" theme="snow"></quill-editor>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end" class="pt-4">
+  <button mat-button (click)="cancel()">Cancel</button>
+  <button mat-flat-button color="primary" (click)="save()">Save</button>
+</mat-dialog-actions>

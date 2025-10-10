@@ -1,0 +1,58 @@
+<div fxLayout="column" class="tab-container-div" style="height: 96vh; max-width: 100%; overflow: hidden;">
+  <!-- Task selection row -->
+  <div fxLayout.gt-sm="row" fxLayout.lt-md="column" fxLayoutAlign="start center" fxLayoutGap="0px"
+    style="overflow-x: auto; flex-wrap: wrap; padding: 8px 16px;">
+
+    <!-- Radius input aligned to the right -->
+    <div style="margin-right: 0px!important;" fxLayout="row" fxLayoutAlign="end center" fxFlex>
+      <!-- Radius Label + Input shown only if selectedTask.code !== 'UpdateLastAvailableDates.1' -->
+      <div *ngIf="selectedTask == 'ReadyToSubmit.0'" style="display: flex; align-items: center;">
+        <label style="margin-right: 4px;">Radius:</label>
+        <input [(ngModel)]="max_radius" class="search-input-small"
+          style="width: 30px!important; margin-right: 8px!important;">
+      </div>
+      <label style="margin-right: 4px;">Days Since Package Ready:</label>
+      <input [(ngModel)]="days_since_package_ready" class="search-input-small"
+        style="width: 30px;margin-right: 8px!important;">
+      <label style="margin-right: 4px;"><b>Task:</b></label>
+    </div>
+
+
+    <mat-select style="margin-left: 0px;" class="task-mat-select desktop-only" [(ngModel)]="selectedTask" required
+      (selectionChange)="onTaskChange($event)" fxFlex="none">
+      <mat-option *ngFor="let task of tasks" [value]="task.code">
+        {{ task.value }}
+      </mat-option>
+    </mat-select>
+  </div>
+
+  <!-- Grid section with forced height -->
+
+  <div class="grid-wrapper-medium">
+    <app-dynamic-grid class="force-grid-height" [table_name]="table_name" [api_end_point]="api_end_point"
+      [view_name]="'package_ready'" [sp]="sp" [display_on_load]="display_on_load" [clearOtherRowsOnSelect]="true">
+    </app-dynamic-grid>
+  </div>
+
+
+  <!-- Bottom toolbar -->
+  <div fxLayout.lt-md="column" fxLayout.gt-sm="row" fxLayoutAlign="space-between center" fxLayoutGap="10px"
+    style="padding: 8px 16px 6px; border-top: 1px solid #ccc; background: #fff; flex-shrink: 0;">
+
+
+    <!-- Right buttons -->
+    <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px" fxFlex wrap>
+      <div class="select-button-group">
+
+        <button mat-raised-button color="primary" (click)="onClickUpdatePackageReady()" class="small-button"
+          style="margin-right:6px;">
+          Update Re-Submission List
+        </button>
+        <button mat-raised-button color="primary" [class.spinner]="refreshCursor" [disabled]="refreshCursor"
+          (click)="onClickRefreshPackageReady()" class="small-button"
+          [class.spinner]="onClickRefreshPackageReadysWaitCursor" [disabled]="onClickRefreshPackageReadysWaitCursor">
+          Refresh Grid
+        </button>
+      </div>
+    </div>
+  </div>

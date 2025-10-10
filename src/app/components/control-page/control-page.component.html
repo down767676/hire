@@ -1,0 +1,62 @@
+<!-- Control Page -->
+<div class="control-tab-container" fxLayout="column" fxLayoutGap="16px"
+     style="border: 1px solid #ccc; padding: 16px; border-radius: 8px; background: #f9f9f9;">
+
+<!-- Broadcast Controls Section -->
+<h3>Broadcast Controls</h3>
+
+<!-- First Row: Pause / Resume / Refresh -->
+<div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center">
+  <button mat-raised-button color="warn" class="small-button"
+          (click)="setBroadcast('Stopped')"
+          [disabled]="stateStatus === 'Stopped'">
+    Pause
+  </button>
+
+  <button mat-raised-button color="primary" class="small-button"
+          (click)="setBroadcast('Running')"
+          [disabled]="stateStatus === 'Running'">
+    Resume
+  </button>
+
+  <button mat-raised-button color="accent" class="small-button"
+          (click)="getStatus()">
+    Refresh Status
+  </button>
+
+  <span class="status-label">Current Status: <strong>{{ stateStatus }}</strong></span>
+</div>
+
+<!-- Divider -->
+<mat-divider style="margin: 24px 0;"></mat-divider>
+
+<!-- Scrape Log Section -->
+<div>
+  <h3>Last Scrape per Site</h3>
+  <ag-grid-angular
+    class="ag-theme-alpine"
+    [rowData]="scrapeLogData"
+    [columnDefs]="scrapeColumnDefs"
+    style="width: 100%; height: 300px;">
+  </ag-grid-angular>
+</div>
+
+<!-- Divider -->
+<mat-divider style="margin: 24px 0;"></mat-divider>
+
+<!-- Manual Refresh Button -->
+<div style="text-align: right;">
+  <button mat-raised-button color="primary" (click)="refresh()">
+    Refresh All
+  </button>
+</div>
+
+
+  <!-- Future Rows / Controls -->
+  <!-- Example: Uncomment for expansion
+  <div fxLayout="row" fxLayoutGap="10px">
+    <button mat-raised-button color="accent">Another Action</button>
+    <button mat-raised-button color="accent">Extra Action</button>
+  </div>
+  -->
+</div>

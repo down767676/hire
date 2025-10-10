@@ -1,0 +1,72 @@
+<div fxLayout="column" class="tab-container-div"
+     style="height: 92vh; max-width: 100%; overflow: hidden;">
+  <!-- Task selection row -->
+  <div fxLayout.gt-sm="row" fxLayout.lt-md="column"
+       fxLayoutAlign="start center"
+       fxLayoutGap="20px"
+       style="overflow-x: auto; flex-wrap: wrap; padding: 8px 16px;">
+
+    <app-generic-search
+      (triggerParentMethod)="onChildEvent()"
+      fxFlex.gt-sm="30%" fxFlex.lt-md="100%"
+      [sp]="'sp_SearchMarketingTracker'"
+      [tableName]="'marketing_tracker'"
+      [columns]="['contact_id', 'full_name', 'email', 'company', 'source']"
+      class="left-aligned">
+    </app-generic-search>
+
+        <div style="margin-right: 0px!important;" fxLayout="row" fxLayoutAlign="end center" fxFlex>
+      <label style="margin-right: 4px;"><b>Task:</b></label>
+    </div>
+
+    <mat-select class="task-mat-select desktop-only"
+      [(ngModel)]="selectedTask"
+      required
+      (selectionChange)="onTaskChange($event)"
+      fxFlex="none">
+      <mat-option *ngFor="let task of tasks" [value]="task.code">
+        {{ task.value }}
+      </mat-option>
+    </mat-select>
+  </div>
+
+  <!-- Grid section with forced height -->
+
+ <div class="grid-wrapper-medium">
+        <app-dynamic-grid
+        class="force-grid-height"
+        [table_name]="table_name"
+        [api_end_point]="api_end_point"
+        [sp]="sp"
+        [display_on_load]="display_on_load"
+        [clearOtherRowsOnSelect]="true">
+      </app-dynamic-grid>
+    </div>
+
+
+  <!-- Bottom toolbar -->
+  <div fxLayout="column" fxLayoutGap="2px">
+    <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="20px" style="flex-shrink: 0;">
+      <div></div> <!-- Empty left space -->
+
+      <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="20px">
+        <div class="select-button-group">
+          <mat-select class="search-mat-select" style="width: 300px;" [(ngModel)]="selectedMessageType">
+            <mat-option [value]="''">Select Email Type</mat-option>
+            <mat-option [value]="'blank_email'">Blank Email</mat-option>
+            <mat-option [value]="'initial_outreach'">Initial Outreach Email</mat-option>
+          </mat-select>
+          <button mat-raised-button color="primary" (click)="onCreateMessage()" class="small-button"
+            style="border-top-left-radius:0;border-bottom-left-radius: 0;">
+            Create Message
+          </button>
+        </div>
+
+        <button mat-raised-button color="primary" [class.spinner]="refreshCursor" [disabled]="refreshCursor"
+                (click)="onClickRefreshMarketingContacts()" class="small-button">
+          Refresh Grid
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

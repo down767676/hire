@@ -259,7 +259,7 @@ get sendLabel(): string {
 //   });
 // }
 
-onCreateMessage() {
+  onCreateMessage() {
   const scenario = this.selectedMessageType;
   if (!scenario) {
     alert("Message type must be selected.");
