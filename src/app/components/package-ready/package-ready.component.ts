@@ -44,7 +44,8 @@ export class PackageReadyComponent extends BaseTabComponent {
 
   public normalizedTitleOptions = [
     "Medical Assistant",
-    "RN Case Manager"
+    "RN Case Manager",
+    "LPN"
   ]
   normalizedTitleOption: String = "Medical Assistant"
 

@@ -70,6 +70,7 @@ import { EditHtmlDialogComponent } from './components/edit-html-dialog/edit-html
 import { MatOptionModule } from '@angular/material/core';
 import {EmailMessageDialogComponent} from './components/app-email-message-dialog/app-email-message-dialog.component'
 import { TextFieldModule } from '@angular/cdk/text-field';
+import { CandidateSearchComponent } from './components/candidate-search/candidate-search.component';
 
 @NgModule({
   declarations: [
@@ -107,8 +108,9 @@ import { TextFieldModule } from '@angular/cdk/text-field';
     DescriptionButtonCellComponent,
     HelloTestCellComponent,
     EditHtmlDialogComponent,
-    EmailMessageDialogComponent
-    
+    EmailMessageDialogComponent,
+    CandidateSearchComponent
+
   ],
   imports: [
     AgGridModule,

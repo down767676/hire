@@ -59,8 +59,6 @@
           [class.spinner]="onClickSearchCandidatesWaitCursor" [disabled]="onClickSearchCandidatesWaitCursor">
           Search Ceipal Count
         </button>
-
-
         <button class="small-button" mat-raised-button color="primary" (click)="onClickText()">
           Text Jobs
         </button>
@@ -92,6 +90,17 @@
       <button class="small-button" mat-raised-button color="primary" (click)="matchMissingClassification()">
         Match Missing Classification
       </button>
+        <button class="small-button" mat-raised-button color="primary" (click)="onClickGithubSearch()"
+          [class.spinner]="onClickGithubSearchWaitCursor" [disabled]="onClickGithubSearchWaitCursor">
+          Search GitHub And Save
+        </button>
+
+        <button class="small-button" mat-raised-button color="primary" (click)="onClickEmailGithub()"
+          [class.spinner]="onClickEmailGithubWaitCursor" [disabled]="onClickEmailGithubWaitCursor">
+          Email GitHub
+        </button>
+
+
     </div>
 
   </div>

@@ -30,6 +30,8 @@ export class JobTabComponent extends BaseTabComponent {
 
   public onClickSearchCandidatesWaitCursor: boolean = false;
   public onClickSearchCeipalJobsWaitCursor: boolean = false;
+  public onClickGithubSearchWaitCursor: boolean = false;
+  public onClickEmailGithubWaitCursor: boolean = false;
 
   public onClickClusterJobsWaitCursor: boolean = false;
   public onClickRefreshJobsWaitCursor: boolean = false;
@@ -244,6 +246,68 @@ export class JobTabComponent extends BaseTabComponent {
       // OK button was clicked
       let params = this.getSearchElasticParams();
       this.searchAndSendDataFireAndForget("search_elastic_job", null, params);
+    } else {
+      // Cancel button was clicked
+      console.log('User canceled the action');
+    }
+  });
+}
+
+onClickGithubSearch() {
+  var ids = this.getMobileSelectedIds()
+
+  if (ids.length > 1) {
+    alert('Error: More than one row has the value "yes"');
+    return;
+  } else if (ids.length === 0) {
+    alert('No row with "yes" selected');
+    return;
+  }
+
+  // Open dialog with title and content
+  const dialogRef = this.dialog.open(DialogComponent, {
+    data: {
+      title: 'Search GitHub',
+      content: 'Your search will be complete in few minutes.',
+    },
+  });
+
+  dialogRef.afterClosed().subscribe((result) => {
+    if (result) {
+      // OK button was clicked
+      let params = this.getSearchElasticParams();
+      this.searchAndSendDataFireAndForget("search_github_job", null, params);
+    } else {
+      // Cancel button was clicked
+      console.log('User canceled the action');
+    }
+  });
+}
+
+onClickEmailGithub() {
+  var ids = this.getMobileSelectedIds()
+
+  if (ids.length > 1) {
+    alert('Error: More than one row has the value "yes"');
+    return;
+  } else if (ids.length === 0) {
+    alert('No row with "yes" selected');
+    return;
+  }
+
+  // Open dialog with title and content
+  const dialogRef = this.dialog.open(DialogComponent, {
+    data: {
+      title: 'Email GitHub Candidates',
+      content: 'IT outreach emails will be sent in a few minutes.',
+    },
+  });
+
+  dialogRef.afterClosed().subscribe((result) => {
+    if (result) {
+      // OK button was clicked
+      let params = this.getSearchElasticParams();
+      this.searchAndSendDataFireAndForget("email_github_job", null, params);
     } else {
       // Cancel button was clicked
       console.log('User canceled the action');

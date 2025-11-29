@@ -212,6 +212,10 @@ export class DynamicGridComponent implements OnInit {
     }
     this.loadGridViews();
     // this.getAttributes();
+
+    // Expose methods to window for ball click handling
+    (window as any).cyclePriority = this.cyclePriority.bind(this);
+    (window as any).toggleNotifyRecruiter = this.toggleNotifyRecruiter.bind(this);
   }
 
   searchAndLoad(api_end_point, sp, params) {
@@ -387,9 +391,148 @@ export class DynamicGridComponent implements OnInit {
           case 'dropdown':
             columnDef.cellEditor = 'agSelectCellEditor';
             columnDef.cellEditorParams = { values: col.values };
+
+            // Add color styling for priority field
+            if (col.field === 'priority') {
+              columnDef.cellStyle = (params) => {
+                const priority = params.value;
+                let backgroundColor = '#F3F4F6'; // Light gray for no priority
+                let color = '#374151'; // Dark gray text
+
+                if (priority === 'low') {
+                  backgroundColor = '#FEF3C7'; // Light yellow
+                  color = '#92400E'; // Dark yellow text
+                } else if (priority === 'high') {
+                  backgroundColor = '#FED7AA'; // Light orange
+                  color = '#9A3412'; // Dark orange text
+                } else if (priority === 'urgent') {
+                  backgroundColor = '#DC2626'; // Solid red
+                  color = '#FFFFFF'; // White text
+                }
+
+                return {
+                  backgroundColor,
+                  color,
+                  fontWeight: '600',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                };
+              };
+            }
+
+            // Add color styling for notify_recruiter_on_next_reply (CR) field
+            if (col.field === 'notify_recruiter_on_next_reply') {
+              columnDef.cellStyle = (params) => {
+                const value = params.value;
+                let backgroundColor = '#F3F4F6'; // Light gray for no/empty
+                let color = '#374151'; // Dark gray text
+
+                if (value === 'yes' || value === true || value === 1) {
+                  backgroundColor = '#D1FAE5'; // Light green
+                  color = '#065F46'; // Dark green text
+                }
+
+                return {
+                  backgroundColor,
+                  color,
+                  fontWeight: '500',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                };
+              };
+
+              // Format the display value
+              columnDef.valueFormatter = (params) => {
+                const value = params.value;
+                if (value === true || value === 1 || value === 'yes') {
+                  return 'Yes';
+                } else if (value === false || value === 0 || value === 'no') {
+                  return 'No';
+                }
+                return '';
+              };
+            }
             break;
           case 'checkbox':
             cb = true;
+            break;
+          case 'ball':
+            columnDef.cellRenderer = (params) => {
+              const fieldName = params.colDef.field;
+
+              // Special handling for priority field
+              if (fieldName === 'priority') {
+                const priority = params.value;
+                let color = '#9CA3AF'; // Gray for no priority
+                let title = 'No priority - click to cycle';
+
+                if (priority === 'low') {
+                  color = '#EAB308'; // Yellow
+                  title = 'Low priority - click to cycle';
+                } else if (priority === 'high') {
+                  color = '#F97316'; // Orange
+                  title = 'High priority - click to cycle';
+                } else if (priority === 'urgent') {
+                  color = '#DC2626'; // Red
+                  title = 'Urgent - click to cycle';
+                }
+
+                const jobApplicationId = params.data.jobapplication_id;
+                return `
+                  <div style="display: flex; align-items: center; justify-content: center; height: 100%; cursor: pointer;"
+                       onclick="window.cyclePriority(${jobApplicationId}, event)">
+                    <div style="
+                      width: 12px;
+                      height: 12px;
+                      border-radius: 50%;
+                      background-color: ${color};
+                      box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
+                    " title="${title}"></div>
+                  </div>
+                `;
+              }
+
+              // Special handling for notify_recruiter_on_next_reply field
+              if (fieldName === 'notify_recruiter_on_next_reply') {
+                if (params.value) {
+                  const color = col.color || 'green';
+                  const jobApplicationId = params.data.jobapplication_id;
+                  return `
+                    <div style="display: flex; align-items: center; justify-content: center; height: 100%; cursor: pointer;"
+                         onclick="window.toggleNotifyRecruiter(${jobApplicationId}, event)">
+                      <div style="
+                        width: 12px;
+                        height: 12px;
+                        border-radius: 50%;
+                        background-color: ${color};
+                        box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
+                      " title="Candidate replied - click to deactivate notification"></div>
+                    </div>
+                  `;
+                }
+                return ''; // Empty if no value
+              }
+
+              // Default ball rendering for other ball-type fields
+              if (params.value) {
+                const color = col.color || 'green';
+                return `
+                  <div style="display: flex; align-items: center; justify-content: center; height: 100%;">
+                    <div style="
+                      width: 12px;
+                      height: 12px;
+                      border-radius: 50%;
+                      background-color: ${color};
+                      box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
+                    "></div>
+                  </div>
+                `;
+              }
+              return ''; // Empty if no value
+            };
+            columnDef.editable = false;
             break;
           case 'url':
             columnDef.cellRenderer = (params) => {
@@ -601,6 +744,47 @@ export class DynamicGridComponent implements OnInit {
       return;
     }
     const { data, colDef, newValue } = event;
+
+    // Special handling for priority field using Flask endpoint
+    if (colDef.field === 'priority' && this.table_name === 'jobapplication') {
+      const conversationId = data.conversation_id || data.jobapplication_id;
+
+      this.dataService.fetchDataPost('/api/recruiter/update_priority', null, {
+        conversation_id: conversationId,
+        priority: newValue || null
+      }).subscribe({
+        next: (response) => {
+          console.log('Priority updated successfully:', response);
+        },
+        error: (error) => {
+          console.error('Error updating priority:', error);
+          alert('Failed to update priority');
+        }
+      });
+      return;
+    }
+
+    // Special handling for notify_recruiter_on_next_reply field using stored procedure
+    if (colDef.field === 'notify_recruiter_on_next_reply' && this.table_name === 'jobapplication') {
+      // Convert yes/no to 1/0
+      const notifyValue = (newValue === 'yes' || newValue === true || newValue === 1) ? 1 : 0;
+
+      this.dataService.fetchDataPost('execute_stored_procedure', 'sp_UpdateNotifyRecruiterOnNextReply', {
+        jobapplication_id: data.jobapplication_id,
+        notify_recruiter_on_next_reply: notifyValue
+      }).subscribe({
+        next: (response) => {
+          console.log('Notification setting updated successfully:', response);
+        },
+        error: (error) => {
+          console.error('Error updating notification setting:', error);
+          alert('Failed to update notification setting');
+        }
+      });
+      return;
+    }
+
+    // Default handling for other fields
     let t = null
     let tval = null
     if (colDef["table"]) {
@@ -727,4 +911,113 @@ export class DynamicGridComponent implements OnInit {
   //   // Use applyTransaction to update the grid
   //   this.api.applyTransaction({ update: updatedData });
   // }
+
+  // Priority cycling function for jobapplication dashboard
+  cyclePriority(jobApplicationId: number, event: Event): void {
+    // Stop event propagation
+    if (event) {
+      event.stopPropagation();
+    }
+
+    // Find the row node by iterating through all nodes
+    let targetNode: any = null;
+    let currentPriority = '';
+
+    this.api.forEachNode((node) => {
+      if (node.data.jobapplication_id == jobApplicationId) {
+        targetNode = node;
+        currentPriority = node.data.priority || '';
+      }
+    });
+
+    if (!targetNode) {
+      console.error(`No node found for jobapplication_id: ${jobApplicationId}`);
+      return;
+    }
+
+    // Define cycle: null -> low -> high -> urgent -> null
+    const cycle: { [key: string]: string } = {
+      '': 'low',
+      'low': 'high',
+      'high': 'urgent',
+      'urgent': ''
+    };
+
+    const newPriority = cycle[currentPriority];
+
+    // Call stored procedure via fetchDataPost
+    this.dataService.fetchDataPost('execute_stored_procedure', 'sp_UpdateConversationPriority', {
+      jobapplication_id: jobApplicationId,
+      priority: newPriority || null
+    }).subscribe({
+      next: (response) => {
+        console.log('Priority updated successfully:', response);
+
+        // Update the underlying data object directly
+        targetNode.data.priority = newPriority;
+
+        // Refresh the specific cell to show the new priority color
+        this.api.refreshCells({
+          rowNodes: [targetNode],
+          columns: ['priority'],
+          force: true
+        });
+
+        const priorityLabel = newPriority ? newPriority.charAt(0).toUpperCase() + newPriority.slice(1) : 'None';
+        console.log(`Priority updated to: ${priorityLabel}`);
+      },
+      error: (error) => {
+        console.error('Error updating priority:', error);
+        alert('Failed to update priority');
+      }
+    });
+  }
+
+  // Toggle notify_recruiter_on_next_reply function for jobapplication dashboard
+  toggleNotifyRecruiter(jobApplicationId: number, event: Event): void {
+    // Stop event propagation
+    if (event) {
+      event.stopPropagation();
+    }
+
+    // Find the row node by iterating through all nodes
+    let targetNode: any = null;
+
+    this.api.forEachNode((node) => {
+      if (node.data.jobapplication_id == jobApplicationId) {
+        targetNode = node;
+      }
+    });
+
+    if (!targetNode) {
+      console.error(`No node found for jobapplication_id: ${jobApplicationId}`);
+      return;
+    }
+
+    // Call stored procedure to set notify_recruiter_on_next_reply to false (0)
+    this.dataService.fetchDataPost('execute_stored_procedure', 'sp_UpdateNotifyRecruiterOnNextReply', {
+      jobapplication_id: jobApplicationId,
+      notify_recruiter_on_next_reply: 0
+    }).subscribe({
+      next: (response) => {
+        console.log('Notification deactivated successfully:', response);
+
+        // Update the underlying data object directly
+        targetNode.data.notify_recruiter_on_next_reply = false;
+
+        // Refresh the specific cell to hide the ball
+        this.api.refreshCells({
+          rowNodes: [targetNode],
+          columns: ['notify_recruiter_on_next_reply'],
+          force: true
+        });
+
+        console.log('Candidate reply notification deactivated');
+      },
+      error: (error) => {
+        console.error('Error deactivating notification:', error);
+        alert('Failed to deactivate notification');
+      }
+    });
+  }
 }

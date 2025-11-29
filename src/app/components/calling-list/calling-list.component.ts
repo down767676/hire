@@ -42,7 +42,8 @@ export class CallingListComponent extends BaseTabComponent {
   public normalizedTitleOptions = [
     "Any Title",
     "Medical Assistant",
-    "RN Case Manager"
+    "RN Case Manager",
+    "LPN"
   ]
   normalizedTitleOption: String = "Any Title"
 

@@ -30,6 +30,7 @@ export class JobApplicationComponent extends BaseTabComponent {
   public matchingRecruiterCursor: boolean = false
   selectedMessageType: string = '';
   private apiUrl = environment.apiUrl;
+  public showActiveOnly: boolean = false;
     
   public facebook_post_url = `${this.apiUrl}/generate-travel-report`;
   public travel_url = `${this.apiUrl}/generate-travel-report`;
@@ -48,7 +49,8 @@ export class JobApplicationComponent extends BaseTabComponent {
 
   public normalizedTitleOptions = [
     "Medical Assistant",
-    "RN Case Manager"
+    "RN Case Manager",
+    "LPN"
   ]
   normalizedTitleOption: String = "Medical Assistant"
 
@@ -260,14 +262,11 @@ get sendLabel(): string {
 // }
 
   onCreateMessage() {
-  const scenario = this.selectedMessageType;
+  let scenario = this.selectedMessageType;
   if (!scenario) {
     alert("Message type must be selected.");
     return;
   }
-
-  const isEmail = scenario.includes('email');
-  const endpoint = isEmail ? 'get_email_message' : 'get_message';
 
   const selectedIds = this.getMobileSelectedIds();
   if (selectedIds.length === 0) {
@@ -276,6 +275,25 @@ get sendLabel(): string {
   }
 
   const selectedRows = this.agGrid.rowData.filter(row => selectedIds.includes(row.jobapplication_id));
+
+  // Handle dynamic normalized_title scenario
+  if (scenario === 'send_document_list_normalized_title') {
+    const normalizedTitle = selectedRows[0].normalized_title;
+
+    if (!normalizedTitle) {
+      alert("Selected candidate does not have a normalized_title.");
+      return;
+    }
+
+    // Build dynamic scenario in lowercase
+    scenario = `send_document_list_${normalizedTitle.toLowerCase()}`;
+    // Examples:
+    // "Medical Assistant" → "send_document_list_medical assistant"
+    // "LPN" → "send_document_list_lpn"
+  }
+
+  const isEmail = scenario.includes('email');
+  const endpoint = isEmail ? 'get_email_message' : 'get_message';
 
   const previewRow = selectedRows[0];
   const jsonData = {
@@ -596,5 +614,27 @@ get sendLabel(): string {
         this.refreshCursor = this.hideWait(this.refreshCursor);
       })
     }
+  }
+
+  onActiveFilterChange(): void {
+    if (!this.agGrid || !this.agGrid.api) {
+      return;
+    }
+
+    if (this.showActiveOnly) {
+      // Set external filter to show only Active job_status
+      this.agGrid.api.setGridOption('isExternalFilterPresent', () => true);
+      this.agGrid.api.setGridOption('doesExternalFilterPass', (node) => {
+        if (!node.data) return false;
+        return node.data.job_status === 'Active';
+      });
+    } else {
+      // Remove external filter to show all records
+      this.agGrid.api.setGridOption('isExternalFilterPresent', () => false);
+      this.agGrid.api.setGridOption('doesExternalFilterPass', () => true);
+    }
+
+    // Trigger filter refresh
+    this.agGrid.api.onFilterChanged();
   }
 }

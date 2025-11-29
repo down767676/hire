@@ -13,7 +13,14 @@
       [tableName]="'jobapplication'"
       [columns]="['jobapplication_id', 'full_name',  'email', 'mobile_e164_format','job_id','vms_job_id']"
       class="left-aligned">
-    </app-generic-search> 
+    </app-generic-search>
+
+    <mat-checkbox
+      [(ngModel)]="showActiveOnly"
+      (change)="onActiveFilterChange()"
+      style="margin-left: 10px;">
+      Active Only
+    </mat-checkbox>
 
         <div style="margin-right: 0px!important;" fxLayout="row" fxLayoutAlign="end center" fxFlex>
       <label style="margin-right: 4px;"><b>Task:</b></label>
@@ -80,8 +87,7 @@
           <mat-option [value]="'request_manual_calendy'">Request Calendly</mat-option>
           <mat-option [value]="'request_manual_calendy_missed'">Request Calendly Again For No Show</mat-option>
           <mat-option [value]="'position_on_hold'">Position on Hold</mat-option>
-          <mat-option [value]="'send_document_list_ma'">Send Document List Medical Assistant</mat-option>
-          <mat-option [value]="'send_document_list_lpn'">Send Document List LPN</mat-option>
+          <mat-option [value]="'send_document_list_normalized_title'">SMS: Request Documents for Submission - Professional</mat-option>
           <mat-option [value]="'nudge_for_current_submission_documents'">Nudge for Current Submission Document</mat-option>
           <mat-option [value]="'nudge_for_future_submissionsn_documents'">Nudge for Future Submission Document</mat-option>
           <mat-option [value]="'dice_reach_out_job_desc_calendly'">Dice Candidates Reach Out</mat-option>

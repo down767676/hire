@@ -11,6 +11,7 @@ export interface GridColumn {
     table: string;
 
     values?: string[]; // Optional property for dropdown values
+    color?: string; // Optional property for ball type indicator color
   }
   
   export interface GridProperties {
