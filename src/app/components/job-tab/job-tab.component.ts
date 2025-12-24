@@ -371,7 +371,7 @@ onClickText() {
     const dialogRef = this.dialog.open(DialogComponent, {
       data: {
         title: 'Search Job',
-        content: 'Your search of web registry and Ceipal will be complete in about 10-60 minutes depending on the number of jobs searched. The first job should be searched in less than 10 minutes. You can keep checking by: 1) Clicking the Refresh Grid Button, 2) Changing the view to Searches, 3) Checking the Total Found column for each job.',
+        content: 'Your search of web registry and Ceipal will be complete in about 10-60 minutes depending on the number of jobs searched. The first job should be searched in less than 10 minutes. You can keep checking by: 1) Clicking the Refresh Grid But , 2) Changing the view to Searches, 3) Checking the Total Found column for each job.',
       },
     });
 
