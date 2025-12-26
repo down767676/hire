@@ -1,0 +1,52 @@
+<div fxLayout="column" class="tab-container-div"
+     style="height: 96vh; max-width: 100%; overflow: hidden;">
+
+  <!-- Header Section -->
+  <div fxLayout="row"
+       fxLayoutAlign="space-between center"
+       style="padding: 8px 16px; background: #f5f5f5; border-bottom: 1px solid #ccc;">
+
+    <!-- Left: Title and Search Info -->
+    <div fxLayout="column">
+      <h3 style="margin: 0; font-weight: 500;">Candidate Search Results</h3>
+      <small style="color: #666;">{{ getSearchSummary() }}</small>
+    </div>
+
+    <!-- Right: Action Buttons -->
+    <div fxLayout="row" fxLayoutGap="10px">
+      <button mat-raised-button
+              color="primary"
+              class="small-button"
+              [class.spinner]="refreshCursor"
+              [disabled]="refreshCursor"
+              (click)="onClickRefresh()">
+        Refresh Grid
+      </button>
+    </div>
+  </div>
+
+  <!-- Grid Section (fills available space) -->
+  <div class="grid-wrapper-medium">
+    <app-dynamic-grid
+      class="force-grid-height"
+      [table_name]="table_name"
+      [api_end_point]="api_end_point"
+      [sp]="sp"
+      [display_on_load]="display_on_load">
+    </app-dynamic-grid>
+  </div>
+
+  <!-- Status Bar -->
+  <div fxLayout="row"
+       fxLayoutAlign="start center"
+       style="padding: 4px 16px; background: #fafafa; border-top: 1px solid #ccc; font-size: 12px;">
+    <span *ngIf="searchMetadata">
+      Source: {{ searchMetadata.source | uppercase }} |
+      Results: {{ searchMetadata.count }} candidates
+    </span>
+    <span *ngIf="!searchMetadata" style="color: #999;">
+      No search results. Use "Search Ceipal Without Save" from the Jobs tab.
+    </span>
+  </div>
+
+</div>
