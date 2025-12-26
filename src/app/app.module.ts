@@ -110,7 +110,6 @@ import { CandidateSearchComponent } from './components/candidate-search/candidat
     EditHtmlDialogComponent,
     EmailMessageDialogComponent,
     CandidateSearchComponent
-
   ],
   imports: [
     AgGridModule,
