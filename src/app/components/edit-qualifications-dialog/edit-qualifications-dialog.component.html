@@ -1,0 +1,50 @@
+<h2 mat-dialog-title>Edit Tier 2 Qualifications</h2>
+
+<mat-dialog-content>
+  <div class="qualifications-container">
+    <div class="qualification-row header-row">
+      <span class="qual-name-header">Qualification</span>
+      <span class="qual-level-header">Level</span>
+      <span class="qual-years-header">Years Exp.</span>
+      <span class="qual-action-header"></span>
+    </div>
+
+    <div *ngFor="let qual of qualifications; let i = index" class="qualification-row">
+      <input
+        type="text"
+        [(ngModel)]="qual.name"
+        placeholder="Qualification name"
+        class="qual-name-input">
+
+      <select [(ngModel)]="qual.requirement_level" class="qual-level-select">
+        <option *ngFor="let level of requirementLevels" [value]="level">
+          {{ level }}
+        </option>
+      </select>
+
+      <input
+        type="number"
+        [(ngModel)]="qual.years_experience"
+        placeholder="Years"
+        min="0"
+        class="qual-years-input">
+
+      <button mat-icon-button color="warn" (click)="removeQualification(i)" title="Remove">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+
+    <div *ngIf="qualifications.length === 0" class="no-qualifications">
+      No qualifications added. Click "Add" to add one.
+    </div>
+  </div>
+
+  <button mat-stroked-button color="primary" (click)="addQualification()" class="add-btn">
+    <mat-icon>add</mat-icon> Add Qualification
+  </button>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end" class="pt-4">
+  <button mat-button (click)="cancel()">Cancel</button>
+  <button mat-flat-button color="primary" (click)="save()">Save</button>
+</mat-dialog-actions>

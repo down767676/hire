@@ -71,6 +71,8 @@ import { MatOptionModule } from '@angular/material/core';
 import {EmailMessageDialogComponent} from './components/app-email-message-dialog/app-email-message-dialog.component'
 import { TextFieldModule } from '@angular/cdk/text-field';
 import { CandidateSearchComponent } from './components/candidate-search/candidate-search.component';
+import { EditQualificationsDialogComponent } from './components/edit-qualifications-dialog/edit-qualifications-dialog.component';
+import { QualificationsButtonCellComponent } from './components/qualifications-button-cell/qualifications-button-cell.component';
 
 @NgModule({
   declarations: [
@@ -109,7 +111,9 @@ import { CandidateSearchComponent } from './components/candidate-search/candidat
     HelloTestCellComponent,
     EditHtmlDialogComponent,
     EmailMessageDialogComponent,
-    CandidateSearchComponent
+    CandidateSearchComponent,
+    EditQualificationsDialogComponent,
+    QualificationsButtonCellComponent
   ],
   imports: [
     AgGridModule,

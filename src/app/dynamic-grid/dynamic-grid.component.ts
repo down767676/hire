@@ -16,6 +16,7 @@ import { AgGridAngular } from 'ag-grid-angular';
 import { MaterialDateEditorComponent } from '../components/material-date-editor/material-date-editor.component'
 import { MatDialog } from '@angular/material/dialog';
 import { EditHtmlDialogComponent } from '../components/edit-html-dialog/edit-html-dialog.component';
+import { QualificationsButtonCellComponent } from '../components/qualifications-button-cell/qualifications-button-cell.component';
 import { AgGridModule } from 'ag-grid-angular';
 // ../multi-select-dropdown/multi-select-dropdown.component'
 
@@ -546,6 +547,10 @@ export class DynamicGridComponent implements OnInit {
               procName: col.option_sp_name,
               codes: ['1', '2']
             };
+            break;
+          case 'qualifications':
+            columnDef.cellRenderer = QualificationsButtonCellComponent;
+            columnDef.editable = false;
             break;
           case 'html':
             columnDef.cellRenderer = (params) => {

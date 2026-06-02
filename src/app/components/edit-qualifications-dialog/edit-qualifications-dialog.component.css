@@ -1,0 +1,75 @@
+.qualifications-container {
+  min-height: 150px;
+  max-height: 400px;
+  overflow-y: auto;
+  margin-bottom: 16px;
+}
+
+.qualification-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.header-row {
+  font-weight: 600;
+  font-size: 12px;
+  color: #666;
+  border-bottom: 2px solid #ccc;
+}
+
+.qual-name-header,
+.qual-name-input {
+  flex: 2;
+  min-width: 200px;
+}
+
+.qual-level-header,
+.qual-level-select {
+  flex: 1;
+  min-width: 100px;
+}
+
+.qual-years-header,
+.qual-years-input {
+  flex: 0.5;
+  min-width: 70px;
+  max-width: 80px;
+}
+
+.qual-action-header {
+  width: 40px;
+}
+
+.qual-name-input,
+.qual-level-select,
+.qual-years-input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.qual-name-input:focus,
+.qual-level-select:focus,
+.qual-years-input:focus {
+  outline: none;
+  border-color: #3f51b5;
+}
+
+.no-qualifications {
+  padding: 24px;
+  text-align: center;
+  color: #999;
+  font-style: italic;
+}
+
+.add-btn {
+  margin-top: 8px;
+}
+
+.pt-4 {
+  padding-top: 16px;
+}
