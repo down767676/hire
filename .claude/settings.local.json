@@ -3,7 +3,12 @@
     "allow": [
       "Bash(mkdir:*)",
       "Read(//c/Users/deepa/PycharmProjects/LeadsToCRM/**)",
-      "Bash(npm run build)"
+      "Bash(npm install:*)",
+      "Bash(npx ng build)",
+      "Bash(git ls-tree:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nFix build errors: zone.js import, template typo, and add ngx-quill\n\n- Update zone.js import path for compatibility\n- Remove backtick typo in dynamic-grid template\n- Add ngx-quill@26 for Angular 18 compatibility\n\n🤖 Generated with [Claude Code]\\(https://claude.com/claude-code\\)\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git push:*)"
     ],
     "deny": [],
     "ask": []
