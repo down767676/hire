@@ -39,6 +39,7 @@ export class JobTabComponent extends BaseTabComponent {
 
   public selectedView: string = null
   public selected_source = this.source_columns[0]
+  public manualJobsOnly: boolean = false;
 
   dropdownMapping = {
     'Option1': ['SubOption1.1', 'SubOption1.2'],
@@ -102,7 +103,7 @@ export class JobTabComponent extends BaseTabComponent {
     });
   }
 
-  
+
   openTravelDialog(): void {
     var ids = this.getMobileSelectedIds()
 
@@ -211,6 +212,28 @@ export class JobTabComponent extends BaseTabComponent {
       this.dataService.fetchDataPost("search_elastic_count", null,params ).subscribe(response => {
       window.alert("Found " + response.count + " matching candidates.");
         this.onClickSearchCandidatesWaitCursor = this.hideWait(this.onClickSearchCandidatesWaitCursor);
+    });
+  }
+
+  // Geo-limited preview of how many NPI providers exist for the selected job's
+  // taxonomy + search area. Nothing is saved and no paid lookup runs.
+  searchNpiCount(): void {
+    var ids = this.getMobileSelectedIds()
+
+    if (ids.length > 1) {
+      alert('Error: More than one row has the value "yes"');
+      return;
+    } else if (ids.length === 0) {
+      alert('No row with "yes" selected');
+      return;
+    }
+
+    let params = this.getSearchElasticParams();
+    params['source'] = 'npi'
+    this.onClickSearchCandidatesWaitCursor = this.showWait(this.onClickSearchCandidatesWaitCursor);
+    this.dataService.fetchDataPost("search_npi_count", null, params).subscribe(response => {
+      window.alert("NPI has " + response.count + " providers for this role in the job's search area.");
+      this.onClickSearchCandidatesWaitCursor = this.hideWait(this.onClickSearchCandidatesWaitCursor);
     });
   }
 
@@ -516,6 +539,10 @@ onClickText() {
 
   onTaskChange(event: MatSelectChange) {
     this.go(this.selectedTask);
+  }
+
+  onManualJobsOnlyChange() {
+    this.agGrid.setManualOnlyFilter(this.manualJobsOnly);
   }
 
   go(selectedTask) {

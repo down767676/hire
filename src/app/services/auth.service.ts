@@ -26,9 +26,10 @@ export class AuthService {
 
     const account = result.account;
     const domain = account?.username?.split('@')[1];
+    const allowedDomains = ['zenexpartners.com', 'zenexpartners.net', 'heart2hire.com'];
 
-    if (domain !== 'zenexpartners.com') {
-      alert('Access is restricted to zenexpartners.com accounts only.');
+    if (!domain || !allowedDomains.includes(domain)) {
+      alert('Access is restricted to zenexpartners.com, zenexpartners.net, and heart2hire.com accounts only.');
       await instance.logoutPopup(); // safer than redirect
     } else {
       instance.setActiveAccount(account);

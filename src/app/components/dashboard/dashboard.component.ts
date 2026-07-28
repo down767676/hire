@@ -14,8 +14,8 @@ export class DashboardComponent implements AfterViewInit {
   job_table_name = "job";
   package_ready = "package_ready";
 
-  @ViewChild('tabs', { static: false }) tabs: MatTabGroup;
-  @ViewChild(JobTabComponent, { static: false }) firstTab: JobTabComponent;
+  @ViewChild('tabs', { static: false }) tabs!: MatTabGroup;
+  @ViewChild(JobTabComponent, { static: false }) firstTab!: JobTabComponent;
 
   hovering = false;
 
@@ -32,8 +32,9 @@ export class DashboardComponent implements AfterViewInit {
 
     if (account) {
       const domain = account.username.split('@')[1];
-      if (domain !== 'zenexpartners.com') {
-        alert('Access is restricted to zenexpartners.com accounts only.');
+      const allowedDomains = ['zenexpartners.com', 'zenexpartners.net', 'heart2hire.com'];
+      if (!allowedDomains.includes(domain)) {
+        alert('Access is restricted to zenexpartners.com, zenexpartners.net, and heart2hire.com accounts only.');
         this.msalService.logoutRedirect(); // or logoutPopup()
       } else {
         this.msalService.instance.setActiveAccount(account); // Optional, but recommended

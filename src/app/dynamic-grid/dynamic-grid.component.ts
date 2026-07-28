@@ -80,6 +80,9 @@ export class DynamicGridComponent implements OnInit {
   }
 
   selectedView = null;
+  // "Manual jobs only" external filter (opt-in; off by default so other grids are unaffected).
+  public manualOnlyFilter = false;
+  public manualSources = ['dashboard', 'excel_upload', 'api'];
   showPinnedRow = false
   pinnedBottomRowData = []
   multiSelectDropdownComponent = null
@@ -107,6 +110,10 @@ export class DynamicGridComponent implements OnInit {
       stopEditingWhenCellsLoseFocus: true,
       onCellValueChanged: (event) => this.onCellValueChanged(event),
       onCellEditingStopped: this.onCellEditingStopped.bind(this),
+      isExternalFilterPresent: () => this.manualOnlyFilter,
+      doesExternalFilterPass: (node: any) =>
+        !this.manualOnlyFilter ||
+        this.manualSources.includes(String(node.data?.original_source || '').toLowerCase()),
       context: {
         componentParent: this
       },
@@ -834,6 +841,15 @@ export class DynamicGridComponent implements OnInit {
 
   clearFilters() {
     this.api.setFilterModel(null);
+  }
+
+  // Toggle the "Manual jobs only" external filter (keeps original_source in manualSources).
+  setManualOnlyFilter(on: boolean): void {
+    this.manualOnlyFilter = on;
+    if (this.api) {
+      this.api.onFilterChanged();
+      this.updateFilteredRowCount();
+    }
   }
   setSelectedToBlank() {
     this.setSelectedToValue_2('')

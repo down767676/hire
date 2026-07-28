@@ -29,8 +29,7 @@
           },
           "configurations": {
             "production": {
-           
-           
+              "baseHref": "/hire/",
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -47,6 +46,7 @@
               "buildOptimizer": true
             },
             "development": {
+              "baseHref": "/",
               "optimization": false,
               "sourceMap": true,
               "namedChunks": true,

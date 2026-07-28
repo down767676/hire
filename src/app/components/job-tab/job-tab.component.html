@@ -9,7 +9,10 @@
       class="left-aligned">
     </app-generic-search>
 
-    <div style="margin-right: 0px!important;" fxLayout="row" fxLayoutAlign="end center" fxFlex>
+    <div style="margin-right: 0px!important;" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="16px" fxFlex>
+      <mat-checkbox [(ngModel)]="manualJobsOnly" (change)="onManualJobsOnlyChange()">
+        Manual jobs only
+      </mat-checkbox>
       <label style="margin-right: 4px;"><b>Task:</b></label>
     </div>
     <mat-select class="task-mat-select" [(ngModel)]="selectedTask" required (selectionChange)="onTaskChange($event)"
@@ -58,6 +61,10 @@
         <button class="small-button" mat-raised-button color="primary" (click)="searchCount('ceipal')"
           [class.spinner]="onClickSearchCandidatesWaitCursor" [disabled]="onClickSearchCandidatesWaitCursor">
           Search Ceipal Count
+        </button>
+        <button class="small-button" mat-raised-button color="primary" (click)="searchNpiCount()"
+          [class.spinner]="onClickSearchCandidatesWaitCursor" [disabled]="onClickSearchCandidatesWaitCursor">
+          Search NPI Count
         </button>
         <button class="small-button" mat-raised-button color="primary" (click)="onClickText()">
           Text Jobs

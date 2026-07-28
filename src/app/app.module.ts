@@ -128,8 +128,8 @@ import { QualificationsButtonCellComponent } from './components/qualifications-b
     RouterModule.forRoot([
       { path: 'login', component: LoginComponent },
       { path: 'app', component: DashboardComponent, canActivate: [MsalGuard] },
-      { path: '', redirectTo: 'app', pathMatch: 'full' },
-      { path: '**', redirectTo: 'app' }
+      { path: '', redirectTo: 'login', pathMatch: 'full' },
+      { path: '**', redirectTo: 'login' }
     ]),
     FlexLayoutModule,
     MatTabsModule,
