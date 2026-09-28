@@ -1,6 +1,6 @@
 // src/app/components/tab1/tab1.component.ts
 import { ConversationDialogComponent } from '../../components/conversation-dialog/conversation-dialog.component'
-import { Component, Input, ViewChild, Inject, Output, EventEmitter } from '@angular/core';
+import { Component, Input, ViewChild, Inject, Output, EventEmitter, AfterViewInit } from '@angular/core';
 import { BaseTabComponent } from '../base-tab/base-tab.component';
 import { PopupService } from '../../services/popup.service'
 import { ParamService } from 'src/app/services/param-service.service';
@@ -21,7 +21,7 @@ import { TravelDialogComponent } from '../travel-dialog/travel-dialog.component'
   templateUrl: './job-tab.component.html',
   styleUrls: ['../base-tab/base-tab.component.css']
 })
-export class JobTabComponent extends BaseTabComponent {
+export class JobTabComponent extends BaseTabComponent implements AfterViewInit {
 
   private apiUrl = environment.apiUrl;    
   jobs_receiver_url = `${this.apiUrl}/receive_jobs`;
@@ -171,7 +171,11 @@ export class JobTabComponent extends BaseTabComponent {
 
   // component = JobT abComponent
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, protected paramService: ParamService, protected dataService: GenericDataService, protected popupService: PopupService, private dataSharingService: DataSharingService, public dialog: MatDialog, private communicationService: CommunicationService, private http: HttpClient) {
-    super(data, paramService, dataService, popupService, { "api_end_point": "get_ceipal_jobs", "sp": "", "table_name": "job", "display_on_load": true });
+    super(data, paramService, dataService, popupService, { "api_end_point": "get_ceipal_jobs", "sp": "", "table_name": "job", "display_on_load": false });
+  }
+
+  ngAfterViewInit(): void {
+    setTimeout(() => this.go(this.selectedTask));
   }
 
   searchWithoutSave(source): void {
