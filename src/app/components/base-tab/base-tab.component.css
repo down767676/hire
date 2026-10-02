@@ -24,4 +24,8 @@
   .mat-tab-label {
     color: #616161; /* Color for tab labels */
   }
-  
+
+.jobs-load-error {
+  color: #b00020;
+  padding: 8px 12px;
+}

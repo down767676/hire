@@ -35,6 +35,7 @@ export class JobTabComponent extends BaseTabComponent implements AfterViewInit {
 
   public onClickClusterJobsWaitCursor: boolean = false;
   public onClickRefreshJobsWaitCursor: boolean = false;
+  public jobsLoadError: string = '';
   public source_columns = ["ceipal"];
 
   public selectedView: string = null
@@ -434,9 +435,20 @@ onClickText() {
     // let params = this.getSearchCandididateParams()
     let params = this.getSearchNPIParams()
     this.onClickRefreshJobsWaitCursor = this.showWait(this.onClickRefreshJobsWaitCursor);
-    this.dataService.fetchDataPost('get_ceipal_jobs', null, params).subscribe(data => {
-      this.showGrid(data)
-      this.onClickRefreshJobsWaitCursor = this.hideWait(this.onClickRefreshJobsWaitCursor);
+    this.jobsLoadError = '';
+    this.dataService.fetchDataPost('get_ceipal_jobs', null, params).subscribe({
+      next: data => {
+        if (Array.isArray(data)) {
+          this.showGrid(data);
+        } else {
+          this.jobsLoadError = 'Jobs could not be loaded. Please try again.';
+        }
+        this.onClickRefreshJobsWaitCursor = this.hideWait(this.onClickRefreshJobsWaitCursor);
+      },
+      error: () => {
+        this.jobsLoadError = 'Jobs could not be loaded. Please try again.';
+        this.onClickRefreshJobsWaitCursor = this.hideWait(this.onClickRefreshJobsWaitCursor);
+      }
     });
   }
   onClickRefreshAndUpdatePay() {
@@ -555,13 +567,23 @@ onClickText() {
 
     if (this.isValid(selectedTask)) {
       this.onClickRefreshJobsWaitCursor = this.showWait(this.onClickRefreshJobsWaitCursor);
+      this.jobsLoadError = '';
 
-      this.dataService.fetchDataPost('get_job_statistics', null, { 'task': selectedTask }).subscribe(data => {
-        this.agGrid.setSelectedView(secondaryDropdownValue)
-        this.showGrid(data);
-        this.onClickRefreshJobsWaitCursor = this.hideWait(this.onClickRefreshJobsWaitCursor);
-
-      })
+      this.dataService.fetchDataPost('get_job_statistics', null, { 'task': selectedTask }).subscribe({
+        next: data => {
+          if (Array.isArray(data)) {
+            this.agGrid.setSelectedView(secondaryDropdownValue);
+            this.showGrid(data);
+          } else {
+            this.jobsLoadError = 'Jobs could not be loaded. Please try again.';
+          }
+          this.onClickRefreshJobsWaitCursor = this.hideWait(this.onClickRefreshJobsWaitCursor);
+        },
+        error: () => {
+          this.jobsLoadError = 'Jobs could not be loaded. Please try again.';
+          this.onClickRefreshJobsWaitCursor = this.hideWait(this.onClickRefreshJobsWaitCursor);
+        }
+      });
     }
   }
   showJobsByDistance_sub(level) {

@@ -87,6 +87,7 @@ export class DynamicGridComponent implements OnInit {
   pinnedBottomRowData = []
   multiSelectDropdownComponent = null
   public filteredRowCount: number = 0;
+  private columnTables: Record<string, string> = {};
   components = {
     'multiSelectDropdownComponent': MultiSelectDropdownComponent
   };
@@ -228,7 +229,7 @@ export class DynamicGridComponent implements OnInit {
 
   searchAndLoad(api_end_point, sp, params) {
     this.dataService.fetchData(api_end_point, sp, params).subscribe(data => {
-      if (data.length > 0) {
+      if (Array.isArray(data)) {
         this.rowData = data;
         this.isDataLoaded = true;
         if (this.api) {
@@ -329,6 +330,7 @@ export class DynamicGridComponent implements OnInit {
     }
     this.gridConfigService.getGridProperties(view_name).subscribe((data: GridProperties) => {
       this.view_name = view_name;
+      this.columnTables = {};
       let cb = false;
       const columnDefCheckBox: ColDef = {
         headerCheckboxSelection: true,
@@ -347,7 +349,7 @@ export class DynamicGridComponent implements OnInit {
         };
 
         if (col.table) {
-          columnDef["table"] = col.table;
+          this.columnTables[col.field] = col.table;
         }
 
         switch (col.type) {
@@ -799,9 +801,9 @@ export class DynamicGridComponent implements OnInit {
     // Default handling for other fields
     let t = null
     let tval = null
-    if (colDef["table"]) {
-      t = colDef["table"];
-      tval = data[colDef["table"] + "_id"]
+    if (this.columnTables[colDef.field]) {
+      t = this.columnTables[colDef.field];
+      tval = data[t + "_id"]
     }
     this.dataService.updateData(data[this.table_name + "_id"], colDef.field, newValue, this.table_name, t, tval).subscribe();
   }

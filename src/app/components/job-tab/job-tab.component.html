@@ -24,6 +24,7 @@
   </div>
 
   <!-- Grid (fills available space) -->
+  <div *ngIf="jobsLoadError" role="alert" class="jobs-load-error">{{ jobsLoadError }}</div>
   <div class="grid-wrapper">
     <app-dynamic-grid [table_name]="table_name" [api_end_point]="api_end_point" [sp]="sp"
       [display_on_load]="display_on_load">
