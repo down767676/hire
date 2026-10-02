@@ -432,11 +432,10 @@ onClickText() {
   }
 
   onClickRefreshJobs() {
-    // let params = this.getSearchCandididateParams()
-    let params = this.getSearchNPIParams()
+    const params = { days: 30, source: 'ceipal' };
     this.onClickRefreshJobsWaitCursor = this.showWait(this.onClickRefreshJobsWaitCursor);
     this.jobsLoadError = '';
-    this.dataService.fetchDataPost('get_ceipal_jobs', null, params).subscribe({
+    this.dataService.fetchDataPost('get_jobs_grid', null, params).subscribe({
       next: data => {
         if (Array.isArray(data)) {
           this.showGrid(data);
