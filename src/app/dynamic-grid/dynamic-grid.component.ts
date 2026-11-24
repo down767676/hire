@@ -205,8 +205,8 @@ export class DynamicGridComponent implements OnInit {
       view_name = this.table_name
     }
     this.gridConfigService.getGridViews(view_name).subscribe(data => {
-      this.views = data["views"];
-      this.selectedView = this.views[0].file
+      this.views = Array.isArray(data?.["views"]) ? data["views"] : [];
+      this.selectedView = this.views.length ? this.views[0].file : null;
     });
 
   }
@@ -244,10 +244,12 @@ export class DynamicGridComponent implements OnInit {
   }
 
   loadFromRows(rowData) {
+    this.rowData = Array.isArray(rowData) ? rowData : [];
+    this.isDataLoaded = true;
     if (this.api) {
-      this.rowData = rowData;
       this.api.updateGridOptions({ columnDefs: this.columnDefs });
       this.api.updateGridOptions({ rowData: this.rowData });
+      this.updateFilteredRowCount();
     }
   }
 
